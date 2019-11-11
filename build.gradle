@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+repositories {
+    jcenter()
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation 'org.processing:core:3.3.7'
+    implementation name: 'sound'
+    implementation name: 'javamp3-1.0.4'
+    implementation name: 'jsyn-20171016'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
+}
+
+application {
+    mainClassName = 'drawscillate.Drawcillate'
+}
+
+test {
+    useJUnitPlatform()
+}
