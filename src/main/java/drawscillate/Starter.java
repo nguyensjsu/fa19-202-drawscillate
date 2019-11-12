@@ -25,6 +25,9 @@ public class Starter extends PApplet {
 		if (gamescreen == 0) {
 			initScreen();
 		} else if (gamescreen == 1) {
+			chooseShape();
+		}
+		else if (gamescreen == 2) {
 			gamePlayScreen();
 		}
 	}
@@ -38,19 +41,30 @@ public class Starter extends PApplet {
 		textSize(25);
 		text("Click to start", width / 2, height - 30);
 	}
+	
+	public void chooseShape() {
+		background(236, 240, 241);
+		textAlign(CENTER);
+		fill(52, 73, 94);
+		textSize(30);
+		text("Choose Shape", width / 2, height - 30);	
+	}
 
 	public void gamePlayScreen() {
 		background(236, 240, 241);
 		textAlign(CENTER);
 		fill(52, 73, 94);
 		textSize(30);
-		text("Click to start", width / 2, height - 30);
+		text("Add Game Screen Content here...", width / 2, height - 30);	
 	}
 	
 	public void mousePressed() {
 		if(gamescreen == 0) {
 			gamescreen = 1;
+		} else if(gamescreen == 1) {
+			gamescreen = 2;
 		}
+		
 	}
 
 	public static void main(String[] args) {
