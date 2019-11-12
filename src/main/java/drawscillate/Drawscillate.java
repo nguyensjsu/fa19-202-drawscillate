@@ -28,6 +28,26 @@ public class Drawscillate extends PApplet {
             // Set the amplitudes for all oscillators
             sineWaves[i].amp((float) sineVolume);
         }
+
+        drawHeart();
+    }
+
+    private void drawHeart() {
+        background(51);
+        fill(102);
+        stroke(255);
+        strokeWeight(10);
+        beginShape();
+        final int x1 = width / 2;
+        final int halfHeartWidth = 500;
+        final int y1 = 100;
+        final int y2 = -50;
+        final int y3 = 5;
+        final int y4 = 485;
+        vertex(x1, y1);
+        bezierVertex(x1, y2, x1 + halfHeartWidth, y3, x1, y4);
+        bezierVertex(x1 - halfHeartWidth, y3, x1, y2, x1, y1);
+        endShape();
     }
 
     public void draw() {
