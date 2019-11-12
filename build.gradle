@@ -11,6 +11,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'controlp5:controlp5:2.2.4'
     implementation 'org.processing:core:3.3.7'
     implementation name: 'sound'
     implementation name: 'javamp3-1.0.4'
