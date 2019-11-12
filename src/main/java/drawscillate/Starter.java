@@ -2,14 +2,9 @@ package drawscillate;
 
 import processing.core.PApplet;
 
+/**Basic starter code */
 public class Starter extends PApplet {
-	/**
-	 * Processing Sound Library, Example 1
-	 * 
-	 * Five sine waves are layered to construct a cluster of frequencies. This
-	 * method is called additive synthesis. Use the mouse position inside the
-	 * display window to detune the cluster.
-	 */
+
 	public int gamescreen = 0;
 	public void settings() {
 		size(1000, 750);
@@ -31,7 +26,9 @@ public class Starter extends PApplet {
 			gamePlayScreen();
 		}
 	}
-
+	
+	/** Intial Screen
+	 */
 	public void initScreen() {
 		background(236, 240, 241);
 		textAlign(CENTER);
@@ -42,6 +39,8 @@ public class Starter extends PApplet {
 		text("Click to start", width / 2, height - 30);
 	}
 	
+	/** Screen to choose your shape
+	 */
 	public void chooseShape() {
 		background(236, 240, 241);
 		textAlign(CENTER);
@@ -50,6 +49,7 @@ public class Starter extends PApplet {
 		text("Choose Shape", width / 2, height - 30);	
 	}
 
+	/**Game Screen*/
 	public void gamePlayScreen() {
 		background(236, 240, 241);
 		textAlign(CENTER);
