@@ -1,14 +1,19 @@
 package drawscillate;
 
+import controlP5.CColor;
+import controlP5.ControlP5;
+import controlP5.ScrollableList;
 import processing.core.PApplet;
-import processing.sound.*;
-import controlP5.*;
-import java.util.*;
+import processing.sound.SinOsc;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class Drawscillate extends PApplet {
     private SinOsc[] sineWaves; // Array of sines
     private float[] sineFreq; // Array of frequencies
     private int numSines = 5; // Number of oscillators to use
+    private ControlP5 cp5;
 
     public void settings(){
         size(500, 500);
@@ -32,6 +37,17 @@ public class Drawscillate extends PApplet {
         }
 
         drawHeart();
+
+        //Drop Down
+        cp5 = new ControlP5(this);
+        List l = Arrays.asList("Star", "Rectangle", "Heart", "Circle");
+        /* add a ScrollableList, by default it behaves like a DropdownList */
+        cp5.addScrollableList("dropdown")
+                .setPosition(100, 100)
+                .setSize(200, 100)
+                .setBarHeight(20)
+                .setItemHeight(20)
+                .addItems(l);
     }
 
     private void drawHeart() {
@@ -65,7 +81,7 @@ public class Drawscillate extends PApplet {
             // Set the frequencies for all oscillators
             sineWaves[i].freq(sineFreq[i]);
         }
-        
+
         //Drop Down
         background(240);
     }
@@ -73,7 +89,7 @@ public class Drawscillate extends PApplet {
     public void mousePressed(){
         background(64);
     }
-    
+
     public void dropdown(int n) {
         /* request the selected item based on index n */
         println(n, cp5.get(ScrollableList.class, "dropdown").getItem(n));
