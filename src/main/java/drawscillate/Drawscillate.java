@@ -83,10 +83,6 @@ public class Drawscillate extends PApplet {
 
     }
 
-//    public void mousePressed(){
-//        background(64);
-//    }
-
     public void dropdown(int n) {
         /* request the selected item based on index n */
         CColor c = new CColor();
