@@ -47,8 +47,6 @@ public class Drawscillate extends PApplet {
                 .setBarHeight(20)
                 .setItemHeight(20)
                 .addItems(l);
-
-        //drawHeart();
     }
 
     private void drawHeart() {
@@ -83,8 +81,6 @@ public class Drawscillate extends PApplet {
             sineWaves[i].freq(sineFreq[i]);
         }
 
-        //Drop Down
-        //background(240);
     }
 
 //    public void mousePressed(){
