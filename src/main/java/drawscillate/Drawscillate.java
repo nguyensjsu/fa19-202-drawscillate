@@ -14,6 +14,7 @@ public class Drawscillate extends PApplet {
     private float[] sineFreq; // Array of frequencies
     private int numSines = 5; // Number of oscillators to use
     private ControlP5 cp5;
+    private String dropDownSelection = "";
 
     public void settings(){
         size(500, 500);
@@ -35,8 +36,6 @@ public class Drawscillate extends PApplet {
             // Set the amplitudes for all oscillators
             sineWaves[i].amp((float) sineVolume);
         }
-
-        drawHeart();
 
         //Drop Down
         cp5 = new ControlP5(this);
@@ -82,21 +81,20 @@ public class Drawscillate extends PApplet {
             sineWaves[i].freq(sineFreq[i]);
         }
 
-        //Drop Down
-        background(240);
-    }
-
-    public void mousePressed(){
-        background(64);
     }
 
     public void dropdown(int n) {
         /* request the selected item based on index n */
-        println(n, cp5.get(ScrollableList.class, "dropdown").getItem(n));
-
         CColor c = new CColor();
         c.setBackground(color(255,0,0));
-        cp5.get(ScrollableList.class, "dropdown").getItem(n).put("color", c);
+        dropDownSelection = cp5.get(ScrollableList.class, "dropdown").getItem(n).get("name").toString();
+        System.out.println(dropDownSelection);
+        cp5.get(ScrollableList.class, "dropdown").hide();
+        switch(dropDownSelection){
+            case "Heart":
+                drawHeart();break;
+        }
+
     }
 
     public static void main(String[] args){
