@@ -35,7 +35,7 @@ public class Drawscillate extends PApplet {
             sineWaves[i].play();
             // Set the amplitudes for all oscillators
             sineWaves[i].amp((float) sineVolume);
-        }
+	}
 
         //Drop Down
         cp5 = new ControlP5(this);
@@ -47,6 +47,27 @@ public class Drawscillate extends PApplet {
                 .setBarHeight(20)
                 .setItemHeight(20)
                 .addItems(l);
+    }
+
+    private void drawStar() {
+        background(51);
+        fill(102);
+        stroke(255);
+        strokeWeight(10);
+        beginShape();
+        int startX = 550 / 2 - 47 / 2;
+        int startY = 160 / 2 - 45 / 2;
+        vertex(startX, startY);
+        vertex(startX + 60, startY + 140);
+        vertex(startX + 230, startY + 150);
+        vertex(startX + 100, startY + 240);
+        vertex(startX + 180, startY + 380);
+        vertex(startX, startY + 300);
+        vertex(startX - 180, startY + 380);
+        vertex(startX - 100, startY + 240);
+        vertex(startX - 230, startY + 150);
+        vertex(startX - 60, startY + 140);
+        endShape(CLOSE);
     }
 
     private void drawHeart() {
