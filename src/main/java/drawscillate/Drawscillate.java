@@ -114,6 +114,9 @@ public class Drawscillate extends PApplet {
         switch(dropDownSelection){
             case "Heart":
                 drawHeart();break;
+             
+            case "Star":
+                drawStar();break;
         }
 
     }
