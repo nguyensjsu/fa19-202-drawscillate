@@ -115,7 +115,7 @@ public class Drawscillate extends PApplet {
             case "Heart":
                 drawHeart();break;
              
-            case "Star":
+            case "Start":
                 drawStar();break;
         }
 
