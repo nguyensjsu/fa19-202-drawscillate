@@ -4,10 +4,15 @@ import controlP5.CColor;
 import controlP5.ControlP5;
 import controlP5.ScrollableList;
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.sound.SinOsc;
 
+import java.awt.Image;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.swing.ImageIcon;
 
 public class Drawscillate extends PApplet {
     private SinOsc[] sineWaves; // Array of sines
@@ -15,7 +20,9 @@ public class Drawscillate extends PApplet {
     private int numSines = 5; // Number of oscillators to use
     private ControlP5 cp5;
     private String dropDownSelection = "";
-
+    int redColor = 0;
+    int greenColor = 0;
+    int blueColor = 0;
     public void settings(){
         size(500, 500);
     }
@@ -35,7 +42,7 @@ public class Drawscillate extends PApplet {
             sineWaves[i].play();
             // Set the amplitudes for all oscillators
             sineWaves[i].amp((float) sineVolume);
-	}
+        }
 
         //Drop Down
         cp5 = new ControlP5(this);
@@ -48,6 +55,7 @@ public class Drawscillate extends PApplet {
                 .setItemHeight(20)
                 .addItems(l);
     }
+
 
     private void drawStar() {
         background(51);
@@ -89,6 +97,7 @@ public class Drawscillate extends PApplet {
     }
 
     public void draw() {
+        
         //Map mouseY from 0 to 1
         float yoffset = map(mouseY, 0, height, 0, 1);
         //Map mouseY logarithmically to 150 - 1150 to create a base frequency range
@@ -102,16 +111,73 @@ public class Drawscillate extends PApplet {
             sineWaves[i].freq(sineFreq[i]);
         }
         
-        stroke(0);
-        strokeWeight(5);
         if (mousePressed == true) {
-          line(mouseX, mouseY, pmouseX, pmouseY);
+            stroke(redColor,greenColor,blueColor);
+            strokeWeight(5);
+            line(mouseX, mouseY, pmouseX, pmouseY);
         }
-
+        
+        if(keyPressed == true) {
+            if(key == 'r') {
+                URL x = Drawscillate.class.getResource("apple.png");
+                PImage apple = loadImage(x.getFile());
+                cursor(apple,5,5);
+                this.redColor = 255;
+                this.greenColor = 0;
+                this.blueColor = 0;
+            }
+            if(key == 'b') {
+                URL x = Drawscillate.class.getResource("water.png");
+                PImage water = loadImage(x.getFile());
+                cursor(water,5,5);
+                this.redColor = 0;
+                this.greenColor = 0;
+                this.blueColor = 255;
+            }
+            if(key == 'g') {
+                URL x = Drawscillate.class.getResource("grapes.png");
+                PImage water = loadImage(x.getFile());
+                cursor(water,5,5);
+                this.redColor = 0;
+                this.greenColor = 255;
+                this.blueColor = 0;
+            }
+            if(key == ' ') {
+                cursor(HAND);
+                this.redColor = 0;
+                this.greenColor = 0;
+                this.blueColor = 0;
+            }
+            if(key == 'o') {
+                URL x = Drawscillate.class.getResource("orange.png");
+                PImage water = loadImage(x.getFile());
+                cursor(water,5,5);
+                this.redColor = 255;
+                this.greenColor = 165;
+                this.blueColor = 0;
+            }
+            if(key == 'p') {
+                URL x = Drawscillate.class.getResource("eggplant.png");
+                PImage water = loadImage(x.getFile());
+                cursor(water,5,5);
+                this.redColor = 147;
+                this.greenColor = 112;
+                this.blueColor = 219;
+            }
+            if(key == 'y') {
+                URL x = Drawscillate.class.getResource("banana.png");
+                PImage water = loadImage(x.getFile());
+                cursor(water,5,5);
+                this.redColor = 255;
+                this.greenColor = 255;
+                this.blueColor = 51;
+            }
+        }
     }
 
     public void dropdown(int n) {
         /* request the selected item based on index n */
+        cursor(HAND);
         CColor c = new CColor();
         c.setBackground(color(255,0,0));
         dropDownSelection = cp5.get(ScrollableList.class, "dropdown").getItem(n).get("name").toString();
@@ -121,16 +187,14 @@ public class Drawscillate extends PApplet {
 	
             case "Heart":
                 drawHeart();break;
-             
             case "Star":
                 drawStar();break;
         }
-
     }
 
-    public static void main(String[] args){
-        String[] processingArgs = {"MySketch"};
+    public static void main(String[] args) {
+        String[] processingArgs = { "MySketch" };
         Drawscillate mySketch = new Drawscillate();
         PApplet.runSketch(processingArgs, mySketch);
-    }
+    } 
 }
