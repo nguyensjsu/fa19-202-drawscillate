@@ -101,12 +101,6 @@ public class Drawscillate extends PApplet {
             // Set the frequencies for all oscillators
             sineWaves[i].freq(sineFreq[i]);
         }
-        
-        stroke(0);
-        if (mousePressed == true) {
-        	
-          line(mouseX, mouseY, pmouseX, pmouseY);
-        }
 
     }
 
