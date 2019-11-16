@@ -11,7 +11,7 @@ Drawscillate, an interactive audio-visual game.
 [Andrew Selvia](https://github.com/AndrewSelvia)<br/>
 [Shraddha Nayak](https://github.com/shraddhanayak07)<br/>
 [Hetal Shah](https://github.com/ihetal)<br/>
-Rajeev Sebastian<br/>
+[Rajeev Sebastian](https://github.com/RajeevSebastian)<br/>
 [Aditya Agrawal](https://github.com/agrawaladit)<br/>
 
 ## Abstract
