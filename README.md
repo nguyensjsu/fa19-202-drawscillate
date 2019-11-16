@@ -1,6 +1,6 @@
 # Drawscillate
 
-[User Story Video](https://vimeo.com/373553649)
+[User Story Video](https://youtu.be/8FFxvjQ4u8Q)
 
 ## Topic
 
