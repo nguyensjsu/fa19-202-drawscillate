@@ -28,7 +28,7 @@ public class Drawscillate extends PApplet {
 	float red;
 	float blue;
 	float green;
-	public PGraphics pg;
+	public PGraphics graphics;
 	
     public void settings(){
         size(500, 500);
@@ -36,7 +36,7 @@ public class Drawscillate extends PApplet {
 
     public void setup() {
         background(255);
-        pg = createGraphics(500, 500);
+        graphics = createGraphics(500, 500);
         sineWaves = new SinOsc[numSines]; // Initialize the oscillators
         sineFreq = new float[numSines]; // Initialize array for Frequencies
 
@@ -65,50 +65,50 @@ public class Drawscillate extends PApplet {
 
 
     private void drawStar() {
-    	pg.beginDraw();
-        pg.background(51);
-        pg.fill(102);
-        pg.stroke(255);
-        pg.strokeWeight(10);
-        pg.beginShape();
+    	graphics.beginDraw();
+        graphics.background(51);
+        graphics.fill(102);
+        graphics.stroke(255);
+        graphics.strokeWeight(10);
+        graphics.beginShape();
         int startX = 550 / 2 - 47 / 2;
         int startY = 160 / 2 - 45 / 2;
-        pg.vertex(startX, startY);
-        pg.vertex(startX + 60, startY + 140);
-        pg.vertex(startX + 230, startY + 150);
-        pg.vertex(startX + 100, startY + 240);
-        pg.vertex(startX + 180, startY + 380);
-        pg.vertex(startX, startY + 300);
-        pg.vertex(startX - 180, startY + 380);
-        pg.vertex(startX - 100, startY + 240);
-        pg.vertex(startX - 230, startY + 150);
-        pg.vertex(startX - 60, startY + 140);
-        pg.endShape(CLOSE);
-        pg.endDraw();
+        graphics.vertex(startX, startY);
+        graphics.vertex(startX + 60, startY + 140);
+        graphics.vertex(startX + 230, startY + 150);
+        graphics.vertex(startX + 100, startY + 240);
+        graphics.vertex(startX + 180, startY + 380);
+        graphics.vertex(startX, startY + 300);
+        graphics.vertex(startX - 180, startY + 380);
+        graphics.vertex(startX - 100, startY + 240);
+        graphics.vertex(startX - 230, startY + 150);
+        graphics.vertex(startX - 60, startY + 140);
+        graphics.endShape(CLOSE);
+        graphics.endDraw();
         shapechosen = 1;
-        image(pg,0,0);
+        image(graphics,0,0);
     }
 
     private void drawHeart() {
-    	pg.beginDraw();
-        pg.background(51);
-        pg.fill(102);
-        pg.stroke(255);
-        pg.strokeWeight(10);
-        pg.beginShape();
+    	graphics.beginDraw();
+        graphics.background(51);
+        graphics.fill(102);
+        graphics.stroke(255);
+        graphics.strokeWeight(10);
+        graphics.beginShape();
         final int x1 = width / 2;
         final int halfHeartWidth = 500;
         final int y1 = 100;
         final int y2 = -50;
         final int y3 = 5;
         final int y4 = 485;
-        pg.vertex(x1, y1);
-        pg.bezierVertex(x1, y2, x1 + halfHeartWidth, y3, x1, y4);
-        pg.bezierVertex(x1 - halfHeartWidth, y3, x1, y2, x1, y1);
-        pg.endShape();
-        pg.endDraw();
+        graphics.vertex(x1, y1);
+        graphics.bezierVertex(x1, y2, x1 + halfHeartWidth, y3, x1, y4);
+        graphics.bezierVertex(x1 - halfHeartWidth, y3, x1, y2, x1, y1);
+        graphics.endShape();
+        graphics.endDraw();
         shapechosen = 1;
-        image(pg,0,0);
+        image(graphics,0,0);
         
     }
 
@@ -132,7 +132,7 @@ public class Drawscillate extends PApplet {
             if(!gameover)
             	line(mouseX, mouseY, pmouseX, pmouseY);
             if(shapechosen ==1) {
-            	pixelsFrame = pg.get().pixels;
+            	pixelsFrame = graphics.get().pixels;
             	red = red(pixelsFrame[mouseX + mouseY * width]);
             	green = green(pixelsFrame[mouseX + mouseY * width]);
             	blue = blue(pixelsFrame[mouseX + mouseY * width]);
