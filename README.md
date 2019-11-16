@@ -1,7 +1,5 @@
 # Drawscillate
 
-[User Story Video](https://vimeo.com/373553649)
-
 ## Scrum
 
 [Sprint Task Sheet](https://docs.google.com/spreadsheets/d/1EVMsOQ3g3JuIVDFdPkGSJBxW_JH25RkZzY6yD2SRak4)
