@@ -16,7 +16,7 @@ Rajeev Sebastian<br/>
 
 ## Abstract
 
-People who tend to lose focus, Children who needs to have fun, Aartists who needs to explore, we have a one stop solution for you, **Drawscillate**. It is virtual simulator to a classic Buzz Wire game.
+People who tend to lose focus, Children who needs to have fun, Aartists who needs to explore, we have a one stop solution for you, **Drawscillate**. It is a virtual simulator to a classic Buzz Wire game.
 
 
 ## Scrum
