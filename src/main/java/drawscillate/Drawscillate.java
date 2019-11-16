@@ -128,11 +128,13 @@ public class Drawscillate extends PApplet {
     }
 
     private void changeCursorAndColor(String resourceName, int redColor, int greenColor, int blueColor) {
-        final Optional<PImage> imageOptional = Optional.ofNullable(resourceName)
-            .map("/"::concat)
-            .map(getClass()::getResource)
-            .map(URL::getFile)
-            .map(this::loadImage);
+        final Optional<PImage> imageOptional =
+            Optional
+                .ofNullable(resourceName)
+                .map("/"::concat)
+                .map(getClass()::getResource)
+                .map(URL::getFile)
+                .map(this::loadImage);
         if (imageOptional.isPresent()) {
             cursor(imageOptional.get());
         } else {
