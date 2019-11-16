@@ -86,21 +86,25 @@ public class Drawscillate extends PApplet {
 	}
 
 	private void drawHeart() {
-		background(51);
-		fill(102);
-		stroke(255);
-		strokeWeight(10);
-		beginShape();
+		pg.beginDraw();
+		pg.background(51);
+		pg.fill(102);
+		pg.stroke(255);
+		pg.strokeWeight(10);
+		pg.beginShape();
 		final int x1 = width / 2;
 		final int halfHeartWidth = 500;
 		final int y1 = 100;
 		final int y2 = -50;
 		final int y3 = 5;
 		final int y4 = 485;
-		vertex(x1, y1);
-		bezierVertex(x1, y2, x1 + halfHeartWidth, y3, x1, y4);
-		bezierVertex(x1 - halfHeartWidth, y3, x1, y2, x1, y1);
-		endShape();
+		pg.vertex(x1, y1);
+		pg.bezierVertex(x1, y2, x1 + halfHeartWidth, y3, x1, y4);
+		pg.bezierVertex(x1 - halfHeartWidth, y3, x1, y2, x1, y1);
+		pg.endShape();
+		pg.endDraw();
+		shapechosen = 1;
+		image(pg, 0, 0);
 	}
 
 	public void draw() {
