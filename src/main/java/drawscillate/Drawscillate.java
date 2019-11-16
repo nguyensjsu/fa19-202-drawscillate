@@ -112,7 +112,7 @@ public class Drawscillate extends PApplet {
         }
         
         if (mousePressed == true) {
-            stroke(this.redColor,this.greenColor,this.blueColor);
+            stroke(redColor,greenColor,blueColor);
             strokeWeight(5);
             line(mouseX, mouseY, pmouseX, pmouseY);
         }
