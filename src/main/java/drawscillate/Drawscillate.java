@@ -7,12 +7,10 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import processing.sound.SinOsc;
 
-import java.awt.Image;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.swing.ImageIcon;
+import java.util.Optional;
 
 public class Drawscillate extends PApplet {
     private SinOsc[] sineWaves; // Array of sines
@@ -97,7 +95,6 @@ public class Drawscillate extends PApplet {
     }
 
     public void draw() {
-        
         //Map mouseY from 0 to 1
         float yoffset = map(mouseY, 0, height, 0, 1);
         //Map mouseY logarithmically to 150 - 1150 to create a base frequency range
@@ -111,68 +108,41 @@ public class Drawscillate extends PApplet {
             sineWaves[i].freq(sineFreq[i]);
         }
         
-        if (mousePressed == true) {
-            stroke(redColor,greenColor,blueColor);
+        if (mousePressed) {
+            stroke(redColor, greenColor, blueColor);
             strokeWeight(5);
             line(mouseX, mouseY, pmouseX, pmouseY);
         }
         
-        if(keyPressed == true) {
-            if(key == 'r') {
-                URL x = Drawscillate.class.getResource("apple.png");
-                PImage apple = loadImage(x.getFile());
-                cursor(apple,5,5);
-                this.redColor = 255;
-                this.greenColor = 0;
-                this.blueColor = 0;
-            }
-            if(key == 'b') {
-                URL x = Drawscillate.class.getResource("water.png");
-                PImage water = loadImage(x.getFile());
-                cursor(water,5,5);
-                this.redColor = 0;
-                this.greenColor = 0;
-                this.blueColor = 255;
-            }
-            if(key == 'g') {
-                URL x = Drawscillate.class.getResource("grapes.png");
-                PImage water = loadImage(x.getFile());
-                cursor(water,5,5);
-                this.redColor = 0;
-                this.greenColor = 255;
-                this.blueColor = 0;
-            }
-            if(key == ' ') {
-                cursor(HAND);
-                this.redColor = 0;
-                this.greenColor = 0;
-                this.blueColor = 0;
-            }
-            if(key == 'o') {
-                URL x = Drawscillate.class.getResource("orange.png");
-                PImage water = loadImage(x.getFile());
-                cursor(water,5,5);
-                this.redColor = 255;
-                this.greenColor = 165;
-                this.blueColor = 0;
-            }
-            if(key == 'p') {
-                URL x = Drawscillate.class.getResource("eggplant.png");
-                PImage water = loadImage(x.getFile());
-                cursor(water,5,5);
-                this.redColor = 147;
-                this.greenColor = 112;
-                this.blueColor = 219;
-            }
-            if(key == 'y') {
-                URL x = Drawscillate.class.getResource("banana.png");
-                PImage water = loadImage(x.getFile());
-                cursor(water,5,5);
-                this.redColor = 255;
-                this.greenColor = 255;
-                this.blueColor = 51;
+        if (keyPressed) {
+            switch (key) {
+                case 'r': changeCursorAndColor("apple.png", 255, 0, 0); break;
+                case 'b': changeCursorAndColor("water.png", 0, 0, 255); break;
+                case 'g': changeCursorAndColor("grapes.png", 0, 255, 0); break;
+                case ' ': changeCursorAndColor(null, 0, 0, 0); break;
+                case 'o': changeCursorAndColor("orange.png", 255, 165, 0); break;
+                case 'p': changeCursorAndColor("eggplant.png", 147, 112, 219); break;
+                case 'y': changeCursorAndColor("banana.png", 255, 255, 51); break;
             }
         }
+    }
+
+    private void changeCursorAndColor(String resourceName, int redColor, int greenColor, int blueColor) {
+        final Optional<PImage> imageOptional =
+            Optional
+                .ofNullable(resourceName)
+                .map("/"::concat)
+                .map(getClass()::getResource)
+                .map(URL::getFile)
+                .map(this::loadImage);
+        if (imageOptional.isPresent()) {
+            cursor(imageOptional.get());
+        } else {
+            cursor(HAND);
+        }
+        this.redColor = redColor;
+        this.greenColor = greenColor;
+        this.blueColor = blueColor;
     }
 
     public void dropdown(int n) {
