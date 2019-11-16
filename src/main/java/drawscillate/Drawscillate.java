@@ -119,36 +119,55 @@ public class Drawscillate extends PApplet {
         
         if(keyPressed == true) {
             if(key == 'r') {
+                URL x = Drawscillate.class.getResource("apple.png");
+                PImage apple = loadImage(x.getFile());
+                cursor(apple,5,5);
                 this.redColor = 255;
                 this.greenColor = 0;
                 this.blueColor = 0;
             }
             if(key == 'b') {
+                URL x = Drawscillate.class.getResource("water.png");
+                PImage water = loadImage(x.getFile());
+                cursor(water,5,5);
                 this.redColor = 0;
                 this.greenColor = 0;
                 this.blueColor = 255;
             }
             if(key == 'g') {
+                URL x = Drawscillate.class.getResource("grapes.png");
+                PImage water = loadImage(x.getFile());
+                cursor(water,5,5);
                 this.redColor = 0;
                 this.greenColor = 255;
                 this.blueColor = 0;
             }
             if(key == ' ') {
+                cursor(HAND);
                 this.redColor = 0;
                 this.greenColor = 0;
                 this.blueColor = 0;
             }
             if(key == 'o') {
+                URL x = Drawscillate.class.getResource("orange.png");
+                PImage water = loadImage(x.getFile());
+                cursor(water,5,5);
                 this.redColor = 255;
                 this.greenColor = 165;
                 this.blueColor = 0;
             }
             if(key == 'p') {
+                URL x = Drawscillate.class.getResource("eggplant.png");
+                PImage water = loadImage(x.getFile());
+                cursor(water,5,5);
                 this.redColor = 147;
                 this.greenColor = 112;
                 this.blueColor = 219;
             }
             if(key == 'y') {
+                URL x = Drawscillate.class.getResource("banana.png");
+                PImage water = loadImage(x.getFile());
+                cursor(water,5,5);
                 this.redColor = 255;
                 this.greenColor = 255;
                 this.blueColor = 51;
@@ -158,6 +177,7 @@ public class Drawscillate extends PApplet {
 
     public void dropdown(int n) {
         /* request the selected item based on index n */
+        cursor(HAND);
         CColor c = new CColor();
         c.setBackground(color(255,0,0));
         dropDownSelection = cp5.get(ScrollableList.class, "dropdown").getItem(n).get("name").toString();
