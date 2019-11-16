@@ -8,11 +8,11 @@ Drawscillate, an interactive audio-visual game.
 
 ## Team 
 
-[Andrew Selvia](https://github.com/AndrewSelvia)
-[Shraddha Nayak](https://github.com/shraddhanayak07)
-[Hetal Shah](https://github.com/ihetal)
-Rajeev Sebastian
-[Aditya Agrawal](https://github.com/agrawaladit)
+[Andrew Selvia](https://github.com/AndrewSelvia)<br/>
+[Shraddha Nayak](https://github.com/shraddhanayak07)<br/>
+[Hetal Shah](https://github.com/ihetal)<br/>
+Rajeev Sebastian<br/>
+[Aditya Agrawal](https://github.com/agrawaladit)<br/>
 
 ## Abstract
 
