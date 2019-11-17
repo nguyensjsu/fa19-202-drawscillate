@@ -4,6 +4,7 @@ import controlP5.CColor;
 import controlP5.ControlP5;
 import controlP5.ScrollableList;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.sound.SinOsc;
 
@@ -21,13 +22,21 @@ public class Drawscillate extends PApplet {
     int redColor = 0;
     int greenColor = 0;
     int blueColor = 0;
-    public void settings(){
+    int[] pixelsFrame;
+    float red;
+    float green;
+    float blue;
+    boolean gameOver = false;
+    int shapeChosen = 0;
+    private PGraphics graphics;
+
+    public void settings() {
         size(500, 500);
     }
 
     public void setup() {
         background(255);
-
+        graphics = createGraphics(500, 500);
         sineWaves = new SinOsc[numSines]; // Initialize the oscillators
         sineFreq = new float[numSines]; // Initialize array for Frequencies
 
@@ -42,7 +51,7 @@ public class Drawscillate extends PApplet {
             sineWaves[i].amp((float) sineVolume);
         }
 
-        //Drop Down
+        // Drop Down
         cp5 = new ControlP5(this);
         List l = Arrays.asList("Star", "Rectangle", "Heart", "Circle");
         /* add a ScrollableList, by default it behaves like a DropdownList */
@@ -54,52 +63,59 @@ public class Drawscillate extends PApplet {
                 .addItems(l);
     }
 
-
     private void drawStar() {
-        background(51);
-        fill(102);
-        stroke(255);
-        strokeWeight(10);
-        beginShape();
+        graphics.beginDraw();
+        graphics.background(51);
+        graphics.fill(102);
+        graphics.stroke(255);
+        graphics.strokeWeight(10);
+        graphics.beginShape();
         int startX = 550 / 2 - 47 / 2;
         int startY = 160 / 2 - 45 / 2;
-        vertex(startX, startY);
-        vertex(startX + 60, startY + 140);
-        vertex(startX + 230, startY + 150);
-        vertex(startX + 100, startY + 240);
-        vertex(startX + 180, startY + 380);
-        vertex(startX, startY + 300);
-        vertex(startX - 180, startY + 380);
-        vertex(startX - 100, startY + 240);
-        vertex(startX - 230, startY + 150);
-        vertex(startX - 60, startY + 140);
-        endShape(CLOSE);
+        graphics.vertex(startX, startY);
+        graphics.vertex(startX + 60, startY + 140);
+        graphics.vertex(startX + 230, startY + 150);
+        graphics.vertex(startX + 100, startY + 240);
+        graphics.vertex(startX + 180, startY + 380);
+        graphics.vertex(startX, startY + 300);
+        graphics.vertex(startX - 180, startY + 380);
+        graphics.vertex(startX - 100, startY + 240);
+        graphics.vertex(startX - 230, startY + 150);
+        graphics.vertex(startX - 60, startY + 140);
+        graphics.endShape(CLOSE);
+        graphics.endDraw();
+        shapeChosen = 1;
+        image(graphics, 0, 0);
     }
 
     private void drawHeart() {
-        background(51);
-        fill(102);
-        stroke(255);
-        strokeWeight(10);
-        beginShape();
+        graphics.beginDraw();
+        graphics.background(51);
+        graphics.fill(102);
+        graphics.stroke(255);
+        graphics.strokeWeight(10);
+        graphics.beginShape();
         final int x1 = width / 2;
         final int halfHeartWidth = 500;
         final int y1 = 100;
         final int y2 = -50;
         final int y3 = 5;
         final int y4 = 485;
-        vertex(x1, y1);
-        bezierVertex(x1, y2, x1 + halfHeartWidth, y3, x1, y4);
-        bezierVertex(x1 - halfHeartWidth, y3, x1, y2, x1, y1);
-        endShape();
+        graphics.vertex(x1, y1);
+        graphics.bezierVertex(x1, y2, x1 + halfHeartWidth, y3, x1, y4);
+        graphics.bezierVertex(x1 - halfHeartWidth, y3, x1, y2, x1, y1);
+        graphics.endShape();
+        graphics.endDraw();
+        shapeChosen = 1;
+        image(graphics, 0, 0);
     }
 
     public void draw() {
-        //Map mouseY from 0 to 1
+        // Map mouseY from 0 to 1
         float yoffset = map(mouseY, 0, height, 0, 1);
-        //Map mouseY logarithmically to 150 - 1150 to create a base frequency range
+        // Map mouseY logarithmically to 150 - 1150 to create a base frequency range
         float frequency = pow(1000, yoffset) + 150;
-        //Use mouseX mapped from -0.5 to 0.5 as a detune argument
+        // Use mouseX mapped from -0.5 to 0.5 as a detune argument
         float detune = map(mouseX, 0, width, -0.5f, 0.5f);
 
         for (int i = 0; i < numSines; i++) {
@@ -107,22 +123,48 @@ public class Drawscillate extends PApplet {
             // Set the frequencies for all oscillators
             sineWaves[i].freq(sineFreq[i]);
         }
-        
+
         if (mousePressed) {
             stroke(redColor, greenColor, blueColor);
             strokeWeight(5);
-            line(mouseX, mouseY, pmouseX, pmouseY);
+
+            if (!gameOver)
+                line(mouseX, mouseY, pmouseX, pmouseY);
+
+            if (shapeChosen == 1) {
+                pixelsFrame = graphics.get().pixels;
+                red = red(pixelsFrame[mouseX + mouseY * width]);
+                green = green(pixelsFrame[mouseX + mouseY * width]);
+                blue = blue(pixelsFrame[mouseX + mouseY * width]);
+                if (red != 255.0 && blue != 255.0 && green != 255) {
+                    gameOver = true;
+                }
+            }
         }
-        
+
         if (keyPressed) {
             switch (key) {
-                case 'r': changeCursorAndColor("apple.png", 255, 0, 0); break;
-                case 'b': changeCursorAndColor("water.png", 0, 0, 255); break;
-                case 'g': changeCursorAndColor("grapes.png", 0, 255, 0); break;
-                case ' ': changeCursorAndColor(null, 0, 0, 0); break;
-                case 'o': changeCursorAndColor("orange.png", 255, 165, 0); break;
-                case 'p': changeCursorAndColor("eggplant.png", 147, 112, 219); break;
-                case 'y': changeCursorAndColor("banana.png", 255, 255, 51); break;
+            case 'r':
+                changeCursorAndColor("apple.png", 255, 0, 0);
+                break;
+            case 'b':
+                changeCursorAndColor("water.png", 0, 0, 255);
+                break;
+            case 'g':
+                changeCursorAndColor("grapes.png", 0, 255, 0);
+                break;
+            case ' ':
+                changeCursorAndColor(null, 0, 0, 0);
+                break;
+            case 'o':
+                changeCursorAndColor("orange.png", 255, 165, 0);
+                break;
+            case 'p':
+                changeCursorAndColor("eggplant.png", 147, 112, 219);
+                break;
+            case 'y':
+                changeCursorAndColor("banana.png", 255, 255, 51);
+                break;
             }
         }
     }
@@ -149,16 +191,18 @@ public class Drawscillate extends PApplet {
         /* request the selected item based on index n */
         cursor(HAND);
         CColor c = new CColor();
-        c.setBackground(color(255,0,0));
+        c.setBackground(color(255, 0, 0));
         dropDownSelection = cp5.get(ScrollableList.class, "dropdown").getItem(n).get("name").toString();
         System.out.println(dropDownSelection);
         cp5.get(ScrollableList.class, "dropdown").hide();
-        switch(dropDownSelection){
-	
-            case "Heart":
-                drawHeart();break;
-            case "Star":
-                drawStar();break;
+        switch (dropDownSelection) {
+
+        case "Heart":
+            drawHeart();
+            break;
+        case "Star":
+            drawStar();
+            break;
         }
     }
 
@@ -166,5 +210,5 @@ public class Drawscillate extends PApplet {
         String[] processingArgs = { "MySketch" };
         Drawscillate mySketch = new Drawscillate();
         PApplet.runSketch(processingArgs, mySketch);
-    } 
+    }
 }
