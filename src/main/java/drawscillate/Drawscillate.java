@@ -26,8 +26,8 @@ public class Drawscillate extends PApplet {
     float red;
     float green;
     float blue;
-    boolean gameover = false;
-    int shapechosen = 0;
+    boolean gameOver = false;
+    int shapeChosen = 0;
     private PGraphics graphics;
 
     public void settings() {
@@ -55,7 +55,11 @@ public class Drawscillate extends PApplet {
         cp5 = new ControlP5(this);
         List l = Arrays.asList("Star", "Rectangle", "Heart", "Circle");
         /* add a ScrollableList, by default it behaves like a DropdownList */
-        cp5.addScrollableList("dropdown").setPosition(100, 100).setSize(200, 100).setBarHeight(20).setItemHeight(20)
+        cp5.addScrollableList("dropdown")
+                .setPosition(100, 100)
+                .setSize(200, 100)
+                .setBarHeight(20)
+                .setItemHeight(20)
                 .addItems(l);
     }
 
@@ -80,7 +84,7 @@ public class Drawscillate extends PApplet {
         graphics.vertex(startX - 60, startY + 140);
         graphics.endShape(CLOSE);
         graphics.endDraw();
-        shapechosen = 1;
+        shapeChosen = 1;
         image(graphics, 0, 0);
     }
 
@@ -102,7 +106,7 @@ public class Drawscillate extends PApplet {
         graphics.bezierVertex(x1 - halfHeartWidth, y3, x1, y2, x1, y1);
         graphics.endShape();
         graphics.endDraw();
-        shapechosen = 1;
+        shapeChosen = 1;
         image(graphics, 0, 0);
     }
 
@@ -124,16 +128,16 @@ public class Drawscillate extends PApplet {
             stroke(redColor, greenColor, blueColor);
             strokeWeight(5);
 
-            if (!gameover)
+            if (!gameOver)
                 line(mouseX, mouseY, pmouseX, pmouseY);
 
-            if (shapechosen == 1) {
+            if (shapeChosen == 1) {
                 pixelsFrame = graphics.get().pixels;
                 red = red(pixelsFrame[mouseX + mouseY * width]);
                 green = green(pixelsFrame[mouseX + mouseY * width]);
                 blue = blue(pixelsFrame[mouseX + mouseY * width]);
                 if (red != 255.0 && blue != 255.0 && green != 255) {
-                    gameover = true;
+                    gameOver = true;
                 }
             }
         }
@@ -166,8 +170,13 @@ public class Drawscillate extends PApplet {
     }
 
     private void changeCursorAndColor(String resourceName, int redColor, int greenColor, int blueColor) {
-        final Optional<PImage> imageOptional = Optional.ofNullable(resourceName).map("/"::concat)
-                .map(getClass()::getResource).map(URL::getFile).map(this::loadImage);
+        final Optional<PImage> imageOptional =
+                Optional
+                    .ofNullable(resourceName)
+                    .map("/"::concat)
+                    .map(getClass()::getResource)
+                    .map(URL::getFile)
+                    .map(this::loadImage);
         if (imageOptional.isPresent()) {
             cursor(imageOptional.get());
         } else {
