@@ -228,10 +228,7 @@ public class Drawscillate extends PApplet {
     * @return        - boolean
     */
     private boolean startReached() {
-        if (isPointInCircle(startPointX, startPointY, mouseX, mouseY) == 1) {
-           return true; 
-        }
-        return false;
+        return isPointInCircle(startPointX, startPointY, mouseX, mouseY) == 1;
     }
 
     /**
