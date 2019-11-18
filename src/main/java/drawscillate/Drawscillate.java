@@ -176,7 +176,7 @@ public class Drawscillate extends PApplet {
                 green = green(pixelsFrame[mouseX + mouseY * width]);
                 blue = blue(pixelsFrame[mouseX + mouseY * width]);
                 if (red != 255.0 && blue != 255.0 && green != 255) {
-                    gameOver = false;
+                    gameOver = true;
                 }
             }
         }
