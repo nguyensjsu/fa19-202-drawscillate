@@ -260,6 +260,12 @@ public class Drawscillate extends PApplet {
                     return false;
                 }
             }
+        }else  if(dropDownSelection.equals("Heart")) {
+            for(int i =0;i<5;i++) {
+                if(heartCheckPoints[i][2] !=1) {
+                    return false;
+                }
+            }
         }
         return true;
     }
