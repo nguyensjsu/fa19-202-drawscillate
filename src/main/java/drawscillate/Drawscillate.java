@@ -125,6 +125,7 @@ public class Drawscillate extends PApplet {
         graphics.stroke(255);
         graphics.strokeWeight(10);
         graphics.beginShape();
+        heartCheckPoints = new int [5][3];
         final int x1 = width / 2;
         final int halfHeartWidth = 500;
         final int y1 = 100;
@@ -136,9 +137,27 @@ public class Drawscillate extends PApplet {
         graphics.bezierVertex(x1 - halfHeartWidth, y3, x1, y2, x1, y1);
         graphics.endShape();
         graphics.endDraw();
+        insertHeartCheckPoints(x1,y1,0);
+        insertHeartCheckPoints(x1,y2,1);
+        insertHeartCheckPoints(x1 + halfHeartWidth,y3,2);
+        insertHeartCheckPoints(x1,y4,3);
+        insertHeartCheckPoints(x1-halfHeartWidth,y3,4);
         shapeChosen = 1;
         startPointRecorded =false;
         image(graphics, 0, 0);
+    }
+
+    /**
+    * 
+    * Function name - insertHeartCheckPoints
+    * Description   - 
+    * @param     - 
+    * @return        - void
+    */
+    private void insertHeartCheckPoints(int x1, int y1, int i) {
+        heartCheckPoints[i][0] =x1;
+        heartCheckPoints[i][1] =y1;
+        heartCheckPoints[i][2] =0;
     }
 
     public void draw() {
@@ -259,7 +278,13 @@ public class Drawscillate extends PApplet {
                starCheckPoints[i][2] = isPointInCircle(starCheckPoints[i][0],starCheckPoints[i][1],mouseX,mouseY);
               }
            }
-       }
+       } else  if(dropDownSelection == "Heart") {
+           for(int i =0 ;i <5 ;i++) {
+               if(heartCheckPoints[i][2] != 1) { 
+                   heartCheckPoints[i][2] = isPointInCircle(heartCheckPoints[i][0],heartCheckPoints[i][1],mouseX,mouseY);
+               }
+            }
+        }
         
     }
 
