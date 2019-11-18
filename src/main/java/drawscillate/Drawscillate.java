@@ -137,11 +137,11 @@ public class Drawscillate extends PApplet {
         graphics.bezierVertex(x1 - halfHeartWidth, y3, x1, y2, x1, y1);
         graphics.endShape();
         graphics.endDraw();
-        insertHeartCheckPoints(x1,y1,0);
-        insertHeartCheckPoints(x1,y2,1);
-        insertHeartCheckPoints(x1 + halfHeartWidth,y3,2);
-        insertHeartCheckPoints(x1,y4,3);
-        insertHeartCheckPoints(x1-halfHeartWidth,y3,4);
+        insertHeartCheckPoints(249,93,0);
+        insertHeartCheckPoints(29,157,1);
+        insertHeartCheckPoints(474,158,2);
+        insertHeartCheckPoints(252,481,3);
+        insertHeartCheckPoints(47,219,4);
         shapeChosen = 1;
         startPointRecorded =false;
         image(graphics, 0, 0);
