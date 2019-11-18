@@ -79,25 +79,25 @@ public class Drawscillate extends PApplet {
         int startX = 550 / 2 - 47 / 2;
         int startY = 160 / 2 - 45 / 2;
         graphics.vertex(startX, startY);
-        insertCheckPoint(startX,startY,0);
+        insertCheckPoint(startX, startY, 0, starCheckPoints);
         graphics.vertex(startX + 60, startY + 140);
-        insertCheckPoint(startX +60,startY+ 140,1);
+        insertCheckPoint(startX + 60, startY + 140, 1, starCheckPoints);
         graphics.vertex(startX + 230, startY + 150);
-        insertCheckPoint(startX + 230,startY +150,2);
+        insertCheckPoint(startX + 230, startY + 150, 2, starCheckPoints);
         graphics.vertex(startX + 100, startY + 240);
-        insertCheckPoint(startX+100,startY +240,3);
+        insertCheckPoint(startX + 100, startY + 240, 3, starCheckPoints);
         graphics.vertex(startX + 180, startY + 380);
-        insertCheckPoint(startX +180,startY + 380,4);
+        insertCheckPoint(startX + 180, startY + 380, 4, starCheckPoints);
         graphics.vertex(startX, startY + 300);
-        insertCheckPoint(startX,startY +300,5);
+        insertCheckPoint(startX, startY + 300, 5, starCheckPoints);
         graphics.vertex(startX - 180, startY + 380);
-        insertCheckPoint(startX- 180,startY +380,6);
+        insertCheckPoint(startX- 180, startY + 380, 6, starCheckPoints);
         graphics.vertex(startX - 100, startY + 240);
-        insertCheckPoint(startX -100,startY +240,7);
+        insertCheckPoint(startX -100, startY + 240, 7, starCheckPoints);
         graphics.vertex(startX - 230, startY + 150);
-        insertCheckPoint(startX -230,startY +150,8);
+        insertCheckPoint(startX -230, startY + 150, 8, starCheckPoints);
         graphics.vertex(startX - 60, startY + 140);
-        insertCheckPoint(startX -60,startY +140,9);
+        insertCheckPoint(startX - 60, startY + 140, 9, starCheckPoints);
         graphics.endShape(CLOSE);
         graphics.endDraw();
         shapeChosen = 1;
@@ -108,14 +108,14 @@ public class Drawscillate extends PApplet {
     /**
     * 
     * Function name - insertCheckPoint
-    * Description   - 
-    * @param     - 
+    * Description   - create the checkpoint array for the given figure
+    * @param     -  startX,startY,i,checkpoints
     * @return        - void
     */
-    private void insertCheckPoint(int startX, int startY, int i) {
-        starCheckPoints[i][0] =startX;
-        starCheckPoints[i][1] =startY;
-        starCheckPoints[i][2] =0;  
+    private void insertCheckPoint(int x, int y, int i,int [][] checkpoints) {
+        checkpoints[i][0] =x;
+        checkpoints[i][1] =y;
+        checkpoints[i][2] =0;  
     }
 
     private void drawHeart() {
@@ -137,29 +137,17 @@ public class Drawscillate extends PApplet {
         graphics.bezierVertex(x1 - halfHeartWidth, y3, x1, y2, x1, y1);
         graphics.endShape();
         graphics.endDraw();
-        insertHeartCheckPoints(249,93,0);
-        insertHeartCheckPoints(29,157,1);
-        insertHeartCheckPoints(474,158,2);
-        insertHeartCheckPoints(252,481,3);
-        insertHeartCheckPoints(47,219,4);
+        insertCheckPoint(249, 93, 0, heartCheckPoints);
+        insertCheckPoint(29, 157, 1, heartCheckPoints);
+        insertCheckPoint(474, 158, 2, heartCheckPoints);
+        insertCheckPoint(252, 481, 3, heartCheckPoints);
+        insertCheckPoint(47, 219, 4, heartCheckPoints);
         shapeChosen = 1;
         startPointRecorded =false;
         image(graphics, 0, 0);
     }
 
-    /**
-    * 
-    * Function name - insertHeartCheckPoints
-    * Description   - 
-    * @param     - 
-    * @return        - void
-    */
-    private void insertHeartCheckPoints(int x1, int y1, int i) {
-        heartCheckPoints[i][0] =x1;
-        heartCheckPoints[i][1] =y1;
-        heartCheckPoints[i][2] =0;
-    }
-
+   
     public void draw() {
         // Map mouseY from 0 to 1
         float yoffset = map(mouseY, 0, height, 0, 1);
@@ -181,7 +169,7 @@ public class Drawscillate extends PApplet {
             if (!gameOver)
                 line(mouseX, mouseY, pmouseX, pmouseY);
                 hasLineReachedCheckPoint(mouseX,mouseY);
-                if(startPointRecorded == false) {
+                if(!startPointRecorded) {
                     startPointX =mouseX;
                     startPointY =mouseY; 
                     startPointRecorded = true;
@@ -199,7 +187,7 @@ public class Drawscillate extends PApplet {
                 }
             }
         }
-        if(allCheckPointsReached() && startReached()) {
+        if (allCheckPointsReached() && startReached()) {
             System.out.println("Game successfully completed");
         }
 
@@ -235,12 +223,12 @@ public class Drawscillate extends PApplet {
     /**
     * 
     * Function name - startReached
-    * Description   - 
-    * @param     - 
+    * Description   - has the start point been visited again
+    * @param     -  None
     * @return        - boolean
     */
     private boolean startReached() {
-        if(isPointInCircle(startPointX, startPointY, mouseX, mouseY) == 1) {
+        if (isPointInCircle(startPointX, startPointY, mouseX, mouseY) == 1) {
            return true; 
         }
         return false;
@@ -249,18 +237,18 @@ public class Drawscillate extends PApplet {
     /**
     * 
     * Function name - allCheckPointsReached
-    * Description   - 
-    * @param     - 
+    * Description   - has all the Checkpoints been covered
+    * @param     - None
     * @return        - boolean
     */
     private boolean allCheckPointsReached() {
-        if(dropDownSelection.equals("Star")) {
+        if (dropDownSelection.equals("Star")) {
             for(int i =0;i<10;i++) {
                 if(starCheckPoints[i][2] !=1) {
                     return false;
                 }
             }
-        }else  if(dropDownSelection.equals("Heart")) {
+        }else if (dropDownSelection.equals("Heart")) {
             for(int i =0;i<5;i++) {
                 if(heartCheckPoints[i][2] !=1) {
                     return false;
@@ -273,20 +261,20 @@ public class Drawscillate extends PApplet {
     /**
     * 
     * Function name - hasLineReachedCheckPoint
-    * Description   - 
-    * @param     - 
+    * Description   - check if current point is in the vicinity of some checkpoint
+    * @param     - mouseX,mouseY
     * @return        - void
     */
     private void hasLineReachedCheckPoint(int mouseX, int mouseY) {
-       if(dropDownSelection == "Star") {
-           for(int i =0 ;i <10 ;i++) {
-              if(starCheckPoints[i][2] != 1) { 
+       if (dropDownSelection == "Star") {
+           for (int i =0 ;i <10 ;i++) {
+              if (starCheckPoints[i][2] != 1) { 
                starCheckPoints[i][2] = isPointInCircle(starCheckPoints[i][0],starCheckPoints[i][1],mouseX,mouseY);
               }
            }
-       } else  if(dropDownSelection == "Heart") {
-           for(int i =0 ;i <5 ;i++) {
-               if(heartCheckPoints[i][2] != 1) { 
+       } else if (dropDownSelection == "Heart") {
+           for (int i =0 ;i <5 ;i++) {
+               if (heartCheckPoints[i][2] != 1) { 
                    heartCheckPoints[i][2] = isPointInCircle(heartCheckPoints[i][0],heartCheckPoints[i][1],mouseX,mouseY);
                }
             }
@@ -297,15 +285,15 @@ public class Drawscillate extends PApplet {
     /**
     * 
     * Function name - isPointInCircle
-    * Description   - 
-    * @param     - 
+    * Description   - check if point is within circle with centre i ,j
+    * @param     - i,j,mouseX,mouseY
     * @return        - int
     */
     private int isPointInCircle(int i, int j, int mouseX, int mouseY) {
        int distance = (i-mouseX)*(i-mouseX)+(j-mouseY)*(j-mouseY); 
-           if(distance <= 100) {
+         if (distance <= 100) {
                return 1;
-           }
+         }
         return 0;
     }
 
