@@ -108,13 +108,13 @@ public class Drawscillate extends PApplet {
     }
 
     /**
-    * 
-    * Function name - insertCheckPoint
-    * Description   - create the checkpoint array for the given figure
-    * @param     -  startX,startY,i,checkpoints
-    * @return        - void
-    */
-    private void insertCheckPoint(int x, int y, int i,int [][] checkpoints) {
+     * Create the checkpoint array for the given figure
+     * @param x The x coordinate
+     * @param y The y coordinate
+     * @param i The index of the coordinate
+     * @param checkpoints The data structure into which the checkpoints should be recorded
+     */
+    private void insertCheckPoint(int x, int y, int i, int[][] checkpoints) {
         checkpoints[i][0] =x;
         checkpoints[i][1] =y;
         checkpoints[i][2] =0;  
@@ -171,7 +171,7 @@ public class Drawscillate extends PApplet {
             
             if (!gameOver)
                 line(mouseX, mouseY, pmouseX, pmouseY);
-                hasLineReachedCheckPoint(mouseX,mouseY);
+                hasLineReachedCheckPoint();
                 if(!startPointRecorded) {
                     startPointX =mouseX;
                     startPointY =mouseY; 
@@ -220,28 +220,21 @@ public class Drawscillate extends PApplet {
             }
         }
     }
-    
-    
 
     /**
-    * 
-    * Function name - startReached
-    * Description   - has the start point been visited again
-    * @param     -  None
-    * @return        - boolean
-    */
+     * @return If the start point been visited again
+     */
     private boolean startReached() {
-        //return startPointX == mouseX && startPointY == mouseY;
+
+        
         return isPointInCircle(startPointX, startPointY, mouseX, mouseY,100) == 1;
+
+        
     }
 
     /**
-    * 
-    * Function name - allCheckPointsReached
-    * Description   - has all the Checkpoints been covered
-    * @param     - None
-    * @return        - boolean
-    */
+     * @return If all check points have been reached
+     */
     private boolean allCheckPointsReached() {
         if (dropDownSelection.equals("Star")) {
             for(int i =0;i<10;i++) {
@@ -249,7 +242,7 @@ public class Drawscillate extends PApplet {
                     return false;
                 }
             }
-        }else if (dropDownSelection.equals("Heart")) {
+        } else if (dropDownSelection.equals("Heart")) {
             for(int i =0;i<5;i++) {
                 if(heartCheckPoints[i][2] !=1) {
                     return false;
@@ -260,13 +253,14 @@ public class Drawscillate extends PApplet {
     }
 
     /**
+<<<<<<< HEAD
     * 
     * Function name - hasLineReachedCheckPoint
     * Description   - check if current point is in the vicinity of some checkpoint
     * @param     - mouseX,mouseY
     * @return        - void
     */
-    private void hasLineReachedCheckPoint(int mouseX, int mouseY) {
+    private void hasLineReachedCheckPoint() {
        if (dropDownSelection == "Star") {
            for (int i =0 ;i <10 ;i++) {
               if (starCheckPoints[i][2] != 1) { 
@@ -280,10 +274,10 @@ public class Drawscillate extends PApplet {
                }
             }
         }
-        
     }
 
     /**
+<<<<<<< HEAD
     * 
     * Function name - isPointInCircle
     * Description   - check if point is within circle with centre i ,j
