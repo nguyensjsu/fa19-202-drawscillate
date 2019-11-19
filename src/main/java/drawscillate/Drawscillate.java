@@ -253,7 +253,6 @@ public class Drawscillate extends PApplet {
     }
 
     /**
-<<<<<<< HEAD
     * 
     * Function name - hasLineReachedCheckPoint
     * Description   - check if current point is in the vicinity of some checkpoint
