@@ -16,13 +16,14 @@ Drawscillate, an interactive audio-visual game.
 
 ## Abstract
 
-People who tend to lose focus, Children who needs to have fun, Aartists who needs to explore, we have a one stop solution for you, **Drawscillate**. It is a virtual simulator to a classic Buzz Wire game.
-
+People who tend to lose focus, Children who want to have fun, artists who want to explore, we have a one stop solution for you, **Drawscillate**. It is a virtual simulator to a classic Buzz Wire game.
 
 ## Scrum
 
 [Sprint Task Sheet](https://docs.google.com/spreadsheets/d/1EVMsOQ3g3JuIVDFdPkGSJBxW_JH25RkZzY6yD2SRak4)
 
+![Sprint 1 Burndown Chart](Sprint1BurndownChart.png)
+
 ## Building & Running
 
-You need processing3 to be a part of our Adventure. We suggest building & running the app through through a general-purpose IDE (like IntelliJ IDEA). If you're using macOS, make sure to build & run with JDK 8; newer versions may fail according to [this source](https://discourse.processing.org/t/keep-getting-noclassdeffounderror-errors-on-mac/11727).
+We suggest building & running the app through through a general-purpose IDE (like IntelliJ IDEA). If you're using macOS, make sure to build & run with JDK 8; newer versions may fail according to [this source](https://discourse.processing.org/t/keep-getting-noclassdeffounderror-errors-on-mac/11727).
