@@ -6,6 +6,7 @@ public class AppController extends PApplet implements IScreenObserver{
 
     private IScreen welcomeScreen;
     private IScreen gameOptions;
+    private IScreen gamePlay;
     private IScreen current;
     public void settings() {
         size(1000, 750);
@@ -16,6 +17,7 @@ public class AppController extends PApplet implements IScreenObserver{
         background(74, 73, 70);
         welcomeScreen = new WelcomeScreen(this);
         gameOptions = new GameOptions(this);
+        gamePlay = new GamePlay(this);
         current = welcomeScreen;
     }
     
@@ -36,6 +38,9 @@ public class AppController extends PApplet implements IScreenObserver{
             break;
         case 1:
             current =gameOptions;
+            break;
+        case 2:
+            current = gamePlay;
             break;
         default:
             current = welcomeScreen;
