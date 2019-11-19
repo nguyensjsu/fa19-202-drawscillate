@@ -75,7 +75,7 @@ public class Drawscillate extends PApplet {
         graphics.fill(102);
         graphics.stroke(255);
         graphics.strokeWeight(10);
-        strokeWeight =10;
+        strokeWeight = 10;
         graphics.beginShape();
         starCheckPoints = new int[10][3];
         int startX = 550 / 2 - 47 / 2;
@@ -125,8 +125,8 @@ public class Drawscillate extends PApplet {
         graphics.background(51);
         graphics.fill(102);
         graphics.stroke(255);
-        graphics.strokeWeight(50);
-        strokeWeight =50;
+        graphics.strokeWeight(10);
+        strokeWeight = 10;
         graphics.beginShape();
         heartCheckPoints = new int [5][3];
         final int x1 = width / 2;
@@ -276,7 +276,6 @@ public class Drawscillate extends PApplet {
     }
 
     /**
-<<<<<<< HEAD
     * 
     * Function name - isPointInCircle
     * Description   - check if point is within circle with centre i ,j
