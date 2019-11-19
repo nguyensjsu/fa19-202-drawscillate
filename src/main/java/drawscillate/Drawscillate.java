@@ -27,7 +27,12 @@ public class Drawscillate extends PApplet {
     float green;
     float blue;
     boolean gameOver = false;
+    boolean startPointRecorded = false;
+    int startPointX;
+    int startPointY;
     int shapeChosen = 0;
+    int [][] starCheckPoints;
+    int [][] heartCheckPoints;
     private PGraphics graphics;
 
     public void settings() {
@@ -70,22 +75,47 @@ public class Drawscillate extends PApplet {
         graphics.stroke(255);
         graphics.strokeWeight(10);
         graphics.beginShape();
+        starCheckPoints = new int[10][3];
         int startX = 550 / 2 - 47 / 2;
         int startY = 160 / 2 - 45 / 2;
         graphics.vertex(startX, startY);
+        insertCheckPoint(startX, startY, 0, starCheckPoints);
         graphics.vertex(startX + 60, startY + 140);
+        insertCheckPoint(startX + 60, startY + 140, 1, starCheckPoints);
         graphics.vertex(startX + 230, startY + 150);
+        insertCheckPoint(startX + 230, startY + 150, 2, starCheckPoints);
         graphics.vertex(startX + 100, startY + 240);
+        insertCheckPoint(startX + 100, startY + 240, 3, starCheckPoints);
         graphics.vertex(startX + 180, startY + 380);
+        insertCheckPoint(startX + 180, startY + 380, 4, starCheckPoints);
         graphics.vertex(startX, startY + 300);
+        insertCheckPoint(startX, startY + 300, 5, starCheckPoints);
         graphics.vertex(startX - 180, startY + 380);
+        insertCheckPoint(startX- 180, startY + 380, 6, starCheckPoints);
         graphics.vertex(startX - 100, startY + 240);
+        insertCheckPoint(startX -100, startY + 240, 7, starCheckPoints);
         graphics.vertex(startX - 230, startY + 150);
+        insertCheckPoint(startX -230, startY + 150, 8, starCheckPoints);
         graphics.vertex(startX - 60, startY + 140);
+        insertCheckPoint(startX - 60, startY + 140, 9, starCheckPoints);
         graphics.endShape(CLOSE);
         graphics.endDraw();
         shapeChosen = 1;
+        startPointRecorded =false;
         image(graphics, 0, 0);
+    }
+
+    /**
+     * Create the checkpoint array for the given figure
+     * @param x The x coordinate
+     * @param y The y coordinate
+     * @param i The index of the coordinate
+     * @param checkpoints The data structure into which the checkpoints should be recorded
+     */
+    private void insertCheckPoint(int x, int y, int i, int[][] checkpoints) {
+        checkpoints[i][0] =x;
+        checkpoints[i][1] =y;
+        checkpoints[i][2] =0;  
     }
 
     private void drawHeart() {
@@ -95,6 +125,7 @@ public class Drawscillate extends PApplet {
         graphics.stroke(255);
         graphics.strokeWeight(10);
         graphics.beginShape();
+        heartCheckPoints = new int [5][3];
         final int x1 = width / 2;
         final int halfHeartWidth = 500;
         final int y1 = 100;
@@ -106,10 +137,17 @@ public class Drawscillate extends PApplet {
         graphics.bezierVertex(x1 - halfHeartWidth, y3, x1, y2, x1, y1);
         graphics.endShape();
         graphics.endDraw();
+        insertCheckPoint(249, 93, 0, heartCheckPoints);
+        insertCheckPoint(29, 157, 1, heartCheckPoints);
+        insertCheckPoint(474, 158, 2, heartCheckPoints);
+        insertCheckPoint(252, 481, 3, heartCheckPoints);
+        insertCheckPoint(47, 219, 4, heartCheckPoints);
         shapeChosen = 1;
+        startPointRecorded =false;
         image(graphics, 0, 0);
     }
 
+   
     public void draw() {
         // Map mouseY from 0 to 1
         float yoffset = map(mouseY, 0, height, 0, 1);
@@ -127,9 +165,17 @@ public class Drawscillate extends PApplet {
         if (mousePressed) {
             stroke(redColor, greenColor, blueColor);
             strokeWeight(5);
-
+            
             if (!gameOver)
                 line(mouseX, mouseY, pmouseX, pmouseY);
+                hasLineReachedCheckPoint();
+                if(!startPointRecorded) {
+                    startPointX =mouseX;
+                    startPointY =mouseY; 
+                    startPointRecorded = true;
+                    System.out.println("Start x :"+ startPointX);
+                    System.out.println("Start y :" +startPointY);
+                }
 
             if (shapeChosen == 1) {
                 pixelsFrame = graphics.get().pixels;
@@ -140,6 +186,9 @@ public class Drawscillate extends PApplet {
                     gameOver = true;
                 }
             }
+        }
+        if (allCheckPointsReached() && startReached()) {
+            System.out.println("Game successfully completed");
         }
 
         if (keyPressed) {
@@ -167,6 +216,68 @@ public class Drawscillate extends PApplet {
                 break;
             }
         }
+    }
+
+    /**
+     * @return If the start point been visited again
+     */
+    private boolean startReached() {
+        return isPointInCircle(startPointX, startPointY) == 1;
+    }
+
+    /**
+     * @return If all check points have been reached
+     */
+    private boolean allCheckPointsReached() {
+        if (dropDownSelection.equals("Star")) {
+            for(int i =0;i<10;i++) {
+                if(starCheckPoints[i][2] !=1) {
+                    return false;
+                }
+            }
+        } else if (dropDownSelection.equals("Heart")) {
+            for(int i =0;i<5;i++) {
+                if(heartCheckPoints[i][2] !=1) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Check if current point is in the vicinity of some checkpoint
+     */
+    private void hasLineReachedCheckPoint() {
+        // TODO: extract method for each branch of the if-else; the logic is identical
+        if (dropDownSelection.equals("Star")) {
+            for (int i = 0; i < 10; i++) {
+                final int[] starCheckPoint = starCheckPoints[i];
+                if (starCheckPoint[2] != 1) {
+                    starCheckPoint[2] = isPointInCircle(starCheckPoint[0], starCheckPoint[1]);
+                }
+            }
+        } else if (dropDownSelection.equals("Heart")) {
+            for (int i = 0; i < 5; i++) {
+                final int[] heartCheckPoint = heartCheckPoints[i];
+                if (heartCheckPoint[2] != 1) {
+                    heartCheckPoint[2] = isPointInCircle(heartCheckPoint[0], heartCheckPoint[1]);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param x The x coordinate
+     * @param y The y coordinate
+     * @return Whether the point is in the circle (0 is no; 1 is yes)
+     */
+    private int isPointInCircle(int x, int y) {
+       int distance = (x-mouseX)*(x-mouseX)+(y-mouseY)*(y-mouseY);
+         if (distance <= 100) {
+               return 1;
+         }
+        return 0;
     }
 
     private void changeCursorAndColor(String resourceName, int redColor, int greenColor, int blueColor) {
