@@ -121,8 +121,8 @@ public class Drawscillate extends PApplet {
         graphics.background(51);
         graphics.fill(102);
         graphics.stroke(255);
-        graphics.strokeWeight(10);
         strokeWeight = 10;
+        graphics.strokeWeight(strokeWeight);
         graphics.beginShape();
         starCheckPoints = new int[10][3];
         int startX = 550 / 2 - 47 / 2;
@@ -172,8 +172,8 @@ public class Drawscillate extends PApplet {
         graphics.background(51);
         graphics.fill(102);
         graphics.stroke(255);
-        graphics.strokeWeight(50);
-        strokeWeight = 50;
+        strokeWeight = getStrokeWeight(difficultySelection);
+        graphics.strokeWeight(strokeWeight);
         graphics.beginShape();
         heartCheckPoints = new int [5][3];
         final int x1 = width / 2;
@@ -197,7 +197,18 @@ public class Drawscillate extends PApplet {
         image(graphics, 0, 0);
     }
 
-   
+    private int getStrokeWeight(String difficultySelection) {
+        switch (difficultySelection){
+            case "Hard":
+                return 10;
+            case "Medium":
+                return 25;
+            case "Easy":
+                return 50;
+        }return 10;
+    }
+
+
     public void draw() {
         // Map mouseY from 0 to 1
         float yoffset = map(mouseY, 0, height, 0, 1);
