@@ -121,7 +121,7 @@ public class Drawscillate extends PApplet {
         graphics.background(51);
         graphics.fill(102);
         graphics.stroke(255);
-        strokeWeight = 10;
+        strokeWeight = getStrokeWeight(difficultySelection);
         graphics.strokeWeight(strokeWeight);
         graphics.beginShape();
         starCheckPoints = new int[10][3];
