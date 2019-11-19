@@ -7,9 +7,6 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.sound.SinOsc;
-
-import javax.imageio.ImageIO;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
