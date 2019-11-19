@@ -31,6 +31,7 @@ public class Drawscillate extends PApplet {
     int startPointX;
     int startPointY;
     int shapeChosen = 0;
+    int strokeWeight;
     int [][] starCheckPoints;
     int [][] heartCheckPoints;
     private PGraphics graphics;
@@ -74,6 +75,7 @@ public class Drawscillate extends PApplet {
         graphics.fill(102);
         graphics.stroke(255);
         graphics.strokeWeight(10);
+        strokeWeight =10;
         graphics.beginShape();
         starCheckPoints = new int[10][3];
         int startX = 550 / 2 - 47 / 2;
@@ -123,7 +125,8 @@ public class Drawscillate extends PApplet {
         graphics.background(51);
         graphics.fill(102);
         graphics.stroke(255);
-        graphics.strokeWeight(10);
+        graphics.strokeWeight(50);
+        strokeWeight =50;
         graphics.beginShape();
         heartCheckPoints = new int [5][3];
         final int x1 = width / 2;
@@ -228,7 +231,8 @@ public class Drawscillate extends PApplet {
     * @return        - boolean
     */
     private boolean startReached() {
-        return isPointInCircle(startPointX, startPointY, mouseX, mouseY) == 1;
+        //return startPointX == mouseX && startPointY == mouseY;
+        return isPointInCircle(startPointX, startPointY, mouseX, mouseY,100) == 1;
     }
 
     /**
@@ -266,13 +270,13 @@ public class Drawscillate extends PApplet {
        if (dropDownSelection == "Star") {
            for (int i =0 ;i <10 ;i++) {
               if (starCheckPoints[i][2] != 1) { 
-               starCheckPoints[i][2] = isPointInCircle(starCheckPoints[i][0],starCheckPoints[i][1],mouseX,mouseY);
+               starCheckPoints[i][2] = isPointInCircle(starCheckPoints[i][0],starCheckPoints[i][1],mouseX,mouseY,strokeWeight*strokeWeight);
               }
            }
        } else if (dropDownSelection == "Heart") {
            for (int i =0 ;i <5 ;i++) {
                if (heartCheckPoints[i][2] != 1) { 
-                   heartCheckPoints[i][2] = isPointInCircle(heartCheckPoints[i][0],heartCheckPoints[i][1],mouseX,mouseY);
+                   heartCheckPoints[i][2] = isPointInCircle(heartCheckPoints[i][0],heartCheckPoints[i][1],mouseX,mouseY,strokeWeight*strokeWeight);
                }
             }
         }
@@ -286,9 +290,9 @@ public class Drawscillate extends PApplet {
     * @param     - i,j,mouseX,mouseY
     * @return        - int
     */
-    private int isPointInCircle(int i, int j, int mouseX, int mouseY) {
+    private int isPointInCircle(int i, int j, int mouseX, int mouseY, int radius) {
        int distance = (i-mouseX)*(i-mouseX)+(j-mouseY)*(j-mouseY); 
-         if (distance <= 100) {
+         if (distance <= radius) {
                return 1;
          }
         return 0;
