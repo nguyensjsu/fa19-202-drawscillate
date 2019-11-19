@@ -7,7 +7,6 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.sound.SinOsc;
-
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +17,8 @@ public class Drawscillate extends PApplet {
     private float[] sineFreq; // Array of frequencies
     private int numSines = 5; // Number of oscillators to use
     private ControlP5 cp5;
-    private String dropDownSelection = "";
+    private String shapeSelection = "";
+    private String difficultySelection = "";
     int redColor = 0;
     int greenColor = 0;
     int blueColor = 0;
@@ -35,6 +35,7 @@ public class Drawscillate extends PApplet {
     int [][] starCheckPoints;
     int [][] heartCheckPoints;
     private PGraphics graphics;
+    private boolean selectionComplete = false;
 
     public void settings() {
         size(500, 500);
@@ -59,23 +60,66 @@ public class Drawscillate extends PApplet {
 
         // Drop Down
         cp5 = new ControlP5(this);
-        List l = Arrays.asList("Star", "Rectangle", "Heart", "Circle");
+        List shapes = Arrays.asList("Star", "Rectangle", "Heart", "Circle");
         /* add a ScrollableList, by default it behaves like a DropdownList */
-        cp5.addScrollableList("dropdown")
-                .setPosition(100, 100)
+        cp5.addScrollableList("select_shape")
+                .setOpen(false)
+                .setPosition(30, 100)
                 .setSize(200, 100)
-                .setBarHeight(20)
-                .setItemHeight(20)
-                .addItems(l);
+                .setHeight(300)
+                .setBarHeight(30)
+                .setItemHeight(30)
+                .addItems(shapes);
     }
 
-    private void drawStar() {
+    public void select_difficulty(int n){
+        cursor(HAND);
+        CColor c = new CColor();
+        c.setBackground(color(255, 0, 0));
+        difficultySelection = cp5.get(ScrollableList.class, "select_difficulty").getItem(n).get("name").toString();
+        System.out.println(difficultySelection);
+        cp5.get(ScrollableList.class, "select_difficulty").hide();
+
+        selectionComplete = true;
+
+        switch (shapeSelection) {
+            case "Heart":
+                drawHeart(difficultySelection);
+                break;
+            case "Star":
+                drawStar(difficultySelection);
+                break;
+        }
+    }
+
+    public void select_shape(int n) {
+        cursor(HAND);
+        CColor c = new CColor();
+        c.setBackground(color(255, 0, 0));
+        shapeSelection = cp5.get(ScrollableList.class, "select_shape").getItem(n).get("name").toString();
+        System.out.println(shapeSelection);
+        cp5.get(ScrollableList.class, "select_shape").hide();
+
+        //Difficulty drop down
+        List difficulty = Arrays.asList("Easy", "Medium", "Hard");
+        cp5.addScrollableList("select_difficulty")
+                .setOpen(false)
+                .setPosition(270, 100)
+                .setSize(200, 100)
+                .setHeight(300)
+                .setBarHeight(30)
+                .setItemHeight(30)
+                .addItems(difficulty);
+
+    }
+
+    private void drawStar(String difficultySelection) {
         graphics.beginDraw();
         graphics.background(51);
         graphics.fill(102);
         graphics.stroke(255);
-        graphics.strokeWeight(10);
-        strokeWeight = 10;
+        strokeWeight = getStrokeWeight(difficultySelection);
+        graphics.strokeWeight(strokeWeight);
         graphics.beginShape();
         starCheckPoints = new int[10][3];
         int startX = 550 / 2 - 47 / 2;
@@ -103,7 +147,7 @@ public class Drawscillate extends PApplet {
         graphics.endShape(CLOSE);
         graphics.endDraw();
         shapeChosen = 1;
-        startPointRecorded =false;
+        startPointRecorded = false;
         image(graphics, 0, 0);
     }
 
@@ -120,13 +164,13 @@ public class Drawscillate extends PApplet {
         checkpoints[i][2] =0;  
     }
 
-    private void drawHeart() {
+    private void drawHeart(String difficultySelection) {
         graphics.beginDraw();
         graphics.background(51);
         graphics.fill(102);
         graphics.stroke(255);
-        graphics.strokeWeight(10);
-        strokeWeight = 10;
+        strokeWeight = getStrokeWeight(difficultySelection);
+        graphics.strokeWeight(strokeWeight);
         graphics.beginShape();
         heartCheckPoints = new int [5][3];
         final int x1 = width / 2;
@@ -150,7 +194,18 @@ public class Drawscillate extends PApplet {
         image(graphics, 0, 0);
     }
 
-   
+    private int getStrokeWeight(String difficultySelection) {
+        switch (difficultySelection){
+            case "Hard":
+                return 10;
+            case "Medium":
+                return 25;
+            case "Easy":
+                return 50;
+        }return 10;
+    }
+
+
     public void draw() {
         // Map mouseY from 0 to 1
         float yoffset = map(mouseY, 0, height, 0, 1);
@@ -169,16 +224,17 @@ public class Drawscillate extends PApplet {
             stroke(redColor, greenColor, blueColor);
             strokeWeight(5);
             
-            if (!gameOver)
+            if (!gameOver && selectionComplete) {
                 line(mouseX, mouseY, pmouseX, pmouseY);
                 hasLineReachedCheckPoint();
-                if(!startPointRecorded) {
-                    startPointX =mouseX;
-                    startPointY =mouseY; 
+                if (!startPointRecorded) {
+                    startPointX = mouseX;
+                    startPointY = mouseY;
                     startPointRecorded = true;
-                    System.out.println("Start x :"+ startPointX);
-                    System.out.println("Start y :" +startPointY);
+                    System.out.println("Start x :" + startPointX);
+                    System.out.println("Start y :" + startPointY);
                 }
+            }
 
             if (shapeChosen == 1) {
                 pixelsFrame = graphics.get().pixels;
@@ -190,8 +246,10 @@ public class Drawscillate extends PApplet {
                 }
             }
         }
-        if (allCheckPointsReached() && startReached()) {
-            System.out.println("Game successfully completed");
+        if (selectionComplete) {
+            if (allCheckPointsReached() && startReached()) {
+                System.out.println("Game successfully completed");
+            }
         }
 
         if (keyPressed) {
@@ -236,13 +294,13 @@ public class Drawscillate extends PApplet {
      * @return If all check points have been reached
      */
     private boolean allCheckPointsReached() {
-        if (dropDownSelection.equals("Star")) {
+        if (shapeSelection.equals("Star")) {
             for(int i =0;i<10;i++) {
                 if(starCheckPoints[i][2] !=1) {
                     return false;
                 }
             }
-        } else if (dropDownSelection.equals("Heart")) {
+        } else if (shapeSelection.equals("Heart")) {
             for(int i =0;i<5;i++) {
                 if(heartCheckPoints[i][2] !=1) {
                     return false;
@@ -260,13 +318,13 @@ public class Drawscillate extends PApplet {
     * @return        - void
     */
     private void hasLineReachedCheckPoint() {
-       if (dropDownSelection == "Star") {
+       if (shapeSelection == "Star") {
            for (int i =0 ;i <10 ;i++) {
               if (starCheckPoints[i][2] != 1) { 
                starCheckPoints[i][2] = isPointInCircle(starCheckPoints[i][0],starCheckPoints[i][1],mouseX,mouseY,strokeWeight*strokeWeight);
               }
            }
-       } else if (dropDownSelection == "Heart") {
+       } else if (shapeSelection == "Heart") {
            for (int i =0 ;i <5 ;i++) {
                if (heartCheckPoints[i][2] != 1) { 
                    heartCheckPoints[i][2] = isPointInCircle(heartCheckPoints[i][0],heartCheckPoints[i][1],mouseX,mouseY,strokeWeight*strokeWeight);
@@ -306,25 +364,6 @@ public class Drawscillate extends PApplet {
         this.redColor = redColor;
         this.greenColor = greenColor;
         this.blueColor = blueColor;
-    }
-
-    public void dropdown(int n) {
-        /* request the selected item based on index n */
-        cursor(HAND);
-        CColor c = new CColor();
-        c.setBackground(color(255, 0, 0));
-        dropDownSelection = cp5.get(ScrollableList.class, "dropdown").getItem(n).get("name").toString();
-        System.out.println(dropDownSelection);
-        cp5.get(ScrollableList.class, "dropdown").hide();
-        switch (dropDownSelection) {
-
-        case "Heart":
-            drawHeart();
-            break;
-        case "Star":
-            drawStar();
-            break;
-        }
     }
 
     public static void main(String[] args) {
