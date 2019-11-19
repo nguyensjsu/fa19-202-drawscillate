@@ -87,10 +87,10 @@ public class Drawscillate extends PApplet {
 
         switch (shapeSelection) {
             case "Heart":
-                drawHeart();
+                drawHeart(difficultySelection);
                 break;
             case "Star":
-                drawStar();
+                drawStar(difficultySelection);
                 break;
         }
     }
@@ -116,7 +116,7 @@ public class Drawscillate extends PApplet {
 
     }
 
-    private void drawStar() {
+    private void drawStar(String difficultySelection) {
         graphics.beginDraw();
         graphics.background(51);
         graphics.fill(102);
@@ -167,7 +167,7 @@ public class Drawscillate extends PApplet {
         checkpoints[i][2] =0;  
     }
 
-    private void drawHeart() {
+    private void drawHeart(String difficultySelection) {
         graphics.beginDraw();
         graphics.background(51);
         graphics.fill(102);
