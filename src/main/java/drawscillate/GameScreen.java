@@ -1,8 +1,5 @@
 package drawscillate;
 
-import controlP5.CColor;
-import controlP5.ControlP5;
-import controlP5.ScrollableList;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -15,18 +12,22 @@ import java.io.IOException;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
-import static javax.swing.JOptionPane.*;
 
-public class Drawscillate extends PApplet {
+import static javax.swing.JOptionPane.YES_NO_OPTION;
+import static javax.swing.JOptionPane.getRootFrame;
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static processing.core.PConstants.CLOSE;
+import static processing.core.PConstants.HAND;
+
+public class GameScreen implements IScreen, OptionsScreenObserver {
+    
+    private PApplet applet;
+    private String difficultySelection;
+    private String shapeSelection;
     private SinOsc[] sineWaves; // Array of sines
     private float[] sineFreq; // Array of frequencies
     private int numSines = 5; // Number of oscillators to use
-    private ControlP5 cp5;
-    private String shapeSelection = "";
-    private String difficultySelection = "";
     int redColor = 0;
     int greenColor = 0;
     int blueColor = 0;
@@ -38,7 +39,6 @@ public class Drawscillate extends PApplet {
     boolean startPointRecorded = false;
     int startPointX;
     int startPointY;
-    int shapeChosen = 0;
     int strokeWeight;
     int [][] starCheckPoints;
     int [][] heartCheckPoints;
@@ -47,6 +47,7 @@ public class Drawscillate extends PApplet {
   
     private ArrayList traceX = new ArrayList();
     private ArrayList traceY = new ArrayList();
+    private boolean firstTime = true;
     
     CustomizeLine customizeLine;
     
@@ -58,7 +59,8 @@ public class Drawscillate extends PApplet {
     IColorCommand showPurpleColor;
     IColorCommand showBlackColor;
     
-    public Drawscillate() {
+    GameScreen() 
+    {
         customizeLine = new CustomizeLine();
         
         initializeCommands();
@@ -77,6 +79,24 @@ public class Drawscillate extends PApplet {
         colorItem('g', showGreenColor);
         colorItem(' ', showBlackColor);
         colorItem('o', showOrangeColor);
+    }
+    
+    GameScreen(PApplet applet) {
+        this.applet = applet;
+        sineWaves = new SinOsc[numSines]; // Initialize the oscillators
+        sineFreq = new float[numSines]; // Initialize array for Frequencies
+
+        for (int i = 0; i < numSines; i++) {
+            // Calculate the amplitude for each oscillator
+            double sineVolume = (1.0 / numSines) / (i + 1);
+            // Create the oscillators
+            
+            sineWaves[i] = new SinOsc(applet);
+            // Start Oscillators
+            sineWaves[i].play();
+            // Set the amplitudes for all oscillators
+            sineWaves[i].amp((float) sineVolume);
+        }
     }
     
     /*
@@ -117,81 +137,124 @@ public class Drawscillate extends PApplet {
         showOrangeColor = new ColorCommand();
     }
 
-    public void settings() {
-        size(500, 500);
+    @Override
+    public void mousePressed() {
+        if (selectionComplete) {
+            pixelsFrame = graphics.get().pixels;
+            red = applet.red(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+            green = applet.green(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+            blue = applet.blue(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+            if (red == 255.0 && blue == 255.0 && green == 255) {
+                traceX.add(applet.mouseX);
+                traceY.add(applet.mouseY);
+            }
+        }
     }
 
-    public void setup() {
-        background(255);
-        graphics = createGraphics(500, 500);
-        sineWaves = new SinOsc[numSines]; // Initialize the oscillators
-        sineFreq = new float[numSines]; // Initialize array for Frequencies
+    @Override
+    public void display() {
+        if (firstTime) {
+            graphics = applet.createGraphics(500, 500);
+            selectionComplete = true;
+            switch (shapeSelection) {
+                case "Star":
+                    drawStar(difficultySelection);
+                    break;
+                case "Heart":
+                    drawHeart(difficultySelection);
+                    break;
+            }
+            firstTime = false;
+        }
+
+        // Map mouseY from 0 to 1
+        float yoffset = PApplet.map(applet.mouseY, 0, applet.height, 0, 1);
+        // Map mouseY logarithmically to 150 - 1150 to create a base frequency range
+        float frequency = PApplet.pow(1000, yoffset) + 150;
+        // Use mouseX mapped from -0.5 to 0.5 as a detune argument
+        float detune = PApplet.map(applet.mouseX, 0, applet.width, -0.5f, 0.5f);
 
         for (int i = 0; i < numSines; i++) {
-            // Calculate the amplitude for each oscillator
-            double sineVolume = (1.0 / numSines) / (i + 1);
-            // Create the oscillators
-            sineWaves[i] = new SinOsc(this);
-            // Start Oscillators
-            sineWaves[i].play();
-            // Set the amplitudes for all oscillators
-            sineWaves[i].amp((float) sineVolume);
+            sineFreq[i] = frequency * (i + 1 * detune);
+            // Set the frequencies for all oscillators
+            sineWaves[i].freq(sineFreq[i]);
         }
 
-        // Drop Down
-        cp5 = new ControlP5(this);
-        List shapes = Arrays.asList("Star", "Rectangle", "Heart", "Circle");
-        /* add a ScrollableList, by default it behaves like a DropdownList */
-        cp5.addScrollableList("select_shape")
-                .setOpen(false)
-                .setPosition(30, 100)
-                .setSize(200, 100)
-                .setHeight(300)
-                .setBarHeight(30)
-                .setItemHeight(30)
-                .addItems(shapes);
-    }
+        if (applet.mousePressed) {
+            applet.stroke(redColor, greenColor, blueColor);
+            applet.strokeWeight(5);
 
-    //Name of the function is with underscore(and not camelCase) as processing sets the name to the function to dropdown head
-    public void select_difficulty(int n){
-        cursor(HAND);
-        CColor c = new CColor();
-        c.setBackground(color(255, 0, 0));
-        difficultySelection = cp5.get(ScrollableList.class, "select_difficulty").getItem(n).get("name").toString();
-        System.out.println(difficultySelection);
-        cp5.get(ScrollableList.class, "select_difficulty").hide();
+            if (!gameOver && selectionComplete) {
+                applet.line(applet.mouseX, applet.mouseY, applet.pmouseX, applet.pmouseY);
+                hasLineReachedCheckPoint();
+                if (!startPointRecorded) {
+                    startPointX = applet.mouseX;
+                    startPointY = applet.mouseY;
+                    startPointRecorded = true;
+                    System.out.println("Start x :" + startPointX);
+                    System.out.println("Start y :" + startPointY);
+                }
+            }
 
-        selectionComplete = true;
+            pixelsFrame = graphics.get().pixels;
+            red = applet.red(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+            green = applet.green(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+            blue = applet.blue(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+            if (red != 255.0 && blue != 255.0 && green != 255) {
+                gameOver = true;
+                playSound("lose.wav");
+                replayOption("Better luck next time!");
+            }
+        }
+        if (selectionComplete) {
+            if (allCheckPointsReached() && startReached()) {
+                playSound("win.wav");
+                System.out.println("Game successfully completed");
+                replayOption("Congratulations! You Won!");
+            }
+        }
 
-        switch (shapeSelection) {
-            case "Heart":
-                drawHeart(difficultySelection);
-                break;
-            case "Star":
-                drawStar(difficultySelection);
-                break;
+        if (applet.keyPressed) {
+            switch (applet.key) {
+                case 'r':
+                    changeCursorAndColor("apple.png", 255, 0, 0);
+                    break;
+                case 'b':
+                    changeCursorAndColor("water.png", 0, 0, 255);
+                    break;
+                case 'g':
+                    changeCursorAndColor("grapes.png", 0, 255, 0);
+                    break;
+                case ' ':
+                    changeCursorAndColor(null, 0, 0, 0);
+                    break;
+                case 'o':
+                    changeCursorAndColor("orange.png", 255, 165, 0);
+                    break;
+                case 'p':
+                    changeCursorAndColor("eggplant.png", 147, 112, 219);
+                    break;
+                case 'y':
+                    changeCursorAndColor("banana.png", 255, 255, 51);
+                    break;
+            }
         }
     }
 
-    //Name of the function is with underscore(and not camelCase) as processing sets the name to the function to dropdown head
-    public void select_shape(int n) {
-        cursor(HAND);
-        CColor c = new CColor();
-        c.setBackground(color(255, 0, 0));
-        shapeSelection = cp5.get(ScrollableList.class, "select_shape").getItem(n).get("name").toString();
-        System.out.println(shapeSelection);
-        cp5.get(ScrollableList.class, "select_shape").hide();
+    private void playSound(String s) {
+        try {
+            Clip clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(getClass().getResource("/" + s)));
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
 
-        //Difficulty drop down
-        List difficulty = Arrays.asList("Easy", "Medium", "Hard");
-        cp5.addScrollableList("select_difficulty")
-                .setOpen(false)
-                .setPosition(270, 100)
-                .setSize(200, 100)
-                .setHeight(300)
-                .setBarHeight(30)
-                .setItemHeight(30)
-                .addItems(difficulty);
+    @Override
+    public void update2(String difficultySelection, String shapeSelection) {
+        this.difficultySelection = difficultySelection;
+        this.shapeSelection = shapeSelection;
     }
 
     private void drawStar(String difficultySelection) {
@@ -227,22 +290,8 @@ public class Drawscillate extends PApplet {
         insertCheckPoint(startX - 60, startY + 140, 9, starCheckPoints);
         graphics.endShape(CLOSE);
         graphics.endDraw();
-        shapeChosen = 1;
         startPointRecorded = false;
-        image(graphics, 0, 0);
-    }
-
-    /**
-     * Create the checkpoint array for the given figure
-     * @param x The x coordinate
-     * @param y The y coordinate
-     * @param i The index of the coordinate
-     * @param checkpoints The data structure into which the checkpoints should be recorded
-     */
-    private void insertCheckPoint(int x, int y, int i, int[][] checkpoints) {
-        checkpoints[i][0] =x;
-        checkpoints[i][1] =y;
-        checkpoints[i][2] =0;  
+        applet.image(graphics, 0, 0);
     }
 
     private void drawHeart(String difficultySelection) {
@@ -254,7 +303,7 @@ public class Drawscillate extends PApplet {
         graphics.strokeWeight(strokeWeight);
         graphics.beginShape();
         heartCheckPoints = new int [5][3];
-        final int x1 = width / 2;
+        final int x1 = applet.width / 2;
         final int halfHeartWidth = 500;
         final int y1 = 100;
         final int y2 = -50;
@@ -270,87 +319,33 @@ public class Drawscillate extends PApplet {
         insertCheckPoint(474, 158, 2, heartCheckPoints);
         insertCheckPoint(252, 481, 3, heartCheckPoints);
         insertCheckPoint(47, 219, 4, heartCheckPoints);
-        shapeChosen = 1;
         startPointRecorded =false;
-        image(graphics, 0, 0);
+        applet.image(graphics, 0, 0);
+    }
+
+    /**
+     * Create the checkpoint array for the given figure
+     * @param x The x coordinate
+     * @param y The y coordinate
+     * @param i The index of the coordinate
+     * @param checkpoints The data structure into which the checkpoints should be recorded
+     */
+    private void insertCheckPoint(int x, int y, int i, int[][] checkpoints) {
+        checkpoints[i][0] = x;
+        checkpoints[i][1] = y;
+        checkpoints[i][2] = 0;
     }
 
     private int getStrokeWeight(String difficultySelection) {
-        switch (difficultySelection){
+        switch (difficultySelection) {
             case "Hard":
                 return 10;
-            case "Medium":
+            case "Normal":
                 return 25;
             case "Easy":
                 return 50;
-        }return 10;
-    }
-
-    private void replayOption(String string){
-        int replay = showConfirmDialog(null, "Wanna Replay?", string, YES_NO_OPTION);
-        if (replay == 0)
-            System.out.println("REPLAY");
-        if (replay == 1)
-            System.out.println("EXIT");
-        getRootFrame().dispose();
-        System.out.println(replay);
-    }
-
-
-    public void draw() {
-        // Map mouseY from 0 to 1
-        float yoffset = map(mouseY, 0, height, 0, 1);
-        // Map mouseY logarithmically to 150 - 1150 to create a base frequency range
-        float frequency = pow(1000, yoffset) + 150;
-        // Use mouseX mapped from -0.5 to 0.5 as a detune argument
-        float detune = map(mouseX, 0, width, -0.5f, 0.5f);
-
-        for (int i = 0; i < numSines; i++) {
-            sineFreq[i] = frequency * (i + 1 * detune);
-            // Set the frequencies for all oscillators
-            sineWaves[i].freq(sineFreq[i]);
         }
-
-        if (mousePressed) {
-            stroke(redColor, greenColor, blueColor);
-            strokeWeight(5);
-            
-            if (!gameOver && selectionComplete) {
-                line(mouseX, mouseY, pmouseX, pmouseY);
-                hasLineReachedCheckPoint();
-                if (!startPointRecorded) {
-                    startPointX = mouseX;
-                    startPointY = mouseY;
-                    startPointRecorded = true;
-                    System.out.println("Start x :" + startPointX);
-                    System.out.println("Start y :" + startPointY);
-                }
-            }
-
-            if (shapeChosen == 1) {
-                pixelsFrame = graphics.get().pixels;
-                red = red(pixelsFrame[mouseX + mouseY * width]);
-                green = green(pixelsFrame[mouseX + mouseY * width]);
-                blue = blue(pixelsFrame[mouseX + mouseY * width]);
-                if (red != 255.0 && blue != 255.0 && green != 255) {
-                    gameOver = true;
-                    playSound("lose.wav");
-                    replayOption("Better luck next time!");
-                }
-            }
-        }
-        if (selectionComplete) {
-            if (allCheckPointsReached() && startReached()) {
-                playSound("win.wav");
-                System.out.println("Game successfully completed");
-                replayOption("Congratulations! You Won!");
-            }
-        }
-
-        if (keyPressed) {
-            customizeLine.setKey(key);
-            customizeLine.initialize();
-        }
+        return 10;
     }
     
     private void changeCursorAndColor(String resourceName, int redColor, int greenColor, int blueColor) {
@@ -360,32 +355,34 @@ public class Drawscillate extends PApplet {
                 .map("/"::concat)
                 .map(getClass()::getResource)
                 .map(URL::getFile)
-                .map(this::loadImage);
+                .map(applet::loadImage);
         if (imageOptional.isPresent()) {
-            cursor(imageOptional.get());
+            applet.cursor(imageOptional.get());
         } else {
-            cursor(HAND);
+            applet.cursor(HAND);
         }
         this.redColor = redColor;
         this.greenColor = greenColor;
         this.blueColor = blueColor;
     }
 
-    private void playSound(String s) {
-        try {
-            Clip clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(getClass().getResource("/" + s)));
-            clip.start();
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
-        }
-    }
+    
 
     /**
      * @return If the start point been visited again
      */
     private boolean startReached() {
-        return isPointInCircle(startPointX, startPointY, mouseX, mouseY,100) == 1;
+        return isPointInCircle(startPointX, startPointY, applet.mouseX, applet.mouseY,100) == 1;
+    }
+    
+    private void replayOption(String string){
+        int replay = showConfirmDialog(null, "Wanna Replay?", string, YES_NO_OPTION);
+        if (replay == 0)
+            System.out.println("REPLAY");
+        if (replay == 1)
+            System.out.println("EXIT");
+        getRootFrame().dispose();
+        System.out.println(replay);
     }
 
     /**
@@ -419,49 +416,30 @@ public class Drawscillate extends PApplet {
        if (shapeSelection == "Star") {
            for (int i =0 ;i <10 ;i++) {
               if (starCheckPoints[i][2] != 1) { 
-               starCheckPoints[i][2] = isPointInCircle(starCheckPoints[i][0],starCheckPoints[i][1],mouseX,mouseY,strokeWeight*strokeWeight);
+               starCheckPoints[i][2] = isPointInCircle(starCheckPoints[i][0],starCheckPoints[i][1],applet.mouseX,applet.mouseY,strokeWeight*strokeWeight);
               }
            }
        } else if (shapeSelection == "Heart") {
            for (int i =0 ;i <5 ;i++) {
                if (heartCheckPoints[i][2] != 1) { 
-                   heartCheckPoints[i][2] = isPointInCircle(heartCheckPoints[i][0],heartCheckPoints[i][1],mouseX,mouseY,strokeWeight*strokeWeight);
+                   heartCheckPoints[i][2] = isPointInCircle(heartCheckPoints[i][0],heartCheckPoints[i][1],applet.mouseX,applet.mouseY,strokeWeight*strokeWeight);
                }
             }
         }
     }
 
     /**
-    * 
-    * Function name - isPointInCircle
-    * Description   - check if point is within circle with centre i ,j
-    * @param     - i,j,mouseX,mouseY
-    * @return        - int
-    */
+     *
+     * Function name - isPointInCircle
+     * Description   - check if point is within circle with centre i ,j
+     * @param     - i,j,mouseX,mouseY
+     * @return        - int
+     */
     private int isPointInCircle(int i, int j, int mouseX, int mouseY, int radius) {
-       int distance = (i-mouseX)*(i-mouseX)+(j-mouseY)*(j-mouseY); 
-         if (distance <= radius) {
-               return 1;
-         }
-        return 0;
-    }
-
-    public static void main(String[] args) {
-        String[] processingArgs = { "MySketch" };
-        Drawscillate mySketch = new Drawscillate();
-        PApplet.runSketch(processingArgs, mySketch);
-    }
-
-    public void mouseDragged(){
-        if(selectionComplete) {
-            pixelsFrame = graphics.get().pixels;
-            red = red(pixelsFrame[mouseX + mouseY * width]);
-            green = green(pixelsFrame[mouseX + mouseY * width]);
-            blue = blue(pixelsFrame[mouseX + mouseY * width]);
-            if (red == 255.0 && blue == 255.0 && green == 255) {
-                traceX.add(mouseX);
-                traceY.add(mouseY);
-            }
+        int distance = (i-mouseX)*(i-mouseX)+(j-mouseY)*(j-mouseY);
+        if (distance <= radius) {
+            return 1;
         }
+        return 0;
     }
 }
