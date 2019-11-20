@@ -9,6 +9,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ import static processing.core.PConstants.CLOSE;
 import static processing.core.PConstants.HAND;
 
 public class GameScreen implements IScreen, OptionsScreenObserver {
-
     private PApplet applet;
     private String difficultySelection;
     private String shapeSelection;
@@ -47,9 +47,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     private ArrayList traceX = new ArrayList();
     private ArrayList traceY = new ArrayList();
     private boolean firstTime = true;
-
     CustomizeLine customizeLine;
-
     IColorCommand showRedColor;
     IColorCommand showYellowColor;
     IColorCommand showGreenColor;
@@ -67,7 +65,6 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
             // Calculate the amplitude for each oscillator
             double sineVolume = (1.0 / numSines) / (i + 1);
             // Create the oscillators
-
             sineWaves[i] = new SinOsc(applet);
             // Start Oscillators
             sineWaves[i].play();
@@ -173,8 +170,29 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         }
 
         if (applet.keyPressed) {
-            customizeLine.setKey(applet.key);
-            customizeLine.initialize();
+            switch (applet.key) {
+            case 'r':
+                changeCursorAndColor("apple.png", 255, 0, 0);
+                break;
+            case 'b':
+                changeCursorAndColor("water.png", 0, 0, 255);
+                break;
+            case 'g':
+                changeCursorAndColor("grapes.png", 0, 255, 0);
+                break;
+            case ' ':
+                changeCursorAndColor(null, 0, 0, 0);
+                break;
+            case 'o':
+                changeCursorAndColor("orange.png", 255, 165, 0);
+                break;
+            case 'p':
+                changeCursorAndColor("eggplant.png", 147, 112, 219);
+                break;
+            case 'y':
+                changeCursorAndColor("banana.png", 255, 255, 51);
+                break;
+            }
         }
     }
 
@@ -379,8 +397,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         return 0;
     }
 
-    /*
-     * @param key Various keyboard keys to change color
+    /**
+     * @param key    Various keyboard keys to change color
      * 
      * @param icolor map keys to their corresponding menu
      */
@@ -388,18 +406,18 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         customizeLine.setColorItem(key, icolor);
     }
 
-    /*
+    /**
      * Set Receivers for ColorCommand
      * 
-     * @param m set a receiver for command
+     * @param m            set a receiver for command
      * 
      * @param resourceName name of image to be loaded
      * 
-     * @param redColor red pixels
+     * @param redColor     red pixels
      * 
-     * @param redColor green pixels
+     * @param redColor     green pixels
      * 
-     * @param redColor blue pixels
+     * @param redColor     blue pixels
      */
     private void setReceivers(IColorCommand m, String resourceName, int redColor, int greenColor, int blueColor) {
         m.setReceiver(new IColorReceiver() {
@@ -410,7 +428,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         });
     }
 
-    /*
+    /**
      * create command to be mapped to options
      */
     private void initializeCommands() {
