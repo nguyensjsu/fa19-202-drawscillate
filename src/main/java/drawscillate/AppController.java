@@ -2,18 +2,30 @@ package drawscillate;
 
 import processing.core.PApplet;
 
+
 public class AppController extends PApplet implements WelcomeScreenObserver, OptionsScreenObserver {
     private static AppController appController;
     private IScreen welcomeScreen;
     private IScreen optionsScreen;
     private IScreen gameScreen;
     private IScreen current;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public static void main(String[] args) {
         String[] processingArgs = {"MySketch"};
         AppController mySketch = AppController.getInstance();
         PApplet.runSketch(processingArgs, mySketch);
     }
+
+
     
     /**
      * Get Singleton Instance

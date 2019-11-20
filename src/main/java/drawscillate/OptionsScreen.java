@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 
+import static processing.core.PConstants.CENTER;
 import static processing.core.PConstants.LEFT;
 
 public class OptionsScreen implements IScreen, CallbackListener {
@@ -21,17 +22,19 @@ public class OptionsScreen implements IScreen, CallbackListener {
     private String difficultySelection;
     private String shapeSelection;
     private Collection<OptionsScreenObserver> optionsScreenObservers = new HashSet<>();
+    private AppController app;
 
     OptionsScreen(PApplet applet) {
         this.applet = applet;
         controlP5 = new ControlP5(applet);
+        app = AppController.getInstance();
         // create a DropdownList
         d1 = controlP5
             .addDropdownList("Difficulty")
             .onChange(this)
             .setOpen(false)
             .setBarVisible(false)
-            .setPosition(270, 100)
+            .setPosition(270, 200)
             .setSize(200, 100)
             .setHeight(300)
             .setBarHeight(30)
@@ -44,7 +47,7 @@ public class OptionsScreen implements IScreen, CallbackListener {
             .onChange(this)
             .setOpen(false)
             .setBarVisible(false)
-            .setPosition(30, 100)
+            .setPosition(30, 200)
             .setSize(200, 100)
             .setHeight(300)
             .setBarHeight(30)
@@ -77,7 +80,13 @@ public class OptionsScreen implements IScreen, CallbackListener {
 
     @Override
     public void display() {
+        //Text
         applet.background(74, 73, 70);
+        applet.textAlign(CENTER);
+        applet.fill(237, 97, 21);
+        applet.textSize(20);
+        applet.text("Hi "+app.getName()+"! Select your Preferences!", applet.width / 2f, applet.width / 5f);
+
         // draw the button
         applet.textAlign(LEFT);
         applet.textSize(25);
