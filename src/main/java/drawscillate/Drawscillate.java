@@ -69,10 +69,13 @@ public class Drawscillate extends PApplet {
         colorItem('o', showOrangeColor);
     }
     
+    /*
+     * @param key Various keyboard keys to change color
+     * @param icolor map keys to their coressponding menu
+     */
     private void colorItem(char key, IColorCommand icolor) {
         customizeLine.setColorItem(key, icolor);
     }
-    
     
     private void setReceivers(IColorCommand m, String resourceName, int redColor, int greenColor, int blueColor ) {
         m.setReceiver(new IColorReceiver() {
