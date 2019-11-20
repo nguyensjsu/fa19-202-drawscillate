@@ -265,7 +265,7 @@ public class Drawscillate extends PApplet {
                 if (red != 255.0 && blue != 255.0 && green != 255) {
                     gameOver = true;
                     playSound("lose.wav");
-                    replayOption("You Loser!");
+                    replayOption("Better luck next time!");
                 }
             }
         }
@@ -273,7 +273,7 @@ public class Drawscillate extends PApplet {
             if (allCheckPointsReached() && startReached()) {
                 playSound("win.wav");
                 System.out.println("Game successfully completed");
-                replayOption("Congrats Kid! You Won!");
+                replayOption("Congratulations! You Won!");
             }
         }
 
