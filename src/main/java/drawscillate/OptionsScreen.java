@@ -36,7 +36,7 @@ public class OptionsScreen implements IScreen, CallbackListener {
             .setHeight(300)
             .setBarHeight(30)
             .setItemHeight(30)
-            .addItems(Arrays.asList("Easy", "Medium", "Hard"));
+            .addItems(Arrays.asList("Easy", "Normal", "Hard"));
 
         // create a second DropdownList
         d2 = controlP5
