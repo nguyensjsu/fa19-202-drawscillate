@@ -71,12 +71,20 @@ public class Drawscillate extends PApplet {
     
     /*
      * @param key Various keyboard keys to change color
-     * @param icolor map keys to their coressponding menu
+     * @param icolor map keys to their corresponding menu
      */
     private void colorItem(char key, IColorCommand icolor) {
         customizeLine.setColorItem(key, icolor);
     }
     
+    /*
+     * Set Receivers for ColorCommand
+     * @param m set a receiver for command
+     * @param resourceName name of image to be loaded
+     * @param redColor red pixels
+     * @param redColor green pixels
+     * @param redColor blue pixels
+     */
     private void setReceivers(IColorCommand m, String resourceName, int redColor, int greenColor, int blueColor ) {
         m.setReceiver(new IColorReceiver() {
             /** Command Action */
@@ -86,6 +94,9 @@ public class Drawscillate extends PApplet {
         });
     }
     
+    /*
+     *  create command to be mapped to options
+     */
     private void initializeCommands() {
         showRedColor = new ColorCommand();
         showYellowColor = new ColorCommand(); 
@@ -312,10 +323,8 @@ public class Drawscillate extends PApplet {
         }
 
         if (keyPressed) {
-            
             customizeLine.setKey(key);
             customizeLine.initialize();
-         
         }
     }
     
