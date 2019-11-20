@@ -186,10 +186,16 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
 
     private void replayOption(String string){
         int replay = showConfirmDialog(null, "Wanna Replay?", string, YES_NO_OPTION);
-        if (replay == 0)
+        if (replay == 0) {
             System.out.println("REPLAY");
-        if (replay == 1)
+            applet.setup();
+            return;
+        }
+        if (replay == 1) {
             System.out.println("EXIT");
+            applet.exit();
+            return;
+        }
         getRootFrame().dispose();
         System.out.println(replay);
     }
