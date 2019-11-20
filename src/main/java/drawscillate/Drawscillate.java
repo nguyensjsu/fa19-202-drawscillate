@@ -42,6 +42,11 @@ public class Drawscillate extends PApplet {
     
     IColorCommand showRedColor;
     IColorCommand showYellowColor;
+    IColorCommand showGreenColor;
+    IColorCommand showBlueColor;
+    IColorCommand showOrangeColor;
+    IColorCommand showPurpleColor;
+    IColorCommand showBlackColor;
     
     public Drawscillate() {
         customizeLine = new CustomizeLine();
@@ -49,9 +54,19 @@ public class Drawscillate extends PApplet {
         initializeCommands();
         setReceivers(showRedColor,"apple.png",255, 0, 0);
         setReceivers(showYellowColor, "banana.png",255,255,51);
+        setReceivers(showGreenColor,"grapes.png",0, 255, 0);
+        setReceivers(showBlueColor, "water.png",0,0,255);
+        setReceivers(showOrangeColor, "orange.png",255,165,0);
+        setReceivers(showPurpleColor,"eggplant.png",147, 112, 219);
+        setReceivers(showBlackColor, null, 0,0,0);
         
         colorItem('r', showRedColor);
         colorItem('y', showYellowColor);
+        colorItem('b', showBlueColor);
+        colorItem('p', showPurpleColor);
+        colorItem('g', showGreenColor);
+        colorItem(' ', showBlackColor);
+        colorItem('o', showOrangeColor);
     }
     
     private void colorItem(char key, IColorCommand icolor) {
@@ -70,7 +85,12 @@ public class Drawscillate extends PApplet {
     
     private void initializeCommands() {
         showRedColor = new ColorCommand();
-        showYellowColor = new ColorCommand();        
+        showYellowColor = new ColorCommand(); 
+        showBlueColor = new ColorCommand();
+        showPurpleColor = new ColorCommand();
+        showGreenColor = new ColorCommand();
+        showBlackColor = new ColorCommand();
+        showOrangeColor = new ColorCommand();
     }
 
     public void settings() {
@@ -291,31 +311,8 @@ public class Drawscillate extends PApplet {
         if (keyPressed) {
             
             customizeLine.setKey(key);
-            customizeLine.initialize(key);
-            
-//            switch (key) {
-//            case 'r':
-//                changeCursorAndColor("apple.png", 255, 0, 0);
-//                break;
-//            case 'b':
-//                changeCursorAndColor("water.png", 0, 0, 255);
-//                break;
-//            case 'g':
-//                changeCursorAndColor("grapes.png", 0, 255, 0);
-//                break;
-//            case ' ':
-//                changeCursorAndColor(null, 0, 0, 0);
-//                break;
-//            case 'o':
-//                changeCursorAndColor("orange.png", 255, 165, 0);
-//                break;
-//            case 'p':
-//                changeCursorAndColor("eggplant.png", 147, 112, 219);
-//                break;
-//            case 'y':
-//                changeCursorAndColor("banana.png", 255, 255, 51);
-//                break;
-//            }
+            customizeLine.initialize();
+         
         }
     }
     
