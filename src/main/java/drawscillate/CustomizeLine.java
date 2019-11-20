@@ -24,14 +24,25 @@ public class CustomizeLine {
 
     }
 
+    /*
+     * set the value of key pressed
+     * @param key the keyboard key pressed
+     */
     public void setKey(char key) {
         this.key = key;
     }
 
+    /*
+     * set the value of key pressed
+     * @param key the keyboard key pressed
+     */
     public char getKey() {
         return key;
     }
 
+    /*
+     * invoke a function based on keyboard character
+     */
     public void initialize() {
         switch (key) {
         case 'r':
@@ -58,6 +69,11 @@ public class CustomizeLine {
         }
     }
 
+    /*
+     * map options to command
+     * @param key pressed on keyboard
+     * @param color set color command to key
+     */
     public void setColorItem(char key, IColorCommand color) {
 
         switch (key) {
