@@ -7,6 +7,7 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.sound.SinOsc;
+
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -36,6 +37,41 @@ public class Drawscillate extends PApplet {
     int [][] heartCheckPoints;
     private PGraphics graphics;
     private boolean selectionComplete = false;
+    
+    CustomizeLine customizeLine;
+    
+    IColorCommand showRedColor;
+    IColorCommand showYellowColor;
+    
+    public Drawscillate() {
+        customizeLine = new CustomizeLine();
+        
+        initializeCommands();
+        setReceivers(showRedColor,"apple.png",255, 0, 0);
+        setReceivers(showYellowColor, "banana.png",255,255,51);
+        
+        colorItem('r', showRedColor);
+        colorItem('y', showYellowColor);
+    }
+    
+    private void colorItem(char key, IColorCommand icolor) {
+        customizeLine.setColorItem(key, icolor);
+    }
+    
+    
+    private void setReceivers(IColorCommand m, String resourceName, int redColor, int greenColor, int blueColor ) {
+        m.setReceiver(new IColorReceiver() {
+            /** Command Action */
+            public void doAction() {
+                changeCursorAndColor(resourceName, redColor, greenColor, blueColor);
+            }
+        });
+    }
+    
+    private void initializeCommands() {
+        showRedColor = new ColorCommand();
+        showYellowColor = new ColorCommand();        
+    }
 
     public void settings() {
         size(500, 500);
@@ -253,30 +289,52 @@ public class Drawscillate extends PApplet {
         }
 
         if (keyPressed) {
-            switch (key) {
-            case 'r':
-                changeCursorAndColor("apple.png", 255, 0, 0);
-                break;
-            case 'b':
-                changeCursorAndColor("water.png", 0, 0, 255);
-                break;
-            case 'g':
-                changeCursorAndColor("grapes.png", 0, 255, 0);
-                break;
-            case ' ':
-                changeCursorAndColor(null, 0, 0, 0);
-                break;
-            case 'o':
-                changeCursorAndColor("orange.png", 255, 165, 0);
-                break;
-            case 'p':
-                changeCursorAndColor("eggplant.png", 147, 112, 219);
-                break;
-            case 'y':
-                changeCursorAndColor("banana.png", 255, 255, 51);
-                break;
-            }
+            
+            customizeLine.setKey(key);
+            customizeLine.initialize(key);
+            
+//            switch (key) {
+//            case 'r':
+//                changeCursorAndColor("apple.png", 255, 0, 0);
+//                break;
+//            case 'b':
+//                changeCursorAndColor("water.png", 0, 0, 255);
+//                break;
+//            case 'g':
+//                changeCursorAndColor("grapes.png", 0, 255, 0);
+//                break;
+//            case ' ':
+//                changeCursorAndColor(null, 0, 0, 0);
+//                break;
+//            case 'o':
+//                changeCursorAndColor("orange.png", 255, 165, 0);
+//                break;
+//            case 'p':
+//                changeCursorAndColor("eggplant.png", 147, 112, 219);
+//                break;
+//            case 'y':
+//                changeCursorAndColor("banana.png", 255, 255, 51);
+//                break;
+//            }
         }
+    }
+    
+    private void changeCursorAndColor(String resourceName, int redColor, int greenColor, int blueColor) {
+        final Optional<PImage> imageOptional =
+            Optional
+                .ofNullable(resourceName)
+                .map("/"::concat)
+                .map(getClass()::getResource)
+                .map(URL::getFile)
+                .map(this::loadImage);
+        if (imageOptional.isPresent()) {
+            cursor(imageOptional.get());
+        } else {
+            cursor(HAND);
+        }
+        this.redColor = redColor;
+        this.greenColor = greenColor;
+        this.blueColor = blueColor;
     }
 
     /**
@@ -346,24 +404,6 @@ public class Drawscillate extends PApplet {
                return 1;
          }
         return 0;
-    }
-
-    private void changeCursorAndColor(String resourceName, int redColor, int greenColor, int blueColor) {
-        final Optional<PImage> imageOptional =
-            Optional
-                .ofNullable(resourceName)
-                .map("/"::concat)
-                .map(getClass()::getResource)
-                .map(URL::getFile)
-                .map(this::loadImage);
-        if (imageOptional.isPresent()) {
-            cursor(imageOptional.get());
-        } else {
-            cursor(HAND);
-        }
-        this.redColor = redColor;
-        this.greenColor = greenColor;
-        this.blueColor = blueColor;
     }
 
     public static void main(String[] args) {
