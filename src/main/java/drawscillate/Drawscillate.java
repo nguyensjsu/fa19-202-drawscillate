@@ -8,9 +8,11 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.sound.SinOsc;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import static javax.swing.JOptionPane.*;
 
 public class Drawscillate extends PApplet {
     private SinOsc[] sineWaves; // Array of sines
@@ -36,6 +38,8 @@ public class Drawscillate extends PApplet {
     int [][] heartCheckPoints;
     private PGraphics graphics;
     private boolean selectionComplete = false;
+    private ArrayList traceX = new ArrayList();
+    private ArrayList traceY = new ArrayList();
 
     public void settings() {
         size(500, 500);
@@ -72,6 +76,7 @@ public class Drawscillate extends PApplet {
                 .addItems(shapes);
     }
 
+    //Name of the function is with underscore(and not camelCase) as processing sets the name to the function to dropdown head
     public void select_difficulty(int n){
         cursor(HAND);
         CColor c = new CColor();
@@ -92,6 +97,7 @@ public class Drawscillate extends PApplet {
         }
     }
 
+    //Name of the function is with underscore(and not camelCase) as processing sets the name to the function to dropdown head
     public void select_shape(int n) {
         cursor(HAND);
         CColor c = new CColor();
@@ -205,6 +211,16 @@ public class Drawscillate extends PApplet {
         }return 10;
     }
 
+    private void replayOption(String string){
+        int replay = showConfirmDialog(null, "Wanna Replay?", string, YES_NO_OPTION);
+        if (replay == 0)
+            System.out.println("REPLAY");
+        if (replay == 1)
+            System.out.println("EXIT");
+        getRootFrame().dispose();
+        System.out.println(replay);
+    }
+
 
     public void draw() {
         // Map mouseY from 0 to 1
@@ -243,12 +259,14 @@ public class Drawscillate extends PApplet {
                 blue = blue(pixelsFrame[mouseX + mouseY * width]);
                 if (red != 255.0 && blue != 255.0 && green != 255) {
                     gameOver = true;
+                    replayOption("You Loser!");
                 }
             }
         }
         if (selectionComplete) {
             if (allCheckPointsReached() && startReached()) {
                 System.out.println("Game successfully completed");
+                replayOption("Congrats Kid! You Won!");
             }
         }
 
@@ -283,11 +301,7 @@ public class Drawscillate extends PApplet {
      * @return If the start point been visited again
      */
     private boolean startReached() {
-
-        
         return isPointInCircle(startPointX, startPointY, mouseX, mouseY,100) == 1;
-
-        
     }
 
     /**
@@ -370,5 +384,18 @@ public class Drawscillate extends PApplet {
         String[] processingArgs = { "MySketch" };
         Drawscillate mySketch = new Drawscillate();
         PApplet.runSketch(processingArgs, mySketch);
+    }
+
+    public void mouseDragged(){
+        if(selectionComplete) {
+            pixelsFrame = graphics.get().pixels;
+            red = red(pixelsFrame[mouseX + mouseY * width]);
+            green = green(pixelsFrame[mouseX + mouseY * width]);
+            blue = blue(pixelsFrame[mouseX + mouseY * width]);
+            if (red == 255.0 && blue == 255.0 && green == 255) {
+                traceX.add(mouseX);
+                traceY.add(mouseY);
+            }
+        }
     }
 }
