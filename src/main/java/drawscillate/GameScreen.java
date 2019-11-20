@@ -4,12 +4,13 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.sound.SinOsc;
+
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.IOException;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -21,7 +22,6 @@ import static processing.core.PConstants.CLOSE;
 import static processing.core.PConstants.HAND;
 
 public class GameScreen implements IScreen, OptionsScreenObserver {
-    
     private PApplet applet;
     private String difficultySelection;
     private String shapeSelection;
@@ -43,13 +43,10 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     int [][] checkpoints;
     private PGraphics graphics;
     private boolean selectionComplete = false;
-  
     private ArrayList traceX = new ArrayList();
     private ArrayList traceY = new ArrayList();
     private boolean firstTime = true;
-    
     CustomizeLine customizeLine;
-    
     IColorCommand showRedColor;
     IColorCommand showYellowColor;
     IColorCommand showGreenColor;
@@ -57,29 +54,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     IColorCommand showOrangeColor;
     IColorCommand showPurpleColor;
     IColorCommand showBlackColor;
-    
-    GameScreen() 
-    {
-        customizeLine = new CustomizeLine();
-        
-        initializeCommands();
-        setReceivers(showRedColor,"apple.png",255, 0, 0);
-        setReceivers(showYellowColor, "banana.png",255,255,51);
-        setReceivers(showGreenColor,"grapes.png",0, 255, 0);
-        setReceivers(showBlueColor, "water.png",0,0,255);
-        setReceivers(showOrangeColor, "orange.png",255,165,0);
-        setReceivers(showPurpleColor,"eggplant.png",147, 112, 219);
-        setReceivers(showBlackColor, null, 0,0,0);
-        
-        colorItem('r', showRedColor);
-        colorItem('y', showYellowColor);
-        colorItem('b', showBlueColor);
-        colorItem('p', showPurpleColor);
-        colorItem('g', showGreenColor);
-        colorItem(' ', showBlackColor);
-        colorItem('o', showOrangeColor);
-    }
-    
+
     GameScreen(PApplet applet) {
         this.applet = applet;
         sineWaves = new SinOsc[numSines]; // Initialize the oscillators
@@ -89,61 +64,37 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
             // Calculate the amplitude for each oscillator
             double sineVolume = (1.0 / numSines) / (i + 1);
             // Create the oscillators
-            
             sineWaves[i] = new SinOsc(applet);
             // Start Oscillators
             sineWaves[i].play();
             // Set the amplitudes for all oscillators
             sineWaves[i].amp((float) sineVolume);
         }
-    }
-    
-    /*
-     * @param key Various keyboard keys to change color
-     * @param icolor map keys to their corresponding menu
-     */
-    private void colorItem(char key, IColorCommand icolor) {
-        customizeLine.setColorItem(key, icolor);
-    }
-    
-    /*
-     * Set Receivers for ColorCommand
-     * @param m set a receiver for command
-     * @param resourceName name of image to be loaded
-     * @param redColor red pixels
-     * @param redColor green pixels
-     * @param redColor blue pixels
-     */
-    private void setReceivers(IColorCommand m, String resourceName, int redColor, int greenColor, int blueColor ) {
-        m.setReceiver(new IColorReceiver() {
-            /** Command Action */
-            public void doAction() {
-                changeCursorAndColor(resourceName, redColor, greenColor, blueColor);
-            }
-        });
-    }
-    
-    /*
-     *  create command to be mapped to options
-     */
-    private void initializeCommands() {
-        showRedColor = new ColorCommand();
-        showYellowColor = new ColorCommand(); 
-        showBlueColor = new ColorCommand();
-        showPurpleColor = new ColorCommand();
-        showGreenColor = new ColorCommand();
-        showBlackColor = new ColorCommand();
-        showOrangeColor = new ColorCommand();
+        
+        customizeLine = new CustomizeLine();
+
+        initializeCommands();
+        setReceivers(showRedColor, "apple.png", 255, 0, 0);
+        setReceivers(showYellowColor, "banana.png", 255, 255, 51);
+        setReceivers(showGreenColor, "grapes.png", 0, 255, 0);
+        setReceivers(showBlueColor, "water.png", 0, 0, 255);
+        setReceivers(showOrangeColor, "orange.png", 255, 165, 0);
+        setReceivers(showPurpleColor, "eggplant.png", 147, 112, 219);
+        setReceivers(showBlackColor, null, 0, 0, 0);
+
+        colorItem('r', showRedColor);
+        colorItem('y', showYellowColor);
+        colorItem('b', showBlueColor);
+        colorItem('p', showPurpleColor);
+        colorItem('g', showGreenColor);
+        colorItem(' ', showBlackColor);
+        colorItem('o', showOrangeColor);
     }
 
     @Override
     public void mousePressed() {
         if (selectionComplete) {
-            pixelsFrame = graphics.get().pixels;
-            red = applet.red(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-            green = applet.green(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-            blue = applet.blue(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-            if (red == 255.0 && blue == 255.0 && green == 255) {
+            if (whiteBackground()) {
                 traceX.add(applet.mouseX);
                 traceY.add(applet.mouseY);
             }
@@ -195,11 +146,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
                 }
             }
 
-            pixelsFrame = graphics.get().pixels;
-            red = applet.red(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-            green = applet.green(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-            blue = applet.blue(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-            if (red != 255.0 && blue != 255.0 && green != 255) {
+            if (!whiteBackground()) {
                 gameOver = true;
                 playSound("lose.wav");
                 replayOption("Better luck next time!");
@@ -214,29 +161,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         }
 
         if (applet.keyPressed) {
-            switch (applet.key) {
-                case 'r':
-                    changeCursorAndColor("apple.png", 255, 0, 0);
-                    break;
-                case 'b':
-                    changeCursorAndColor("water.png", 0, 0, 255);
-                    break;
-                case 'g':
-                    changeCursorAndColor("grapes.png", 0, 255, 0);
-                    break;
-                case ' ':
-                    changeCursorAndColor(null, 0, 0, 0);
-                    break;
-                case 'o':
-                    changeCursorAndColor("orange.png", 255, 165, 0);
-                    break;
-                case 'p':
-                    changeCursorAndColor("eggplant.png", 147, 112, 219);
-                    break;
-                case 'y':
-                    changeCursorAndColor("banana.png", 255, 255, 51);
-                    break;
-            }
+            customizeLine.setKey(applet.key);
+            customizeLine.initialize();
         }
     }
 
@@ -250,10 +176,53 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         }
     }
 
+    /**
+     * @return If the start point been visited again
+     */
+    private boolean startReached() {
+        return isPointInCircle(startPointX, startPointY, applet.mouseX, applet.mouseY,100) == 1;
+    }
+
+    private void replayOption(String string){
+        int replay = showConfirmDialog(null, "Wanna Replay?", string, YES_NO_OPTION);
+        if (replay == 0) {
+            System.out.println("REPLAY");
+            applet.setup();
+            return;
+        }
+        if (replay == 1) {
+            System.out.println("EXIT");
+            applet.exit();
+            return;
+        }
+        getRootFrame().dispose();
+        System.out.println(replay);
+    }
+
     @Override
     public void update2(String difficultySelection, String shapeSelection) {
         this.difficultySelection = difficultySelection;
         this.shapeSelection = shapeSelection;
+    }
+
+    /**
+     * @return If all check points have been reached
+     */
+    private boolean allCheckPointsReached() {
+        if (shapeSelection.equals("Star")) {
+            for(int i =0;i<10;i++) {
+                if(starCheckPoints[i][2] !=1) {
+                    return false;
+                }
+            }
+        } else if (shapeSelection.equals("Heart")) {
+            for(int i =0;i<5;i++) {
+                if(heartCheckPoints[i][2] !=1) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private void drawStar(String difficultySelection) {
@@ -346,7 +315,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         }
         return 10;
     }
-    
+
     private void changeCursorAndColor(String resourceName, int redColor, int greenColor, int blueColor) {
         final Optional<PImage> imageOptional =
             Optional
@@ -365,28 +334,13 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         this.blueColor = blueColor;
     }
 
-    
-
     /**
-     * @return If the start point been visited again
-     */
-    private boolean startReached() {
-        return isPointInCircle(startPointX, startPointY, applet.mouseX, applet.mouseY,100) == 1;
-    }
-    
-    private void replayOption(String string){
-        int replay = showConfirmDialog(null, "Wanna Replay?", string, YES_NO_OPTION);
-        if (replay == 0)
-            System.out.println("REPLAY");
-        if (replay == 1)
-            System.out.println("EXIT");
-        getRootFrame().dispose();
-        System.out.println(replay);
-    }
-
-    /**
-     * @return If all check points have been reached
-     */
+     *
+     * Function name - hasLineReachedCheckPoint
+     * Description   - check if current point is in the vicinity of some checkpoint
+     * @param     - mouseX,mouseY
+     * @return        - void
+  
     private boolean allCheckPointsReached() {
         
         for(int i=0;i<checkpoints.length;i++) {
@@ -427,5 +381,65 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
             return 1;
         }
         return 0;
+    }
+    
+    /**
+     * @param key    Various keyboard keys to change color
+     * 
+     * @param icolor map keys to their corresponding menu
+     */
+    private void colorItem(char key, IColorCommand icolor) {
+        customizeLine.setColorItem(key, icolor);
+    }
+    
+    /**
+     * Set Receivers for ColorCommand
+     * 
+     * @param m            set a receiver for command
+     * 
+     * @param resourceName name of image to be loaded
+     * 
+     * @param redColor     red pixels
+     * 
+     * @param redColor     green pixels
+     * 
+     * @param redColor     blue pixels
+     */
+    private void setReceivers(IColorCommand m, String resourceName, int redColor, int greenColor, int blueColor) {
+        m.setReceiver(new IColorReceiver() {
+            /** Command Action */
+            public void doAction() {
+                changeCursorAndColor(resourceName, redColor, greenColor, blueColor);
+            }
+        });
+    }
+
+    /**
+     * create command to be mapped to options
+     */
+    private void initializeCommands() {
+        showRedColor = new ColorCommand();
+        showYellowColor = new ColorCommand();
+        showBlueColor = new ColorCommand();
+        showPurpleColor = new ColorCommand();
+        showGreenColor = new ColorCommand();
+        showBlackColor = new ColorCommand();
+        showOrangeColor = new ColorCommand();
+    }
+
+    /**
+     * Function name - whiteBackgroud
+     * Description   - check if bg colour is white or not
+     * @return        - boolean
+     */
+    private boolean whiteBackground(){
+        pixelsFrame = graphics.get().pixels;
+        red = applet.red(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+        green = applet.green(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+        blue = applet.blue(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+        if(red == 255 && green == 255 && blue == 255)
+            return true;
+        else
+            return false;
     }
 }
