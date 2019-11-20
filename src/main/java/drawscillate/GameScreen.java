@@ -1,8 +1,6 @@
 package drawscillate;
 
-import controlP5.ControlP5;
 import processing.core.PApplet;
-import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.sound.SinOsc;
@@ -40,7 +38,6 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     boolean startPointRecorded = false;
     int startPointX;
     int startPointY;
-    int shapeChosen = 0;
     int strokeWeight;
     int [][] starCheckPoints;
     int [][] heartCheckPoints;
@@ -85,6 +82,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     public void display() {
         if (firstTime) {
             graphics = applet.createGraphics(500, 500);
+            selectionComplete = true;
             switch (shapeSelection) {
                 case "Star":
                     drawStar(difficultySelection);
@@ -95,16 +93,79 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
             }
             firstTime = false;
         }
+
+        // Map mouseY from 0 to 1
+        float yoffset = PApplet.map(applet.mouseY, 0, applet.height, 0, 1);
+        // Map mouseY logarithmically to 150 - 1150 to create a base frequency range
+        float frequency = PApplet.pow(1000, yoffset) + 150;
+        // Use mouseX mapped from -0.5 to 0.5 as a detune argument
+        float detune = PApplet.map(applet.mouseX, 0, applet.width, -0.5f, 0.5f);
+
+        for (int i = 0; i < numSines; i++) {
+            sineFreq[i] = frequency * (i + 1 * detune);
+            // Set the frequencies for all oscillators
+            sineWaves[i].freq(sineFreq[i]);
+        }
+
         if (applet.mousePressed) {
             applet.stroke(redColor, greenColor, blueColor);
             applet.strokeWeight(5);
-            applet.line(applet.mouseX, applet.mouseY, applet.pmouseX, applet.pmouseY);
-        }
-    }
 
-    void setup() {
-        graphics = applet.createGraphics(500, 500);
-        drawStar("Easy");
+            if (!gameOver && selectionComplete) {
+                applet.line(applet.mouseX, applet.mouseY, applet.pmouseX, applet.pmouseY);
+                hasLineReachedCheckPoint();
+                if (!startPointRecorded) {
+                    startPointX = applet.mouseX;
+                    startPointY = applet.mouseY;
+                    startPointRecorded = true;
+                    System.out.println("Start x :" + startPointX);
+                    System.out.println("Start y :" + startPointY);
+                }
+            }
+
+            pixelsFrame = graphics.get().pixels;
+            red = applet.red(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+            green = applet.green(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+            blue = applet.blue(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+            if (red != 255.0 && blue != 255.0 && green != 255) {
+                gameOver = true;
+                playSound("lose.wav");
+                replayOption("Better luck next time!");
+            }
+        }
+        if (selectionComplete) {
+            if (allCheckPointsReached() && startReached()) {
+                playSound("win.wav");
+                System.out.println("Game successfully completed");
+                replayOption("Congratulations! You Won!");
+            }
+        }
+
+        if (applet.keyPressed) {
+            switch (applet.key) {
+                case 'r':
+                    changeCursorAndColor("apple.png", 255, 0, 0);
+                    break;
+                case 'b':
+                    changeCursorAndColor("water.png", 0, 0, 255);
+                    break;
+                case 'g':
+                    changeCursorAndColor("grapes.png", 0, 255, 0);
+                    break;
+                case ' ':
+                    changeCursorAndColor(null, 0, 0, 0);
+                    break;
+                case 'o':
+                    changeCursorAndColor("orange.png", 255, 165, 0);
+                    break;
+                case 'p':
+                    changeCursorAndColor("eggplant.png", 147, 112, 219);
+                    break;
+                case 'y':
+                    changeCursorAndColor("banana.png", 255, 255, 51);
+                    break;
+            }
+        }
     }
 
     private void playSound(String s) {
@@ -222,7 +283,6 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         insertCheckPoint(474, 158, 2, heartCheckPoints);
         insertCheckPoint(252, 481, 3, heartCheckPoints);
         insertCheckPoint(47, 219, 4, heartCheckPoints);
-        shapeChosen = 1;
         startPointRecorded =false;
         applet.image(graphics, 0, 0);
     }
@@ -278,13 +338,13 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
      * @return        - void
      */
     private void hasLineReachedCheckPoint() {
-        if (shapeSelection == "Star") {
+        if (shapeSelection.equals("Star")) {
             for (int i =0 ;i <10 ;i++) {
                 if (starCheckPoints[i][2] != 1) {
                     starCheckPoints[i][2] = isPointInCircle(starCheckPoints[i][0],starCheckPoints[i][1],applet.mouseX,applet.mouseY,strokeWeight*strokeWeight);
                 }
             }
-        } else if (shapeSelection == "Heart") {
+        } else if (shapeSelection.equals("Heart")) {
             for (int i =0 ;i <5 ;i++) {
                 if (heartCheckPoints[i][2] != 1) {
                     heartCheckPoints[i][2] = isPointInCircle(heartCheckPoints[i][0],heartCheckPoints[i][1],applet.mouseX,applet.mouseY,strokeWeight*strokeWeight);
