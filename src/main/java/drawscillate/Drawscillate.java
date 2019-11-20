@@ -7,6 +7,12 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.sound.SinOsc;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -116,7 +122,6 @@ public class Drawscillate extends PApplet {
                 .setBarHeight(30)
                 .setItemHeight(30)
                 .addItems(difficulty);
-
     }
 
     private void drawStar(String difficultySelection) {
@@ -259,12 +264,14 @@ public class Drawscillate extends PApplet {
                 blue = blue(pixelsFrame[mouseX + mouseY * width]);
                 if (red != 255.0 && blue != 255.0 && green != 255) {
                     gameOver = true;
+                    playSound("lose.wav");
                     replayOption("You Loser!");
                 }
             }
         }
         if (selectionComplete) {
             if (allCheckPointsReached() && startReached()) {
+                playSound("win.wav");
                 System.out.println("Game successfully completed");
                 replayOption("Congrats Kid! You Won!");
             }
@@ -294,6 +301,16 @@ public class Drawscillate extends PApplet {
                 changeCursorAndColor("banana.png", 255, 255, 51);
                 break;
             }
+        }
+    }
+
+    private void playSound(String s) {
+        try {
+            Clip clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(getClass().getResource("/" + s)));
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
         }
     }
 
