@@ -18,7 +18,7 @@ public class AppController extends PApplet implements IScreenObserver{
         if (theApp == null) {
             theApp = new AppController();
         }
-            return theApp;
+        return theApp;
     }
     
     public void settings() {
