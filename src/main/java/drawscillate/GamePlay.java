@@ -34,11 +34,12 @@ public class GamePlay implements IScreen {
      * Touch Event
      */
     public void touch() {
+        
         //Need to implement this function
-         if(overRect(150,50)) {
-             gameScreen = 1;
-             notifyObservers();
-         }   
+        if(overRect(150,50)) {
+         gameScreen = 1;
+         notifyObservers();
+        }   
     }
     
     boolean overRect(int width, int height)  {
