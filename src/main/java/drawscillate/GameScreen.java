@@ -95,11 +95,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     @Override
     public void mousePressed() {
         if (selectionComplete) {
-            pixelsFrame = graphics.get().pixels;
-            red = applet.red(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-            green = applet.green(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-            blue = applet.blue(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-            if (red == 255.0 && blue == 255.0 && green == 255) {
+            if (whiteBackground()) {
                 traceX.add(applet.mouseX);
                 traceY.add(applet.mouseY);
             }
@@ -151,11 +147,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
                 }
             }
 
-            pixelsFrame = graphics.get().pixels;
-            red = applet.red(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-            green = applet.green(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-            blue = applet.blue(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-            if (red != 255.0 && blue != 255.0 && green != 255) {
+            if (!whiteBackground()) {
                 gameOver = true;
                 playSound("lose.wav");
                 replayOption("Better luck next time!");
@@ -417,5 +409,21 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         showGreenColor = new ColorCommand();
         showBlackColor = new ColorCommand();
         showOrangeColor = new ColorCommand();
+    }
+
+    /**
+     * Function name - whiteBackgroud
+     * Description   - check if bg colour is white or not
+     * @return        - boolean
+     */
+    private boolean whiteBackground(){
+        pixelsFrame = graphics.get().pixels;
+        red = applet.red(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+        green = applet.green(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+        blue = applet.blue(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+        if(red == 255 && green == 255 && blue == 255)
+            return true;
+        else
+            return false;
     }
 }
