@@ -2,15 +2,15 @@ package drawscillate;
 
 import processing.core.PApplet;
 
-public class AppController extends PApplet implements WelcomeScreenObserver {
+public class AppController extends PApplet implements WelcomeScreenObserver, OptionsScreenObserver {
     private static AppController appController;
     private IScreen welcomeScreen;
-    private IScreen gameOptions;
-    private IScreen gamePlay;
+    private IScreen optionsScreen;
+    private IScreen gameScreen;
     private IScreen current;
 
     public static void main(String[] args) {
-        String[] processingArgs = { "MySketch" };
+        String[] processingArgs = {"MySketch"};
         AppController mySketch = AppController.getInstance();
         PApplet.runSketch(processingArgs, mySketch);
     }
@@ -36,22 +36,42 @@ public class AppController extends PApplet implements WelcomeScreenObserver {
         welcomeScreen.attach(this);
         this.welcomeScreen = welcomeScreen;
 
-        gameOptions = new GameOptions(this);
-        gamePlay = new GamePlay(this);
+        final GameScreen gameScreen = new GameScreen(this);
+        this.gameScreen = gameScreen;
+
+        final OptionsScreen optionsScreen = new OptionsScreen(this);
+        optionsScreen.attach(this);
+        optionsScreen.attach(gameScreen);
+        this.optionsScreen = optionsScreen;
+
         current = welcomeScreen;
     }
     
     public void draw() {
-        background(74, 73, 70);
         current.display();
     }
-    
+
+    @Override
     public void mousePressed() {
-        current.touch();
+        current.mousePressed();
+    }
+
+    @Override
+    public void mouseReleased() {
+        current.mouseReleased();
     }
 
     @Override
     public void update() {
-        current = gameOptions;
+        current.willStopDisplaying();
+        current = optionsScreen;
+        current.willDisplay();
+    }
+
+    @Override
+    public void update2(String difficultySelection, String shapeSelection) {
+        current.willStopDisplaying();
+        current = gameScreen;
+        current.willDisplay();
     }
 }

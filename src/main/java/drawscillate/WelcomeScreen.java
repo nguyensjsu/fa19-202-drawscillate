@@ -3,6 +3,8 @@ package drawscillate;
 import processing.core.PApplet;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import static processing.core.PConstants.CENTER;
@@ -11,6 +13,7 @@ import static processing.core.PConstants.LEFT;
 public class WelcomeScreen implements IScreen {
     private PApplet applet;
     private final Button button;
+    private Collection<WelcomeScreenObserver> welcomeScreenObservers = new HashSet<>();
 
     WelcomeScreen(PApplet applet) {
         this.applet = applet;
@@ -18,7 +21,7 @@ public class WelcomeScreen implements IScreen {
     }
 
     @Override
-    public void touch() {
+    public void mouseReleased() {
         if (button.over()) {
             notifyAllWelcomeScreenObservers();
         }
@@ -26,6 +29,7 @@ public class WelcomeScreen implements IScreen {
 
     @Override
     public void display() {
+        applet.background(74, 73, 70);
         // draw the label
         applet.textAlign(CENTER);
         applet.fill(237, 97, 21);
@@ -39,8 +43,6 @@ public class WelcomeScreen implements IScreen {
         button.y = 400;
         button.draw();
     }
-
-    private List<WelcomeScreenObserver> welcomeScreenObservers = new ArrayList<>();
 
     void attach(WelcomeScreenObserver welcomeScreenObserver) {
         welcomeScreenObservers.add(welcomeScreenObserver);
