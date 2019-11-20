@@ -4,10 +4,23 @@ import processing.core.PApplet;
 
 public class AppController extends PApplet implements IScreenObserver{
 
+    private static AppController theApp = null;   
     private IScreen welcomeScreen;
     private IScreen gameOptions;
     private IScreen gamePlay;
     private IScreen current;
+    
+    /**
+     * Get Singleton Instance
+     * @return Reference to Current App  (Create if none exists)
+     */
+    public synchronized static AppController getInstance() {
+        if (theApp == null) {
+            theApp = new AppController();
+        }
+        return theApp;
+    }
+    
     public void settings() {
         size(1000, 750);
         smooth();
@@ -50,7 +63,7 @@ public class AppController extends PApplet implements IScreenObserver{
     
     public static void main(String[] args) {
         String[] processingArgs = { "MySketch" };
-        AppController mySketch = new AppController();
+        AppController mySketch = AppController.getInstance();
         PApplet.runSketch(processingArgs, mySketch);
     }
 
