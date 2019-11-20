@@ -67,11 +67,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     @Override
     public void mousePressed() {
         if (selectionComplete) {
-            pixelsFrame = graphics.get().pixels;
-            red = applet.red(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-            green = applet.green(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-            blue = applet.blue(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-            if (red == 255.0 && blue == 255.0 && green == 255) {
+            if (whiteBackground()) {
                 traceX.add(applet.mouseX);
                 traceY.add(applet.mouseY);
             }
@@ -123,11 +119,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
                 }
             }
 
-            pixelsFrame = graphics.get().pixels;
-            red = applet.red(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-            green = applet.green(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-            blue = applet.blue(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-            if (red != 255.0 && blue != 255.0 && green != 255) {
+            if (!whiteBackground()) {
                 gameOver = true;
                 playSound("lose.wav");
                 replayOption("Better luck next time!");
@@ -187,10 +179,17 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
 
     private void replayOption(String string){
         int replay = showConfirmDialog(null, "Wanna Replay?", string, YES_NO_OPTION);
-        if (replay == 0)
+        if (replay == 0) {
             System.out.println("REPLAY");
-        if (replay == 1)
+            applet.setup();
+            return;
+        }
+        if (replay == 1) {
             System.out.println("EXIT");
+            applet.exit();
+            return;
+        }
+
         getRootFrame().dispose();
         System.out.println(replay);
     }
@@ -331,7 +330,6 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     }
 
     /**
-     *
      * Function name - hasLineReachedCheckPoint
      * Description   - check if current point is in the vicinity of some checkpoint
      * @param     - mouseX,mouseY
@@ -354,7 +352,6 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     }
 
     /**
-     *
      * Function name - isPointInCircle
      * Description   - check if point is within circle with centre i ,j
      * @param     - i,j,mouseX,mouseY
@@ -366,5 +363,21 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
             return 1;
         }
         return 0;
+    }
+
+    /**
+     * Function name - whiteBackgroud
+     * Description   - check if bg colour is white or not
+     * @return        - boolean
+     */
+    private boolean whiteBackground(){
+        pixelsFrame = graphics.get().pixels;
+        red = applet.red(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+        green = applet.green(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+        blue = applet.blue(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+        if(red == 255 && green == 255 && blue == 255)
+            return true;
+        else
+            return false;
     }
 }

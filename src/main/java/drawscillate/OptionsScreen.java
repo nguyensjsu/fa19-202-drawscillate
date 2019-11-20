@@ -99,9 +99,9 @@ public class OptionsScreen implements IScreen, CallbackListener {
         final Controller controller = callbackEvent.getController();
         final int selectedIndex = (int) controller.getValue();
         if (controller == d1) {
-            difficultySelection = controlP5.get(DropdownList.class, "Difficulty").getItem(selectedIndex).get("name").toString();
+            difficultySelection = d1.getItem(selectedIndex).get("name").toString();
         } else if (controller == d2) {
-            shapeSelection = controlP5.get(DropdownList.class, "Shape").getItem(selectedIndex).get("name").toString();
+            shapeSelection = d2.getItem(selectedIndex).get("name").toString();
         }
     }
 }
