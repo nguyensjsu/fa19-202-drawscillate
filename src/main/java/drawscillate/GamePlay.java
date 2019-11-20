@@ -46,11 +46,11 @@ public class GamePlay implements IScreen {
         System.out.println("Y:" + parent.mouseY);
         if (parent.mouseX >= goBackbuttonX && parent.mouseX <= goBackbuttonX + width && 
                 parent.mouseY >= goBackbuttonY - 20 && parent.mouseY <= goBackbuttonY + height) {
-          return true;
+            return true;
         } else {
-          return false;
+            return false;
         }
-      }
+    }
 
     /**
      * Add Observer to Subscribers List
