@@ -85,7 +85,14 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     public void display() {
         if (firstTime) {
             graphics = applet.createGraphics(500, 500);
-            drawStar("Easy");
+            switch (shapeSelection) {
+                case "Star":
+                    drawStar(difficultySelection);
+                    break;
+                case "Heart":
+                    drawHeart(difficultySelection);
+                    break;
+            }
             firstTime = false;
         }
         if (applet.mousePressed) {
@@ -191,33 +198,33 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     }
 
     private void drawHeart(String difficultySelection) {
-//        graphics.beginDraw();
-//        graphics.background(51);
-//        graphics.fill(102);
-//        graphics.stroke(255);
-//        strokeWeight = getStrokeWeight(difficultySelection);
-//        graphics.strokeWeight(strokeWeight);
-//        graphics.beginShape();
-//        heartCheckPoints = new int [5][3];
-//        final int x1 = width / 2;
-//        final int halfHeartWidth = 500;
-//        final int y1 = 100;
-//        final int y2 = -50;
-//        final int y3 = 5;
-//        final int y4 = 485;
-//        graphics.vertex(x1, y1);
-//        graphics.bezierVertex(x1, y2, x1 + halfHeartWidth, y3, x1, y4);
-//        graphics.bezierVertex(x1 - halfHeartWidth, y3, x1, y2, x1, y1);
-//        graphics.endShape();
-//        graphics.endDraw();
-//        insertCheckPoint(249, 93, 0, heartCheckPoints);
-//        insertCheckPoint(29, 157, 1, heartCheckPoints);
-//        insertCheckPoint(474, 158, 2, heartCheckPoints);
-//        insertCheckPoint(252, 481, 3, heartCheckPoints);
-//        insertCheckPoint(47, 219, 4, heartCheckPoints);
-//        shapeChosen = 1;
-//        startPointRecorded =false;
-//        image(graphics, 0, 0);
+        graphics.beginDraw();
+        graphics.background(51);
+        graphics.fill(102);
+        graphics.stroke(255);
+        strokeWeight = getStrokeWeight(difficultySelection);
+        graphics.strokeWeight(strokeWeight);
+        graphics.beginShape();
+        heartCheckPoints = new int [5][3];
+        final int x1 = applet.width / 2;
+        final int halfHeartWidth = 500;
+        final int y1 = 100;
+        final int y2 = -50;
+        final int y3 = 5;
+        final int y4 = 485;
+        graphics.vertex(x1, y1);
+        graphics.bezierVertex(x1, y2, x1 + halfHeartWidth, y3, x1, y4);
+        graphics.bezierVertex(x1 - halfHeartWidth, y3, x1, y2, x1, y1);
+        graphics.endShape();
+        graphics.endDraw();
+        insertCheckPoint(249, 93, 0, heartCheckPoints);
+        insertCheckPoint(29, 157, 1, heartCheckPoints);
+        insertCheckPoint(474, 158, 2, heartCheckPoints);
+        insertCheckPoint(252, 481, 3, heartCheckPoints);
+        insertCheckPoint(47, 219, 4, heartCheckPoints);
+        shapeChosen = 1;
+        startPointRecorded =false;
+        applet.image(graphics, 0, 0);
     }
 
     /**
