@@ -1,57 +1,54 @@
 package drawscillate;
 
 import processing.core.PApplet;
-import processing.core.PConstants;
 
-public class WelcomeScreen implements IScreen, IScreenSubject {
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 
-    PApplet parent;
-    IScreenObserver observer;
-    private int gameScreen;
+import static processing.core.PConstants.CENTER;
+import static processing.core.PConstants.LEFT;
 
-    WelcomeScreen(PApplet p) {
-        parent = p;
-        gameScreen = 0;
-        attach((IScreenObserver)p);
+public class WelcomeScreen implements IScreen {
+    private PApplet applet;
+    private final Button button;
+    private Collection<WelcomeScreenObserver> welcomeScreenObservers = new HashSet<>();
 
+    WelcomeScreen(PApplet applet) {
+        this.applet = applet;
+        button = new Button(applet, "Click to start");
     }
 
+    @Override
+    public void mouseReleased() {
+        if (button.over()) {
+            notifyAllWelcomeScreenObservers();
+        }
+    }
+
+    @Override
     public void display() {
-        parent.textAlign(PConstants.CENTER);
-        parent.fill(237, 97, 21);
-        parent.textSize(70);
-        parent.text("Drawscillate", parent.width / 2, parent.height / 2);
-        parent.textSize(25);
-        parent.text("Click to start", parent.width / 2, parent.height - 30);
+        applet.background(74, 73, 70);
+        // draw the label
+        applet.textAlign(CENTER);
+        applet.fill(237, 97, 21);
+        applet.textSize(70);
+        applet.text("Drawscillate", applet.width / 2f, applet.height / 2f);
+
+        // draw the button
+        applet.textAlign(LEFT);
+        applet.textSize(25);
+        button.x = (int) Math.ceil(applet.width / 2f - button.width() / 2);
+        button.y = 400;
+        button.draw();
     }
 
-    /**
-     * Touch Event
-     */
-    public void touch() {
-        gameScreen = 1;
-        notifyObservers();
-
+    void attach(WelcomeScreenObserver welcomeScreenObserver) {
+        welcomeScreenObservers.add(welcomeScreenObserver);
     }
 
-    /**
-     * Add Observer to Subscribers List
-     * 
-     * @param obj Observer Object
-     */
-    public void attach(IScreenObserver obj) {
-        
-        observer = obj;
-
+    private void notifyAllWelcomeScreenObservers() {
+        welcomeScreenObservers.forEach(WelcomeScreenObserver::update);
     }
-
-    /**
-     * Trigger Events to Observers
-     */
-    public void notifyObservers() {
-        
-        observer.screenChange(gameScreen);
-
-    }
-
 }
