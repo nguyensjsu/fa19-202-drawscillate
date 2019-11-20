@@ -9,6 +9,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -46,6 +47,14 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     private ArrayList traceX = new ArrayList();
     private ArrayList traceY = new ArrayList();
     private boolean firstTime = true;
+    CustomizeLine customizeLine;
+    IColorCommand showRedColor;
+    IColorCommand showYellowColor;
+    IColorCommand showGreenColor;
+    IColorCommand showBlueColor;
+    IColorCommand showOrangeColor;
+    IColorCommand showPurpleColor;
+    IColorCommand showBlackColor;
 
     GameScreen(PApplet applet) {
         this.applet = applet;
@@ -62,6 +71,25 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
             // Set the amplitudes for all oscillators
             sineWaves[i].amp((float) sineVolume);
         }
+        
+        customizeLine = new CustomizeLine();
+
+        initializeCommands();
+        setReceivers(showRedColor, "apple.png", 255, 0, 0);
+        setReceivers(showYellowColor, "banana.png", 255, 255, 51);
+        setReceivers(showGreenColor, "grapes.png", 0, 255, 0);
+        setReceivers(showBlueColor, "water.png", 0, 0, 255);
+        setReceivers(showOrangeColor, "orange.png", 255, 165, 0);
+        setReceivers(showPurpleColor, "eggplant.png", 147, 112, 219);
+        setReceivers(showBlackColor, null, 0, 0, 0);
+
+        colorItem('r', showRedColor);
+        colorItem('y', showYellowColor);
+        colorItem('b', showBlueColor);
+        colorItem('p', showPurpleColor);
+        colorItem('g', showGreenColor);
+        colorItem(' ', showBlackColor);
+        colorItem('o', showOrangeColor);
     }
 
     @Override
@@ -142,29 +170,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         }
 
         if (applet.keyPressed) {
-            switch (applet.key) {
-                case 'r':
-                    changeCursorAndColor("apple.png", 255, 0, 0);
-                    break;
-                case 'b':
-                    changeCursorAndColor("water.png", 0, 0, 255);
-                    break;
-                case 'g':
-                    changeCursorAndColor("grapes.png", 0, 255, 0);
-                    break;
-                case ' ':
-                    changeCursorAndColor(null, 0, 0, 0);
-                    break;
-                case 'o':
-                    changeCursorAndColor("orange.png", 255, 165, 0);
-                    break;
-                case 'p':
-                    changeCursorAndColor("eggplant.png", 147, 112, 219);
-                    break;
-                case 'y':
-                    changeCursorAndColor("banana.png", 255, 255, 51);
-                    break;
-            }
+            customizeLine.setKey(applet.key);
+            customizeLine.initialize();
         }
     }
 
@@ -366,5 +373,49 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
             return 1;
         }
         return 0;
+    }
+    
+    /**
+     * @param key    Various keyboard keys to change color
+     * 
+     * @param icolor map keys to their corresponding menu
+     */
+    private void colorItem(char key, IColorCommand icolor) {
+        customizeLine.setColorItem(key, icolor);
+    }
+    
+    /**
+     * Set Receivers for ColorCommand
+     * 
+     * @param m            set a receiver for command
+     * 
+     * @param resourceName name of image to be loaded
+     * 
+     * @param redColor     red pixels
+     * 
+     * @param redColor     green pixels
+     * 
+     * @param redColor     blue pixels
+     */
+    private void setReceivers(IColorCommand m, String resourceName, int redColor, int greenColor, int blueColor) {
+        m.setReceiver(new IColorReceiver() {
+            /** Command Action */
+            public void doAction() {
+                changeCursorAndColor(resourceName, redColor, greenColor, blueColor);
+            }
+        });
+    }
+
+    /**
+     * create command to be mapped to options
+     */
+    private void initializeCommands() {
+        showRedColor = new ColorCommand();
+        showYellowColor = new ColorCommand();
+        showBlueColor = new ColorCommand();
+        showPurpleColor = new ColorCommand();
+        showGreenColor = new ColorCommand();
+        showBlackColor = new ColorCommand();
+        showOrangeColor = new ColorCommand();
     }
 }
