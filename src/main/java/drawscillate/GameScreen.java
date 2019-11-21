@@ -131,35 +131,40 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
         }
 
         if (applet.mousePressed) {
-            applet.stroke(redColor, greenColor, blueColor);
-            applet.strokeWeight(5);
-            
-            if (!gameOver) {
-                applet.line(applet.mouseX, applet.mouseY, applet.pmouseX, applet.pmouseY);
-                gameManager.mouseEvent(graphics);
-                hasLineReachedCheckPoint();
-                if (!startPointRecorded) {
-                    startPointX = applet.mouseX;
-                    startPointY = applet.mouseY;
-                    startPointRecorded = true;
-                    System.out.println("Start x :" + startPointX);
-                    System.out.println("Start y :" + startPointY);
-                }
-            }
-            else {
-                playSound("lose.wav");
-                replayOption("Better luck next time!");
-            }
+            mousePressed();
         }
+            
+
+        if (applet.keyPressed) {
+            customizeLine.setKey(applet.key);
+            customizeLine.initialize();
+        }
+    }
+    
+    public void mousePressed() {
+        applet.stroke(redColor, greenColor, blueColor);
+        applet.strokeWeight(5);
+        
+        if (!gameOver) {
+            applet.line(applet.mouseX, applet.mouseY, applet.pmouseX, applet.pmouseY);
+            gameManager.mouseEvent(graphics);
+            hasLineReachedCheckPoint();
+            if (!startPointRecorded) {
+                startPointX = applet.mouseX;
+                startPointY = applet.mouseY;
+                startPointRecorded = true;
+                System.out.println("Start x :" + startPointX);
+                System.out.println("Start y :" + startPointY);
+            }
             if (allCheckPointsReached() && startReached()) {
                 playSound("win.wav");
                 System.out.println("Game successfully completed");
                 replayOption("Congratulations! You Won!");
             }
-
-        if (applet.keyPressed) {
-            customizeLine.setKey(applet.key);
-            customizeLine.initialize();
+        }
+        else {
+            playSound("lose.wav");
+            replayOption("Better luck next time!");
         }
     }
 
