@@ -149,11 +149,12 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
             if (gameWon) {
                 playSound("win.wav");
                 System.out.println("Game successfully completed");
-                replayOption("Congratulations! You Won!");
+                applet.saveFrame(shapeSelection+"_"+System.currentTimeMillis()+".png");
+                replayOption("Congratulations! You Won!","Guess what? We've saved your winning moment to boast about!\n");
             }
         } else {
             playSound("lose.wav");
-            replayOption("Better luck next time!");
+            replayOption("Better luck next time!","Don't Lose Hope.\n");
         }
     }
 
@@ -167,8 +168,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
         }
     }
 
-    private void replayOption(String string) {
-        int replay = showConfirmDialog(null, "Wanna Replay?", string, YES_NO_OPTION);
+    private void replayOption(String boxHead, String message) {
+        int replay = showConfirmDialog(null, message+"Wanna Replay?", boxHead, YES_NO_OPTION);
         if (replay == 0) {
             System.out.println("REPLAY");
             applet.setup();
