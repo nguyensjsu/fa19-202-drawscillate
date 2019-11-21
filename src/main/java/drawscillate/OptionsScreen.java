@@ -15,6 +15,8 @@ import java.util.HashSet;
 
 import static processing.core.PConstants.CENTER;
 import static processing.core.PConstants.LEFT;
+import static processing.core.PConstants.RIGHT;
+import static processing.core.PConstants.TOP;
 
 public class OptionsScreen implements IScreen, CallbackListener {
     private PApplet applet;
@@ -56,20 +58,22 @@ public class OptionsScreen implements IScreen, CallbackListener {
             .setHeight(300)
             .setBarHeight(40)
             .setItemHeight(40)
+            .setColorBackground(applet.color(0, 153, 204, 99))
             .addItems(Arrays.asList("Star", "Rectangle", "Heart", "Circle"));
         
-        myTextarea = controlP5.addTextarea("txt")
-                .setPosition(applet.width/10f+10, applet.height/2f)
-                .setSize(applet.width -100 ,applet.height)
-                .setVisible(false)
-                .setFont(applet.createFont("arial",16))
-                .setLineHeight(20)
-                .setColor(applet.color(237, 97, 21));
-        myTextarea.setText("Key Controls:\n\n"
-                +" y - Yellow          r - Red\n"
-                +" o - Green          b - Blue\n"
-                +" p - Purple          g - Orange\n"
-                  );
+        myTextarea = controlP5
+                    .addTextarea("txt")
+                    .setPosition(applet.width/10f+10, applet.height/2f)
+                    .setSize(applet.width -100 ,applet.height)
+                    .setVisible(false)
+                    .setFont(applet.createFont("arial",16))
+                    .setLineHeight(20)
+                    .setColor(applet.color(237, 97, 21))
+                    .setText("Key Controls:\n\n"
+                            +" y - Yellow          r - Red\n"
+                            +" o - Green          b - Blue\n"
+                            +" p - Purple          g - Orange\n"
+                            );
 
         button = new Button(applet, "Play!");
     }
@@ -113,12 +117,12 @@ public class OptionsScreen implements IScreen, CallbackListener {
         applet.textAlign(LEFT);
         applet.text("How to play:", applet.height /10f+10, applet.width / 6f);
         applet.fill(255);
-        applet.textAlign(PConstants.LEFT,PConstants.TOP);
+        applet.textAlign(LEFT,TOP);
         applet.textSize(14);
         applet.text("Move your cursor through the outline of the picture,\n"
                 + "without crossing over the border to win!", applet.height/10f+10 , applet.width / 9f+35 );
         applet.textSize(13);
-        applet.textAlign(PConstants.RIGHT);
+        applet.textAlign(RIGHT);
         applet.text("CHOOSE SHAPE",applet.width-315, applet.height-325);
         applet.text("CHOOSE DIFFCULTY",applet.width-315, applet.height-275);
 
