@@ -6,6 +6,7 @@ import controlP5.ControlP5;
 import controlP5.Controller;
 import controlP5.DropdownList;
 import processing.core.PApplet;
+import processing.core.PConstants;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -81,11 +82,23 @@ public class OptionsScreen implements IScreen, CallbackListener {
     @Override
     public void display() {
         //Text
-        applet.background(74, 73, 70);
+        applet.background(0);
         applet.textAlign(CENTER);
         applet.fill(237, 97, 21);
         applet.textSize(20);
-        applet.text("Hi "+app.getName()+"! Select your Preferences!", applet.width / 2f, applet.width / 5f);
+        applet.text("Hi "+app.getName()+"! Select your Preferences!", applet.width / 2f, applet.width / 10f);
+        applet.noFill();
+        applet.stroke(0, 153, 204);
+        applet.rect(applet.height/10f, applet.width/9f, applet.height-100, applet.width-100);
+        applet.fill(48, 145, 50);
+        applet.textSize(20);
+        applet.textAlign(LEFT);
+        applet.text("How to play:", applet.height /10f+10, applet.width / 6f);
+        applet.fill(255);
+        applet.textAlign(PConstants.LEFT,PConstants.TOP);
+        applet.textSize(14);
+        applet.text("Move your cursor through the outline of the picture,\n"
+                + "without crossing over the border to win!", applet.height/10f+10 , applet.width / 9f+35 );
 
         // draw the button
         applet.textAlign(LEFT);
