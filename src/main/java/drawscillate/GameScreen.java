@@ -96,6 +96,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
             if (whiteBackground()) {
                 traceX.add(applet.mouseX);
                 traceY.add(applet.mouseY);
+                System.out.println(applet.mouseX+","+applet.mouseY);
             }
         }
     }
