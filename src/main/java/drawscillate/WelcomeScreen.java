@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import static javax.swing.JOptionPane.showInputDialog;
 import static processing.core.PConstants.CENTER;
 import static processing.core.PConstants.LEFT;
 
@@ -14,16 +15,19 @@ public class WelcomeScreen implements IScreen {
     private PApplet applet;
     private final Button button;
     private Collection<WelcomeScreenObserver> welcomeScreenObservers = new HashSet<>();
+    private AppController app;
 
     WelcomeScreen(PApplet applet) {
         this.applet = applet;
         button = new Button(applet, "Click to start");
+        app = AppController.getInstance();
     }
 
     @Override
     public void mouseReleased() {
         if (button.over()) {
             notifyAllWelcomeScreenObservers();
+            app.setName(showInputDialog("Please enter your Name"));
         }
     }
 
