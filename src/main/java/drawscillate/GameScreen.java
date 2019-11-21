@@ -20,7 +20,7 @@ import static javax.swing.JOptionPane.getRootFrame;
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static processing.core.PConstants.HAND;
 
-public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObserver {
+public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObserver {
     private PApplet applet;
     private GameLogicManager gameManager;
     private String difficultySelection;
@@ -41,7 +41,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
     boolean gameOver = false;
     boolean gameWon = false;
     int strokeWeight;
-    int [][] checkpoints;
+    int[][] checkpoints;
     private PGraphics graphics;
     private ArrayList traceX = new ArrayList();
     private ArrayList traceY = new ArrayList();
@@ -62,7 +62,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
         graphics = applet.createGraphics(500, 500);
         shapeFactory = new ShapeFactory();
         gameManager = new GameLogicManager(applet);
-        gameManager.registerObserver((IGameLogicObserver)this);
+        gameManager.registerObserver((IGameLogicObserver) this);
         sineWaves = new SinOsc[numSines]; // Initialize the oscillators
         sineFreq = new float[numSines]; // Initialize array for Frequencies
 
@@ -76,7 +76,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
             // Set the amplitudes for all oscillators
             sineWaves[i].amp((float) sineVolume);
         }
-        
+
         customizeLine = new CustomizeLine();
 
         initializeCommands();
@@ -107,7 +107,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
     public void display() {
         if (firstTime) {
             shapes = shapeFactory.getShape(shapeSelection);
-            if(shapes != null) {
+            if (shapes != null) {
                 strokeWeight = getStrokeWeight(difficultySelection);
                 checkpoints = shapes.draw(strokeWeight, graphics, applet);
                 gameManager.setCheckPoints(checkpoints);
@@ -132,14 +132,13 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
         if (applet.mousePressed) {
             mousePressed();
         }
-            
 
         if (applet.keyPressed) {
             customizeLine.setKey(applet.key);
             customizeLine.initialize();
         }
     }
-    
+
     public void mousePressed() {
         applet.stroke(redColor, greenColor, blueColor);
         applet.strokeWeight(5);
@@ -148,13 +147,12 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
             applet.line(applet.mouseX, applet.mouseY, applet.pmouseX, applet.pmouseY);
             gameManager.mouseEvent(graphics);
             if (gameWon) {
-                //playSound("win.wav");
+                playSound("win.wav");
                 System.out.println("Game successfully completed");
                 replayOption("Congratulations! You Won!");
             }
-        }
-        else {
-            //playSound("lose.wav");
+        } else {
+            playSound("lose.wav");
             replayOption("Better luck next time!");
         }
     }
@@ -169,9 +167,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
         }
     }
 
-
-
-    private void replayOption(String string){
+    private void replayOption(String string) {
         int replay = showConfirmDialog(null, "Wanna Replay?", string, YES_NO_OPTION);
         if (replay == 0) {
             System.out.println("REPLAY");
@@ -193,27 +189,21 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
         this.shapeSelection = shapeSelection;
     }
 
-
     private int getStrokeWeight(String difficultySelection) {
         switch (difficultySelection) {
-            case "Hard":
-                return 10;
-            case "Normal":
-                return 25;
-            case "Easy":
-                return 50;
+        case "Hard":
+            return 10;
+        case "Normal":
+            return 25;
+        case "Easy":
+            return 50;
         }
         return 10;
     }
 
     private void changeCursorAndColor(String resourceName, int redColor, int greenColor, int blueColor) {
-        final Optional<PImage> imageOptional =
-            Optional
-                .ofNullable(resourceName)
-                .map("/"::concat)
-                .map(getClass()::getResource)
-                .map(URL::getFile)
-                .map(applet::loadImage);
+        final Optional<PImage> imageOptional = Optional.ofNullable(resourceName).map("/"::concat)
+                .map(getClass()::getResource).map(URL::getFile).map(applet::loadImage);
         if (imageOptional.isPresent()) {
             applet.cursor(imageOptional.get());
         } else {
@@ -224,9 +214,6 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
         this.blueColor = blueColor;
     }
 
-
-
-    
     /**
      * @param key    Various keyboard keys to change color
      * 
@@ -235,7 +222,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
     private void colorItem(char key, IColorCommand icolor) {
         customizeLine.setColorItem(key, icolor);
     }
-    
+
     /**
      * Set Receivers for ColorCommand
      * 
@@ -271,12 +258,10 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
         showOrangeColor = new ColorCommand();
     }
 
-
-
     @Override
-    public void gameState(boolean gameOver,boolean gameWon) {
+    public void gameState(boolean gameOver, boolean gameWon) {
         this.gameOver = gameOver;
         this.gameWon = gameWon;
-        
+
     }
 }
