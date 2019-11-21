@@ -44,7 +44,6 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     int strokeWeight;
     int [][] checkpoints;
     private PGraphics graphics;
-    private boolean selectionComplete = false;
     private ArrayList traceX = new ArrayList();
     private ArrayList traceY = new ArrayList();
     private boolean firstTime = true;
@@ -99,18 +98,15 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
 
     @Override
     public void mouseDragged() {
-        if (selectionComplete) {
             if (whiteBackground()) {
                 traceX.add(applet.mouseX);
                 traceY.add(applet.mouseY);
             }
-        }
     }
 
     @Override
     public void display() {
         if (firstTime) {
-            selectionComplete = true;
             shapes = shapeFactory.getShape(shapeSelection);
             if(shapes != null) {
                 strokeWeight = getStrokeWeight(difficultySelection);
@@ -136,8 +132,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         if (applet.mousePressed) {
             applet.stroke(redColor, greenColor, blueColor);
             applet.strokeWeight(5);
-
-            if (!gameOver && selectionComplete) {
+            
+            if (!gameOver) {
                 applet.line(applet.mouseX, applet.mouseY, applet.pmouseX, applet.pmouseY);
                 hasLineReachedCheckPoint();
                 if (!startPointRecorded) {
@@ -155,13 +151,11 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
                 replayOption("Better luck next time!");
             }
         }
-        if (selectionComplete) {
             if (allCheckPointsReached() && startReached()) {
                 playSound("win.wav");
                 System.out.println("Game successfully completed");
                 replayOption("Congratulations! You Won!");
             }
-        }
 
         if (applet.keyPressed) {
             customizeLine.setKey(applet.key);
