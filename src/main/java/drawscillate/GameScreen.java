@@ -27,6 +27,9 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     private SinOsc[] sineWaves; // Array of sines
     private float[] sineFreq; // Array of frequencies
     private int numSines = 5; // Number of oscillators to use
+    private float yoffset;
+    private float frequency;
+    private float detune;
     int redColor = 0;
     int greenColor = 0;
     int blueColor = 0;
@@ -45,6 +48,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     private ArrayList traceX = new ArrayList();
     private ArrayList traceY = new ArrayList();
     private boolean firstTime = true;
+    private ShapeFactory shapeFactory;
+    private IShapes shapes;
     CustomizeLine customizeLine;
     IColorCommand showRedColor;
     IColorCommand showYellowColor;
@@ -56,6 +61,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
 
     GameScreen(PApplet applet) {
         this.applet = applet;
+        graphics = applet.createGraphics(500, 500);
+        shapeFactory = new ShapeFactory();
         sineWaves = new SinOsc[numSines]; // Initialize the oscillators
         sineFreq = new float[numSines]; // Initialize array for Frequencies
 
@@ -103,10 +110,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     @Override
     public void display() {
         if (firstTime) {
-            graphics = applet.createGraphics(500, 500);
             selectionComplete = true;
-            ShapeFactory shapeFactory = new ShapeFactory();
-            IShapes shapes = shapeFactory.getShape(shapeSelection);
+            shapes = shapeFactory.getShape(shapeSelection);
             if(shapes != null) {
                 strokeWeight = getStrokeWeight(difficultySelection);
                 checkpoints = shapes.draw(strokeWeight, graphics, applet);
@@ -116,11 +121,11 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         }
 
         // Map mouseY from 0 to 1
-        float yoffset = PApplet.map(applet.mouseY, 0, applet.height, 0, 1);
+        yoffset = PApplet.map(applet.mouseY, 0, applet.height, 0, 1);
         // Map mouseY logarithmically to 150 - 1150 to create a base frequency range
-        float frequency = PApplet.pow(1000, yoffset) + 150;
+        frequency = PApplet.pow(1000, yoffset) + 150;
         // Use mouseX mapped from -0.5 to 0.5 as a detune argument
-        float detune = PApplet.map(applet.mouseX, 0, applet.width, -0.5f, 0.5f);
+        detune = PApplet.map(applet.mouseX, 0, applet.width, -0.5f, 0.5f);
 
         for (int i = 0; i < numSines; i++) {
             sineFreq[i] = frequency * (i + 1 * detune);
