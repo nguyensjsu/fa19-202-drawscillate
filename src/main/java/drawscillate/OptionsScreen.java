@@ -7,7 +7,6 @@ import controlP5.Controller;
 import controlP5.DropdownList;
 import controlP5.Textarea;
 import processing.core.PApplet;
-import processing.core.PConstants;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -27,7 +26,7 @@ public class OptionsScreen implements IScreen, CallbackListener {
     private String shapeSelection;
     private Collection<OptionsScreenObserver> optionsScreenObservers = new HashSet<>();
     private AppController app;
-    private Textarea myTextarea;
+    private Textarea myTextArea;
 
     OptionsScreen(PApplet applet) {
         this.applet = applet;
@@ -44,7 +43,6 @@ public class OptionsScreen implements IScreen, CallbackListener {
             .setHeight(300)
             .setBarHeight(40)
             .setItemHeight(40)
-            .setColorBackground(applet.color(0, 153, 204, 99))
             .addItems(Arrays.asList("Easy", "Normal", "Hard"));
 
         // create a second DropdownList
@@ -58,21 +56,20 @@ public class OptionsScreen implements IScreen, CallbackListener {
             .setHeight(300)
             .setBarHeight(40)
             .setItemHeight(40)
-            .setColorBackground(applet.color(0, 153, 204, 99))
             .addItems(Arrays.asList("Star", "Rectangle", "Heart", "Circle"));
         
-        myTextarea = controlP5
+        myTextArea = controlP5
                     .addTextarea("txt")
                     .setPosition(applet.width/10f+10, applet.height/2f)
-                    .setSize(applet.width -100 ,applet.height)
+                    .setSize(applet.width-350 ,applet.height-300)
                     .setVisible(false)
-                    .setFont(applet.createFont("arial",16))
-                    .setLineHeight(20)
+                    .setFont(applet.createFont("Georgia",14))
+                    .setLineHeight(18)
                     .setColor(applet.color(237, 97, 21))
                     .setText("Key Controls:\n\n"
-                            +" y - Yellow          r - Red\n"
-                            +" o - Green          b - Blue\n"
-                            +" p - Purple          g - Orange\n"
+                            +" y - Yellow\n r - Red\n"
+                            +" o - Green\n b - Blue\n"
+                            +" p - Purple \n g - Orange\n"
                             );
 
         button = new Button(applet, "Play!");
@@ -91,14 +88,14 @@ public class OptionsScreen implements IScreen, CallbackListener {
     public void willDisplay() {
         d1.setBarVisible(true);
         d2.setBarVisible(true);
-        myTextarea.setVisible(true);
+        myTextArea.setVisible(true);
     }
 
     @Override
     public void willStopDisplaying() {
         d1.setBarVisible(false);
         d2.setBarVisible(false);
-        myTextarea.setVisible(false);
+        myTextArea.setVisible(false);
     }
 
     @Override
