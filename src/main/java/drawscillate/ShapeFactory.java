@@ -8,6 +8,7 @@ public class ShapeFactory {
         case "Heart": return new Heart();
         case "Star": return new Star();
         case "Rectangle": return new Rectangle();
+        case "Circle": return new Circle();
         }
         return null;
         
