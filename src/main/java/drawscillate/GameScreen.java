@@ -20,8 +20,9 @@ import static javax.swing.JOptionPane.getRootFrame;
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static processing.core.PConstants.HAND;
 
-public class GameScreen implements IScreen, OptionsScreenObserver {
+public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObserver {
     private PApplet applet;
+    private GameLogicManager gameManager;
     private String difficultySelection;
     private String shapeSelection;
     private SinOsc[] sineWaves; // Array of sines
@@ -62,6 +63,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         this.applet = applet;
         graphics = applet.createGraphics(500, 500);
         shapeFactory = new ShapeFactory();
+        gameManager = new GameLogicManager(applet);
+        gameManager.registerObserver((IGameLogicObserver)this);
         sineWaves = new SinOsc[numSines]; // Initialize the oscillators
         sineFreq = new float[numSines]; // Initialize array for Frequencies
 
@@ -98,10 +101,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
 
     @Override
     public void mouseDragged() {
-            if (whiteBackground()) {
                 traceX.add(applet.mouseX);
                 traceY.add(applet.mouseY);
-            }
     }
 
     @Override
@@ -135,6 +136,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
             
             if (!gameOver) {
                 applet.line(applet.mouseX, applet.mouseY, applet.pmouseX, applet.pmouseY);
+                gameManager.mouseEvent(graphics);
                 hasLineReachedCheckPoint();
                 if (!startPointRecorded) {
                     startPointX = applet.mouseX;
@@ -144,9 +146,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
                     System.out.println("Start y :" + startPointY);
                 }
             }
-
-            if (!whiteBackground()) {
-                gameOver = true;
+            else {
                 playSound("lose.wav");
                 replayOption("Better luck next time!");
             }
@@ -321,19 +321,11 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         showOrangeColor = new ColorCommand();
     }
 
-    /**
-     * Function name - whiteBackgroud
-     * Description   - check if bg colour is white or not
-     * @return        - boolean
-     */
-    private boolean whiteBackground(){
-        pixelsFrame = graphics.get().pixels;
-        red = applet.red(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-        green = applet.green(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-        blue = applet.blue(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-        if(red == 255 && green == 255 && blue == 255)
-            return true;
-        else
-            return false;
+
+
+    @Override
+    public void isGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+        
     }
 }
