@@ -2,7 +2,7 @@ package drawscillate;
 
 public class ShapeFactory {
 
-    public Shapes getShape(String type) {
+    public IShapes getShape(String type) {
         
         switch(type) {
         case "Heart": return new Heart();

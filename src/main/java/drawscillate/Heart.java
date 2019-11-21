@@ -3,10 +3,7 @@ package drawscillate;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 
-public class Heart implements Shapes{
-
-    int strokeWeight;
-    int [][] checkpoints = new int [5][3];
+public class Heart extends Shapes implements IShapes {
     
     @Override
     public int[][] draw(int strokeWeight, PGraphics graphics, PApplet applet) {
@@ -28,24 +25,14 @@ public class Heart implements Shapes{
         graphics.bezierVertex(x1 - halfHeartWidth, y3, x1, y2, x1, y1);
         graphics.endShape();
         graphics.endDraw();
+
+        setCheckpointCount(5);
         insertCheckPoint(249, 93, 0);
         insertCheckPoint(29, 157, 1);
         insertCheckPoint(474, 158, 2);
         insertCheckPoint(252, 481, 3);
         insertCheckPoint(47, 219, 4);
         applet.image(graphics, 0, 0);
-        return checkpoints;
-    }
-    
-    /**
-     * Create the checkpoint array for the given figure
-     * @param x The x coordinate
-     * @param y The y coordinate
-     * @param i The index of the coordinate
-     */
-    private void insertCheckPoint(int x, int y, int i) {
-        checkpoints[i][0] = x;
-        checkpoints[i][1] = y;
-        checkpoints[i][2] = 0;
+        return getCheckpoints();
     }
 }

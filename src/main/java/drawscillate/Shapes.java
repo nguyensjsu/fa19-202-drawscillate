@@ -1,16 +1,27 @@
 package drawscillate;
 
-import processing.core.PApplet;
-import processing.core.PGraphics;
 
-import java.util.ArrayList;
+public class Shapes {
 
-public interface Shapes {
+    private int[][] checkpoints;
 
+    public int[][] getCheckpoints() {
+        return checkpoints;
+    }
 
-    ArrayList traceX = new ArrayList();
-    ArrayList traceY = new ArrayList();
-    
-    public int[][] draw(int weight, PGraphics graphics, PApplet applet);
+    /**
+     * Create the checkpoint array for the given figure
+     * @param x The x coordinate
+     * @param y The y coordinate
+     * @param i The index of the coordinate
+     */
+    void insertCheckPoint(int x, int y, int i) {
+        checkpoints[i][0] = x;
+        checkpoints[i][1] = y;
+        checkpoints[i][2] = 0;
+    }
 
+    void setCheckpointCount(int x){
+        checkpoints = new int[x][3];
+    }
 }

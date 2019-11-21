@@ -74,6 +74,11 @@ public class AppController extends PApplet implements WelcomeScreenObserver, Opt
     }
 
     @Override
+    public void mouseDragged() {
+        current.mouseDragged();
+    }
+
+    @Override
     public void update() {
         current.willStopDisplaying();
         current = optionsScreen;
