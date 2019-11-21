@@ -37,18 +37,6 @@ public class Heart implements Shapes{
         return checkpoints;
     }
     
-    private int getStrokeWeight(String difficultySelection) {
-        switch (difficultySelection) {
-            case "Hard":
-                return 10;
-            case "Normal":
-                return 25;
-            case "Easy":
-                return 50;
-        }
-        return 10;
-    }
-    
     /**
      * Create the checkpoint array for the given figure
      * @param x The x coordinate
