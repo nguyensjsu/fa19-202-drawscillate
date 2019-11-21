@@ -207,7 +207,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
      * @return If all check points have been reached
      */
     private boolean allCheckPointsReached() {
-        
+        if(checkpoints.length==0)
+            return false;
         for(int i=0;i< checkpoints.length ; i++) {
             if(checkpoints[i][2] != 1) {
                 return false;
