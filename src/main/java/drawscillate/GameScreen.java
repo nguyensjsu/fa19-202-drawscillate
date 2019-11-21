@@ -40,8 +40,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     int startPointX;
     int startPointY;
     int strokeWeight;
-    int [][] starCheckPoints;
-    int [][] heartCheckPoints;
+    int [][] checkpoints;
     private PGraphics graphics;
     private boolean selectionComplete = false;
     private ArrayList traceX = new ArrayList();
@@ -234,29 +233,29 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         strokeWeight = getStrokeWeight(difficultySelection);
         graphics.strokeWeight(strokeWeight);
         graphics.beginShape();
-        starCheckPoints = new int[10][3];
+        checkpoints = new int[10][3];
         int startX = 550 / 2 - 47 / 2;
         int startY = 160 / 2 - 45 / 2;
         graphics.vertex(startX, startY);
-        insertCheckPoint(startX, startY, 0, starCheckPoints);
+        insertCheckPoint(startX, startY, 0);
         graphics.vertex(startX + 60, startY + 140);
-        insertCheckPoint(startX + 60, startY + 140, 1, starCheckPoints);
+        insertCheckPoint(startX + 60, startY + 140, 1);
         graphics.vertex(startX + 230, startY + 150);
-        insertCheckPoint(startX + 230, startY + 150, 2, starCheckPoints);
+        insertCheckPoint(startX + 230, startY + 150, 2);
         graphics.vertex(startX + 100, startY + 240);
-        insertCheckPoint(startX + 100, startY + 240, 3, starCheckPoints);
+        insertCheckPoint(startX + 100, startY + 240, 3);
         graphics.vertex(startX + 180, startY + 380);
-        insertCheckPoint(startX + 180, startY + 380, 4, starCheckPoints);
+        insertCheckPoint(startX + 180, startY + 380, 4);
         graphics.vertex(startX, startY + 300);
-        insertCheckPoint(startX, startY + 300, 5, starCheckPoints);
+        insertCheckPoint(startX, startY + 300, 5);
         graphics.vertex(startX - 180, startY + 380);
-        insertCheckPoint(startX- 180, startY + 380, 6, starCheckPoints);
+        insertCheckPoint(startX- 180, startY + 380, 6);
         graphics.vertex(startX - 100, startY + 240);
-        insertCheckPoint(startX -100, startY + 240, 7, starCheckPoints);
+        insertCheckPoint(startX -100, startY + 240, 7);
         graphics.vertex(startX - 230, startY + 150);
-        insertCheckPoint(startX -230, startY + 150, 8, starCheckPoints);
+        insertCheckPoint(startX -230, startY + 150, 8);
         graphics.vertex(startX - 60, startY + 140);
-        insertCheckPoint(startX - 60, startY + 140, 9, starCheckPoints);
+        insertCheckPoint(startX - 60, startY + 140, 9);
         graphics.endShape(CLOSE);
         graphics.endDraw();
         startPointRecorded = false;
@@ -271,7 +270,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         strokeWeight = getStrokeWeight(difficultySelection);
         graphics.strokeWeight(strokeWeight);
         graphics.beginShape();
-        heartCheckPoints = new int [5][3];
+        checkpoints = new int [5][3];
         final int x1 = applet.width / 2;
         final int halfHeartWidth = 500;
         final int y1 = 100;
@@ -283,11 +282,11 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         graphics.bezierVertex(x1 - halfHeartWidth, y3, x1, y2, x1, y1);
         graphics.endShape();
         graphics.endDraw();
-        insertCheckPoint(249, 93, 0, heartCheckPoints);
-        insertCheckPoint(29, 157, 1, heartCheckPoints);
-        insertCheckPoint(474, 158, 2, heartCheckPoints);
-        insertCheckPoint(252, 481, 3, heartCheckPoints);
-        insertCheckPoint(47, 219, 4, heartCheckPoints);
+        insertCheckPoint(249, 93, 0);
+        insertCheckPoint(29, 157, 1 );
+        insertCheckPoint(474, 158, 2 );
+        insertCheckPoint(252, 481, 3 );
+        insertCheckPoint(47, 219, 4 );
         startPointRecorded =false;
         applet.image(graphics, 0, 0);
     }
@@ -299,7 +298,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
      * @param i The index of the coordinate
      * @param checkpoints The data structure into which the checkpoints should be recorded
      */
-    private void insertCheckPoint(int x, int y, int i, int[][] checkpoints) {
+    private void insertCheckPoint(int x, int y, int i) {
         checkpoints[i][0] = x;
         checkpoints[i][1] = y;
         checkpoints[i][2] = 0;
@@ -341,21 +340,32 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
      * Description   - check if current point is in the vicinity of some checkpoint
      * @param     - mouseX,mouseY
      * @return        - void
-     */
-    private void hasLineReachedCheckPoint() {
-        if (shapeSelection.equals("Star")) {
-            for (int i =0 ;i <10 ;i++) {
-                if (starCheckPoints[i][2] != 1) {
-                    starCheckPoints[i][2] = isPointInCircle(starCheckPoints[i][0],starCheckPoints[i][1],applet.mouseX,applet.mouseY,strokeWeight*strokeWeight);
-                }
-            }
-        } else if (shapeSelection.equals("Heart")) {
-            for (int i =0 ;i <5 ;i++) {
-                if (heartCheckPoints[i][2] != 1) {
-                    heartCheckPoints[i][2] = isPointInCircle(heartCheckPoints[i][0],heartCheckPoints[i][1],applet.mouseX,applet.mouseY,strokeWeight*strokeWeight);
-                }
+  
+    private boolean allCheckPointsReached() {
+        
+        for(int i=0;i<checkpoints.length;i++) {
+            if(checkpoints[i][2] != 1) {
+                return false;
             }
         }
+        return true;
+        
+    }
+
+    /**
+    * 
+    * Function name - hasLineReachedCheckPoint
+    * Description   - check if current point is in the vicinity of some checkpoint
+    * @param     - mouseX,mouseY
+    * @return        - void
+    */
+    private void hasLineReachedCheckPoint() {
+        
+        for(int i=0; i < checkpoints.length ;i++) {
+            if (checkpoints[i][2] != 1) { 
+                checkpoints[i][2] = isPointInCircle(checkpoints[i][0],checkpoints[i][1],applet.mouseX,applet.mouseY,strokeWeight*strokeWeight);
+               }
+         }
     }
 
     /**
