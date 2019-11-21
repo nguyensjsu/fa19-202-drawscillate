@@ -7,6 +7,7 @@ public class ShapeFactory {
         switch(type) {
         case "Heart": return new Heart();
         case "Star": return new Star();
+        case "Rectangle": return new Rectangle();
         }
         return null;
         
