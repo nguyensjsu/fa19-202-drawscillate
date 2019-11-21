@@ -150,7 +150,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
                 playSound("win.wav");
                 System.out.println("Game successfully completed");
                 applet.saveFrame(shapeSelection+"_"+System.currentTimeMillis()+".png");
-                replayOption("Congratulations! You Won!","Guess what? We've saved a image of your winning to boast about!\n");
+                replayOption("Congratulations! You Won!","Guess what? We've saved your winning moment to boast about!\n");
             }
         } else {
             playSound("lose.wav");
