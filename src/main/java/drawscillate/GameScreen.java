@@ -39,9 +39,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
     float green;
     float blue;
     boolean gameOver = false;
-    boolean startPointRecorded = false;
-    int startPointX;
-    int startPointY;
+    boolean gameWon = false;
     int strokeWeight;
     int [][] checkpoints;
     private PGraphics graphics;
@@ -112,7 +110,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
             if(shapes != null) {
                 strokeWeight = getStrokeWeight(difficultySelection);
                 checkpoints = shapes.draw(strokeWeight, graphics, applet);
-                startPointRecorded = false;
+                gameManager.setCheckPoints(checkpoints);
+                gameManager.setStrokeWeight(strokeWeight);
             }
             firstTime = false;
         }
@@ -148,22 +147,14 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
         if (!gameOver) {
             applet.line(applet.mouseX, applet.mouseY, applet.pmouseX, applet.pmouseY);
             gameManager.mouseEvent(graphics);
-            hasLineReachedCheckPoint();
-            if (!startPointRecorded) {
-                startPointX = applet.mouseX;
-                startPointY = applet.mouseY;
-                startPointRecorded = true;
-                System.out.println("Start x :" + startPointX);
-                System.out.println("Start y :" + startPointY);
-            }
-            if (allCheckPointsReached() && startReached()) {
-                playSound("win.wav");
+            if (gameWon) {
+                //playSound("win.wav");
                 System.out.println("Game successfully completed");
                 replayOption("Congratulations! You Won!");
             }
         }
         else {
-            playSound("lose.wav");
+            //playSound("lose.wav");
             replayOption("Better luck next time!");
         }
     }
@@ -178,12 +169,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
         }
     }
 
-    /**
-     * @return If the start point been visited again
-     */
-    private boolean startReached() {
-        return isPointInCircle(startPointX, startPointY, applet.mouseX, applet.mouseY,100) == 1;
-    }
+
 
     private void replayOption(String string){
         int replay = showConfirmDialog(null, "Wanna Replay?", string, YES_NO_OPTION);
@@ -207,19 +193,6 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
         this.shapeSelection = shapeSelection;
     }
 
-    /**
-     * @return If all check points have been reached
-     */
-    private boolean allCheckPointsReached() {
-        if(checkpoints.length==0)
-            return false;
-        for(int i=0;i< checkpoints.length ; i++) {
-            if(checkpoints[i][2] != 1) {
-                return false;
-            }
-        }
-        return true;
-    }
 
     private int getStrokeWeight(String difficultySelection) {
         switch (difficultySelection) {
@@ -251,36 +224,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
         this.blueColor = blueColor;
     }
 
-    /**
-    * 
-    * Function name - hasLineReachedCheckPoint
-    * Description   - check if current point is in the vicinity of some checkpoint
-    * @param     - mouseX,mouseY
-    * @return        - void
-    */
-    private void hasLineReachedCheckPoint() {
-        
-        for(int i=0; i < checkpoints.length ;i++) {
-            if (checkpoints[i][2] != 1) { 
-                checkpoints[i][2] = isPointInCircle(checkpoints[i][0],checkpoints[i][1],applet.mouseX,applet.mouseY,strokeWeight*strokeWeight);
-               }
-         }
-    }
 
-    /**
-     *
-     * Function name - isPointInCircle
-     * Description   - check if point is within circle with centre i ,j
-     * @param     - i,j,mouseX,mouseY
-     * @return        - int
-     */
-    private int isPointInCircle(int i, int j, int mouseX, int mouseY, int radius) {
-        int distance = (i-mouseX)*(i-mouseX)+(j-mouseY)*(j-mouseY);
-        if (distance <= radius) {
-            return 1;
-        }
-        return 0;
-    }
+
     
     /**
      * @param key    Various keyboard keys to change color
@@ -329,8 +274,9 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
 
 
     @Override
-    public void isGameOver(boolean gameOver) {
+    public void gameState(boolean gameOver,boolean gameWon) {
         this.gameOver = gameOver;
+        this.gameWon = gameWon;
         
     }
 }

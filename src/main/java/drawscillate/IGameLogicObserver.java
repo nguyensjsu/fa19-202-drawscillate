@@ -3,9 +3,9 @@ package drawscillate;
 public interface IGameLogicObserver {
     
     /**
-     * Send game over event to current screen
-     * @param gameover 
+     * Send game state event to current screen
+     * @param gameOver, gameWon 
      */
-    void isGameOver(boolean gameover) ;
+    void gameState(boolean gameOver, boolean gameWon) ;
 
 }
