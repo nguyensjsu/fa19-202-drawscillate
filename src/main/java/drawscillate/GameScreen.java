@@ -101,8 +101,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
 
     @Override
     public void mouseDragged() {
-                traceX.add(applet.mouseX);
-                traceY.add(applet.mouseY);
+        traceX.add(applet.mouseX);
+        traceY.add(applet.mouseY);
     }
 
     @Override
@@ -144,7 +144,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver,IGameLogicObse
     public void mousePressed() {
         applet.stroke(redColor, greenColor, blueColor);
         applet.strokeWeight(5);
-        
+
         if (!gameOver) {
             applet.line(applet.mouseX, applet.mouseY, applet.pmouseX, applet.pmouseY);
             gameManager.mouseEvent(graphics);
