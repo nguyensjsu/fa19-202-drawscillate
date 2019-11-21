@@ -17,7 +17,7 @@ public class Rectangle extends Shapes implements IShapes {
         graphics.endShape();
         graphics.endDraw();
 
-
+        setCheckpointCount(4);
 
         insertCheckPoint(50, 100, 0);
         insertCheckPoint(450, 100, 1);
