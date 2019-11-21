@@ -154,7 +154,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
             }
         } else {
             playSound("lose.wav");
-            replayOption("Better luck next time!","");
+            replayOption("Better luck next time!","Don't Lose Hope.\n");
         }
     }
 
