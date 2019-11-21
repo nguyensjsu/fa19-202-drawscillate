@@ -16,4 +16,6 @@ public interface IScreen {
     default void willStopDisplaying() {}
 
     default void mouseReleased() {}
+
+    default void mouseDragged() {}
 }

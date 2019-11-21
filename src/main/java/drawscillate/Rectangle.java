@@ -3,9 +3,7 @@ package drawscillate;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 
-public class Rectangle implements Shapes{
-
-    int [][] checkpoints = new int [4][3];
+public class Rectangle extends Shapes implements IShapes {
 
     @Override
     public int[][] draw(int weight, PGraphics graphics, PApplet applet) {
@@ -19,23 +17,13 @@ public class Rectangle implements Shapes{
         graphics.endShape();
         graphics.endDraw();
 
+
+
         insertCheckPoint(50, 100, 0);
         insertCheckPoint(450, 100, 1);
         insertCheckPoint(50, 380, 2);
         insertCheckPoint(450, 380, 3);
         applet.image(graphics, 0, 0);
-        return checkpoints;
-    }
-
-    /**
-     * Create the checkpoint array for the given figure
-     * @param x The x coordinate
-     * @param y The y coordinate
-     * @param i The index of the coordinate
-     */
-    private void insertCheckPoint(int x, int y, int i) {
-        checkpoints[i][0] = x;
-        checkpoints[i][1] = y;
-        checkpoints[i][2] = 0;
+        return getCheckpoints();
     }
 }

@@ -91,12 +91,11 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     }
 
     @Override
-    public void mousePressed() {
+    public void mouseDragged() {
         if (selectionComplete) {
             if (whiteBackground()) {
                 traceX.add(applet.mouseX);
                 traceY.add(applet.mouseY);
-                System.out.println(applet.mouseX+","+applet.mouseY);
             }
         }
     }
@@ -107,7 +106,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
             graphics = applet.createGraphics(500, 500);
             selectionComplete = true;
             ShapeFactory shapeFactory = new ShapeFactory();
-            Shapes shapes = shapeFactory.getShape(shapeSelection);
+            IShapes shapes = shapeFactory.getShape(shapeSelection);
             if(shapes != null) {
                 strokeWeight = getStrokeWeight(difficultySelection);
                 checkpoints = shapes.draw(strokeWeight, graphics, applet);

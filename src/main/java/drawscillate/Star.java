@@ -5,9 +5,7 @@ import static processing.core.PConstants.CLOSE;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 
-public class Star implements Shapes{
-    
-    int[][] checkpoints;
+public class Star extends Shapes implements IShapes {
 
     @Override
     public int[][] draw(int weight, PGraphics graphics, PApplet applet) {
@@ -17,7 +15,7 @@ public class Star implements Shapes{
         graphics.stroke(255);
         graphics.strokeWeight(weight);
         graphics.beginShape();
-        checkpoints = new int[10][3];
+        setCheckpointCount(10);
         int startX = 550 / 2 - 47 / 2;
         int startY = 160 / 2 - 45 / 2;
         graphics.vertex(startX, startY);
@@ -44,19 +42,7 @@ public class Star implements Shapes{
         graphics.endShape(CLOSE);
         graphics.endDraw();
         applet.image(graphics, 0, 0);
-        return checkpoints;
-    }
-    
-    /**
-     * Create the checkpoint array for the given figure
-     * @param x The x coordinate
-     * @param y The y coordinate
-     * @param i The index of the coordinate
-     */
-    private void insertCheckPoint(int x, int y, int i) {
-        checkpoints[i][0] = x;
-        checkpoints[i][1] = y;
-        checkpoints[i][2] = 0;
+        return getCheckpoints();
     }
 
 }
