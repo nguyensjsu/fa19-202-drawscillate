@@ -209,17 +209,10 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
      * @return If all check points have been reached
      */
     private boolean allCheckPointsReached() {
-        if (shapeSelection.equals("Star")) {
-            for(int i =0;i<10;i++) {
-                if(starCheckPoints[i][2] !=1) {
-                    return false;
-                }
-            }
-        } else if (shapeSelection.equals("Heart")) {
-            for(int i =0;i<5;i++) {
-                if(heartCheckPoints[i][2] !=1) {
-                    return false;
-                }
+        
+        for(int i=0;i< checkpoints.length ; i++) {
+            if(checkpoints[i][2] != 1) {
+                return false;
             }
         }
         return true;
