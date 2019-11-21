@@ -18,7 +18,6 @@ import java.util.Optional;
 import static javax.swing.JOptionPane.YES_NO_OPTION;
 import static javax.swing.JOptionPane.getRootFrame;
 import static javax.swing.JOptionPane.showConfirmDialog;
-import static processing.core.PConstants.CLOSE;
 import static processing.core.PConstants.HAND;
 
 public class GameScreen implements IScreen, OptionsScreenObserver {
@@ -106,13 +105,12 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         if (firstTime) {
             graphics = applet.createGraphics(500, 500);
             selectionComplete = true;
-            switch (shapeSelection) {
-                case "Star":
-                    drawStar(difficultySelection);
-                    break;
-                case "Heart":
-                    drawHeart(difficultySelection);
-                    break;
+            ShapeFactory shapeFactory = new ShapeFactory();
+            Shapes shapes = shapeFactory.getShape(shapeSelection);
+            if(shapes != null) {
+                strokeWeight = getStrokeWeight(difficultySelection);
+                checkpoints = shapes.draw(strokeWeight, graphics, applet);
+                startPointRecorded = false;
             }
             firstTime = false;
         }
@@ -218,85 +216,6 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         return true;
     }
 
-    private void drawStar(String difficultySelection) {
-        graphics.beginDraw();
-        graphics.background(51);
-        graphics.fill(102);
-        graphics.stroke(255);
-        strokeWeight = getStrokeWeight(difficultySelection);
-        graphics.strokeWeight(strokeWeight);
-        graphics.beginShape();
-        checkpoints = new int[10][3];
-        int startX = 550 / 2 - 47 / 2;
-        int startY = 160 / 2 - 45 / 2;
-        graphics.vertex(startX, startY);
-        insertCheckPoint(startX, startY, 0);
-        graphics.vertex(startX + 60, startY + 140);
-        insertCheckPoint(startX + 60, startY + 140, 1);
-        graphics.vertex(startX + 230, startY + 150);
-        insertCheckPoint(startX + 230, startY + 150, 2);
-        graphics.vertex(startX + 100, startY + 240);
-        insertCheckPoint(startX + 100, startY + 240, 3);
-        graphics.vertex(startX + 180, startY + 380);
-        insertCheckPoint(startX + 180, startY + 380, 4);
-        graphics.vertex(startX, startY + 300);
-        insertCheckPoint(startX, startY + 300, 5);
-        graphics.vertex(startX - 180, startY + 380);
-        insertCheckPoint(startX- 180, startY + 380, 6);
-        graphics.vertex(startX - 100, startY + 240);
-        insertCheckPoint(startX -100, startY + 240, 7);
-        graphics.vertex(startX - 230, startY + 150);
-        insertCheckPoint(startX -230, startY + 150, 8);
-        graphics.vertex(startX - 60, startY + 140);
-        insertCheckPoint(startX - 60, startY + 140, 9);
-        graphics.endShape(CLOSE);
-        graphics.endDraw();
-        startPointRecorded = false;
-        applet.image(graphics, 0, 0);
-    }
-
-    private void drawHeart(String difficultySelection) {
-        graphics.beginDraw();
-        graphics.background(51);
-        graphics.fill(102);
-        graphics.stroke(255);
-        strokeWeight = getStrokeWeight(difficultySelection);
-        graphics.strokeWeight(strokeWeight);
-        graphics.beginShape();
-        checkpoints = new int [5][3];
-        final int x1 = applet.width / 2;
-        final int halfHeartWidth = 500;
-        final int y1 = 100;
-        final int y2 = -50;
-        final int y3 = 5;
-        final int y4 = 485;
-        graphics.vertex(x1, y1);
-        graphics.bezierVertex(x1, y2, x1 + halfHeartWidth, y3, x1, y4);
-        graphics.bezierVertex(x1 - halfHeartWidth, y3, x1, y2, x1, y1);
-        graphics.endShape();
-        graphics.endDraw();
-        insertCheckPoint(249, 93, 0);
-        insertCheckPoint(29, 157, 1 );
-        insertCheckPoint(474, 158, 2 );
-        insertCheckPoint(252, 481, 3 );
-        insertCheckPoint(47, 219, 4 );
-        startPointRecorded =false;
-        applet.image(graphics, 0, 0);
-    }
-
-    /**
-     * Create the checkpoint array for the given figure
-     * @param x The x coordinate
-     * @param y The y coordinate
-     * @param i The index of the coordinate
-     * @param checkpoints The data structure into which the checkpoints should be recorded
-     */
-    private void insertCheckPoint(int x, int y, int i) {
-        checkpoints[i][0] = x;
-        checkpoints[i][1] = y;
-        checkpoints[i][2] = 0;
-    }
-
     private int getStrokeWeight(String difficultySelection) {
         switch (difficultySelection) {
             case "Hard":
@@ -325,24 +244,6 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         this.redColor = redColor;
         this.greenColor = greenColor;
         this.blueColor = blueColor;
-    }
-
-    /**
-     *
-     * Function name - hasLineReachedCheckPoint
-     * Description   - check if current point is in the vicinity of some checkpoint
-     * @param     - mouseX,mouseY
-     * @return        - void
-  
-    private boolean allCheckPointsReached() {
-        
-        for(int i=0;i<checkpoints.length;i++) {
-            if(checkpoints[i][2] != 1) {
-                return false;
-            }
-        }
-        return true;
-        
     }
 
     /**
