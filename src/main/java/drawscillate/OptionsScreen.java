@@ -7,8 +7,9 @@ import controlP5.Controller;
 import controlP5.DropdownList;
 import controlP5.Textarea;
 import processing.core.PApplet;
-import processing.core.PConstants;
 
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -18,7 +19,7 @@ import static processing.core.PConstants.LEFT;
 import static processing.core.PConstants.RIGHT;
 import static processing.core.PConstants.CORNER;
 
-public class OptionsScreen implements IScreen, CallbackListener {
+public class OptionsScreen implements IScreen, CallbackListener, IDisplayComponent {
     private PApplet applet;
     private ControlP5 controlP5;
     private DropdownList d1, d2;
@@ -26,13 +27,47 @@ public class OptionsScreen implements IScreen, CallbackListener {
     private String difficultySelection;
     private String shapeSelection;
     private Collection<OptionsScreenObserver> optionsScreenObservers = new HashSet<>();
+    private ArrayList<IDisplayComponent> components = new ArrayList<IDisplayComponent>();
     private AppController app;
     private Textarea myTextArea;
+    private TextComponent textComponent1;
+    private TextComponent textComponent2;
+    private TextComponent textComponent3;
+    private TextComponent textComponent4;
+    private TextComponent textComponent5;
+
+    private String header = null;
+    private String label1 = "How to play";
+    private String label2 = "Move your cursor through the outline of the picture,\n "
+            + "without crossing over the border to win!";
+    private String label3 = "CHOOSE SHAPE:";
+    private String label4 = "CHOOSE LEVEL:";
+    
 
     OptionsScreen(PApplet applet) {
         this.applet = applet;
         controlP5 = new ControlP5(applet);
         app = AppController.getInstance();
+        header = "Hi ! Select your Preferences!";
+        textComponent1 = new TextComponent(applet,applet.width/2, 30, applet.width-100,30,header,CENTER,CENTER);
+        textComponent1.setFill(237f, 97f, 21f);
+        textComponent1.setTextSize(20f);
+        textComponent2 = new TextComponent(applet,applet.width/2, 65, applet.width-100,25,label1);
+        textComponent2.setTextSize(20f);
+        textComponent2.setFill(48, 145, 50);
+        textComponent3 = new TextComponent(applet,applet.width/2, 100, applet.width-100,60,label2);
+        textComponent3.setTextSize(13f);
+        textComponent4 = new TextComponent(applet,applet.width/4, 170, applet.width/4,40,label3,RIGHT,CENTER);
+        textComponent4.setTextSize(13f);
+        textComponent4.setFill(255, 255, 255);
+        textComponent5 = new TextComponent(applet,applet.width/4, 220, applet.width/4,40,label4,RIGHT,CENTER);
+        textComponent5.setTextSize(13f);
+        textComponent5.setFill(255, 255, 255);
+        addSubComponent(textComponent1);
+        addSubComponent(textComponent2);
+        addSubComponent(textComponent3);
+        addSubComponent(textComponent4);
+        addSubComponent(textComponent5);
         // create a DropdownList
         d1 = controlP5
             .addDropdownList("Difficulty")
@@ -75,6 +110,12 @@ public class OptionsScreen implements IScreen, CallbackListener {
 
         button = new Button(applet, "Play!");
     }
+    
+    @Override
+    public void addSubComponent(IDisplayComponent component) {
+        components.add(component);
+        
+    }
 
     @Override
     public void mouseReleased() {
@@ -101,52 +142,18 @@ public class OptionsScreen implements IScreen, CallbackListener {
 
     @Override
     public void display() {
-        //Text
+        
+        header = "Hi " + app.getName() + "! Select your Preferences!";
+        textComponent1.setLabel(header);
         applet.background(0);
         applet.noFill();
-        applet.noStroke();
-        applet.rectMode(CENTER); 
-        applet.rect(applet.width/2, 30, applet.width-100,30);
-        applet.textAlign(CENTER,CENTER);
-        applet.fill(237, 97, 21);
-        applet.textSize(20);
-        applet.text("Hi "+app.getName()+"! Select your Preferences!", applet.width/2, 30, applet.width -110 , 30);
-        applet.noFill();
         applet.stroke(0, 153, 204);
-        applet.rectMode(PConstants.CENTER);
-        applet.rect(applet.height/2f, applet.width/2f, applet.width-100, applet.height-100);
-        applet.noFill();
-        applet.noStroke();
-        applet.rectMode(CENTER); 
-        applet.rect(applet.width/2, 60, applet.width-100,30);
-        applet.textAlign(LEFT,CENTER);
-        applet.fill(48, 145, 50);
-        applet.textSize(20);
-        applet.text("How to play:", applet.width/2, 60, applet.width-110,30);
-        applet.noFill();
-        applet.noStroke();
-        applet.rectMode(CENTER); 
-        applet.rect(applet.width/2, 90, applet.width-100,60);
-        applet.fill(255);
-        applet.textSize(14);
-        applet.text("Move your cursor through the outline of the picture,\n"
-                + "without crossing over the border to win!", applet.width/2, 90, applet.width-110,60);
-        applet.noFill();
-        applet.noStroke();
-        applet.rectMode(CENTER); 
-        applet.rect(applet.width/4, 170, applet.width/4,40);
-        applet.textAlign(RIGHT,CENTER);
-        applet.fill(255);
-        applet.textSize(13);
-        applet.text("CHOOSE SHAPE :", applet.width/4, 170, applet.width/4-10,40);
-        applet.noFill();
-        applet.noStroke();
-        applet.rectMode(CENTER); 
-        applet.rect(applet.width/4, 220, applet.width/4,40);
-        applet.textAlign(RIGHT,CENTER);
-        applet.fill(255);
-        applet.textSize(13);
-        applet.text("CHOOSE LEVEL :", applet.width/4, 220, applet.width/4-10,40);
+        applet.rectMode(CENTER);
+        applet.rect(applet.height / 2f, applet.width / 2f, applet.width - 100, applet.height - 100);
+        // Text
+        for (IDisplayComponent c : components)
+            c.display();
+
         applet.rectMode(CORNER);
         // draw the button
         applet.textAlign(LEFT);
@@ -174,4 +181,8 @@ public class OptionsScreen implements IScreen, CallbackListener {
             shapeSelection = controlP5.get(DropdownList.class, "Shape").getItem(selectedIndex).get("name").toString();
         }
     }
+
+
 }
+
+
