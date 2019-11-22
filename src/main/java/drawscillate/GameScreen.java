@@ -288,10 +288,10 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
         this.gameWon = gameWon;
     }
 
-//    @Override
-//    public void mouseDragged(){
-//        traceCursor++;
-//    }
+    @Override
+    public void mouseDragged(){
+        traceCursor++;
+    }
     
     @Override
     public void mouseReleased() {
