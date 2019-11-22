@@ -168,7 +168,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
             if (gameWon) {
                 playSound("win.wav");
                 System.out.println("Game successfully completed");
-                applet.saveFrame(shapeSelection+"_"+System.currentTimeMillis()+".png");
+                applet.save("outputimage/"+shapeSelection+"_"+System.currentTimeMillis()+".png");
                 appController.update3(shapeSelection,difficultySelection,traceCursor,true);
             }
         } else {
