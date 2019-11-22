@@ -42,6 +42,7 @@ public class AppController extends PApplet implements WelcomeScreenObserver, Opt
     }
     
     public void setup() {
+        surface.setTitle("Drawscillate");
         final WelcomeScreen welcomeScreen = new WelcomeScreen(this);
         welcomeScreen.attach(this);
         this.welcomeScreen = welcomeScreen;

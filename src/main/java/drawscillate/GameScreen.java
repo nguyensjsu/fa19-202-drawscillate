@@ -174,7 +174,6 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
             System.out.println("REPLAY");
             AppController appController = AppController.getInstance();
             appController.update();
-            //applet.setup();
             return;
         }
         if (replay == 1) {
