@@ -36,7 +36,7 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
     private TextComponent textComponent4;
     private TextComponent textComponent5;
 
-    private String header = null;
+    private String header = "";
     private String label1 = "How to play";
     private String label2 = "Move your cursor through the outline of the picture,\n "
             + "without crossing over the border to win!";
