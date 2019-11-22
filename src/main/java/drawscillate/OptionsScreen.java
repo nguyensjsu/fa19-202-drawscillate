@@ -7,6 +7,7 @@ import controlP5.Controller;
 import controlP5.DropdownList;
 import controlP5.Textarea;
 import processing.core.PApplet;
+import processing.core.PConstants;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -15,7 +16,7 @@ import java.util.HashSet;
 import static processing.core.PConstants.CENTER;
 import static processing.core.PConstants.LEFT;
 import static processing.core.PConstants.RIGHT;
-import static processing.core.PConstants.TOP;
+import static processing.core.PConstants.CORNER;
 
 public class OptionsScreen implements IScreen, CallbackListener {
     private PApplet applet;
@@ -102,27 +103,51 @@ public class OptionsScreen implements IScreen, CallbackListener {
     public void display() {
         //Text
         applet.background(0);
-        applet.textAlign(CENTER);
+        applet.noFill();
+        applet.noStroke();
+        applet.rectMode(CENTER); 
+        applet.rect(applet.width/2, 30, applet.width-100,30);
+        applet.textAlign(CENTER,CENTER);
         applet.fill(237, 97, 21);
         applet.textSize(20);
-        applet.text("Hi "+app.getName()+"! Select your Preferences!", applet.width / 2f, applet.width / 10f);
+        applet.text("Hi "+app.getName()+"! Select your Preferences!", applet.width/2, 30, applet.width -110 , 30);
         applet.noFill();
         applet.stroke(0, 153, 204);
-        applet.rect(applet.height/10f, applet.width/9f, applet.height-100, applet.width-100);
+        applet.rectMode(PConstants.CENTER);
+        applet.rect(applet.height/2f, applet.width/2f, applet.width-100, applet.height-100);
+        applet.noFill();
+        applet.noStroke();
+        applet.rectMode(CENTER); 
+        applet.rect(applet.width/2, 60, applet.width-100,30);
+        applet.textAlign(LEFT,CENTER);
         applet.fill(48, 145, 50);
         applet.textSize(20);
-        applet.textAlign(LEFT);
-        applet.text("How to play:", applet.height /10f+10, applet.width / 6f);
+        applet.text("How to play:", applet.width/2, 60, applet.width-110,30);
+        applet.noFill();
+        applet.noStroke();
+        applet.rectMode(CENTER); 
+        applet.rect(applet.width/2, 90, applet.width-100,60);
         applet.fill(255);
-        applet.textAlign(LEFT,TOP);
         applet.textSize(14);
         applet.text("Move your cursor through the outline of the picture,\n"
-                + "without crossing over the border to win!", applet.height/10f+10 , applet.width / 9f+35 );
+                + "without crossing over the border to win!", applet.width/2, 90, applet.width-110,60);
+        applet.noFill();
+        applet.noStroke();
+        applet.rectMode(CENTER); 
+        applet.rect(applet.width/4, 170, applet.width/4,40);
+        applet.textAlign(RIGHT,CENTER);
+        applet.fill(255);
         applet.textSize(13);
-        applet.textAlign(RIGHT);
-        applet.text("CHOOSE SHAPE",applet.width-315, applet.height-325);
-        applet.text("CHOOSE DIFFCULTY",applet.width-315, applet.height-275);
-
+        applet.text("CHOOSE SHAPE :", applet.width/4, 170, applet.width/4-10,40);
+        applet.noFill();
+        applet.noStroke();
+        applet.rectMode(CENTER); 
+        applet.rect(applet.width/4, 220, applet.width/4,40);
+        applet.textAlign(RIGHT,CENTER);
+        applet.fill(255);
+        applet.textSize(13);
+        applet.text("CHOOSE LEVEL :", applet.width/4, 220, applet.width/4-10,40);
+        applet.rectMode(CORNER);
         // draw the button
         applet.textAlign(LEFT);
         applet.textSize(25);
