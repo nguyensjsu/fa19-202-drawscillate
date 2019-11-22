@@ -7,12 +7,12 @@ package drawscillate;
  * @author rajee
  *
  */
-public class IntialGameState implements IGameState {
+public class InitialGameState implements IGameState {
 
     IGamePlayStateMachine machine;
     
     
-    public IntialGameState(IGamePlayStateMachine machine) {
+    public InitialGameState(IGamePlayStateMachine machine) {
         this.machine =machine;
        
     }

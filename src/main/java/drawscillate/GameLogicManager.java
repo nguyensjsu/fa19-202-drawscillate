@@ -113,18 +113,22 @@ public class GameLogicManager implements IGameLogicSubject {
         red = applet.red(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
         green = applet.green(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
         blue = applet.blue(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-        if (red != 255 && green != 255 && blue != 255)
+        if (red != 255 && green != 255 && blue != 255) {
+            this.gamePlayStateMachine.setStateLose();
             gameOver = true;
-
+        }    
         hasLineReachedCheckPoint();
         if (!startPointRecorded) {
             startPointX = applet.mouseX;
             startPointY = applet.mouseY;
             startPointRecorded = true;
+            this.gamePlayStateMachine.setStateInPlay();
             
         }
-        if (allCheckPointsReached() && startReached())
+        if (allCheckPointsReached() && startReached()) {
+            this.gamePlayStateMachine.setStateWin();
             gameWon = true;
+        }   
 
         notifyObserver();
 

@@ -9,6 +9,14 @@ package drawscillate;
  */
 public class LoseGameState implements IGameState {
 
+    private GamePlayStateMachine machine;
+    /**
+     * @param gamePlayStateMachine
+     */
+    public LoseGameState(GamePlayStateMachine gamePlayStateMachine) {
+        this.machine = gamePlayStateMachine;
+    }
+
     /**
     * 
     * Function name - handleMouseEvent
@@ -18,7 +26,7 @@ public class LoseGameState implements IGameState {
     */
     @Override
     public void handleMouseEvent() {
-        // TODO Auto-generated method stub
+        this.machine.setStateInitial();
         
     }
 

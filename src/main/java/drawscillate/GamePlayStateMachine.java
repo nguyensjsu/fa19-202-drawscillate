@@ -4,16 +4,23 @@
 package drawscillate;
 
 public class GamePlayStateMachine implements IGamePlayStateMachine {
-
+    private InitialGameState initialGameState;
+    private InplayGameState inplayGameState;
+    private LoseGameState loseGameState;
+    private WinGameState winGameState;
     
-    
+    private IGameState currentState;
     
     
     /**
      * 
      */
     public GamePlayStateMachine() {
-        // TODO Auto-generated constructor stub
+      initialGameState = new InitialGameState(this);
+      inplayGameState = new InplayGameState(this);
+      loseGameState = new LoseGameState(this);
+      winGameState = new  WinGameState(this);
+      currentState = initialGameState;
     }
     
     /**
@@ -25,7 +32,7 @@ public class GamePlayStateMachine implements IGamePlayStateMachine {
     */
     @Override
     public void setStateInitial() {
-        // TODO Auto-generated method stub
+        currentState = initialGameState;
         
     }
 
@@ -38,8 +45,9 @@ public class GamePlayStateMachine implements IGamePlayStateMachine {
     */
     @Override
     public void setStateInPlay() {
-        // TODO Auto-generated method stub
-        
+        if(currentState.equals(initialGameState)) {
+            currentState = inplayGameState;
+        }
     }
 
     /**
@@ -51,8 +59,9 @@ public class GamePlayStateMachine implements IGamePlayStateMachine {
     */
     @Override
     public void setStateWin() {
-        // TODO Auto-generated method stub
-        
+        if(currentState.equals(inplayGameState)) {
+            currentState = winGameState;
+        }  
     }
 
     /**
@@ -64,7 +73,11 @@ public class GamePlayStateMachine implements IGamePlayStateMachine {
     */
     @Override
     public void setStateLose() {
-        // TODO Auto-generated method stub
+        if(currentState.equals(inplayGameState)) {
+            currentState = loseGameState;
+        }
+        
+        
         
     }
 
