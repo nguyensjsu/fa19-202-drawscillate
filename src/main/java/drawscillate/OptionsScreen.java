@@ -80,7 +80,8 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
             .setBarHeight(40)
             .setItemHeight(40)
             .addItems(Arrays.asList("Easy", "Normal", "Hard"));
-
+        
+        ShapeFactory factory = new ShapeFactory();
         // create a second DropdownList
         d2 = controlP5
             .addDropdownList("Shape")
@@ -92,7 +93,10 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
             .setHeight(300)
             .setBarHeight(40)
             .setItemHeight(40)
-            .addItems(Arrays.asList("Star", "Rectangle", "Heart", "Circle"));
+            .addItems(Arrays.asList(factory.getShape(ShapesNames.Star).getName(),
+                    factory.getShape(ShapesNames.Rectangle).getName(),
+                    factory.getShape(ShapesNames.Heart).getName(),
+                    factory.getShape(ShapesNames.Circle).getName()));
         
         myTextArea = controlP5
                     .addTextarea("txt")

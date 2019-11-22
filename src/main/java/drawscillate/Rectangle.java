@@ -26,4 +26,9 @@ public class Rectangle extends Shapes implements IShapes {
         applet.image(graphics, 0, 0);
         return getCheckpoints();
     }
+
+    @Override
+    public String getName() {
+        return "Rectangle";
+    }
 }
