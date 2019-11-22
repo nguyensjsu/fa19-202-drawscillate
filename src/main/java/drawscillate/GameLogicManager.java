@@ -18,11 +18,13 @@ public class GameLogicManager implements IGameLogicSubject {
     private boolean startPointRecorded = false;
     private int startPointX;
     private int startPointY;
+    private GamePlayStateMachine gamePlayStateMachine;
 
     GameLogicManager(PApplet applet) {
         this.applet = applet;
         gameOver = false;
         gameWon = false;
+        gamePlayStateMachine = new GamePlayStateMachine();
     }
 
     public void setCheckPoints(int[][] points) {
@@ -111,19 +113,22 @@ public class GameLogicManager implements IGameLogicSubject {
         red = applet.red(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
         green = applet.green(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
         blue = applet.blue(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-        if (red != 255 && green != 255 && blue != 255)
+        if (red != 255 && green != 255 && blue != 255) {
+            this.gamePlayStateMachine.setStateLose();
             gameOver = true;
-
+        }    
         hasLineReachedCheckPoint();
         if (!startPointRecorded) {
             startPointX = applet.mouseX;
             startPointY = applet.mouseY;
             startPointRecorded = true;
-            System.out.println("Start x :" + startPointX);
-            System.out.println("Start y :" + startPointY);
+            this.gamePlayStateMachine.setStateInPlay();
+            
         }
-        if (allCheckPointsReached() && startReached())
+        if (allCheckPointsReached() && startReached()) {
+            this.gamePlayStateMachine.setStateWin();
             gameWon = true;
+        }   
 
         notifyObserver();
 
