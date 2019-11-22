@@ -12,16 +12,11 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.IntUnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static javax.swing.JOptionPane.YES_NO_OPTION;
-import static javax.swing.JOptionPane.getRootFrame;
-import static javax.swing.JOptionPane.showConfirmDialog;
 import static processing.core.PConstants.HAND;
 
 public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObserver {
@@ -119,7 +114,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     @Override
     public void display() {
         if (firstTime) {
-            shapes = shapeFactory.getShape(shapeSelection);
+            shapes = shapeFactory.getShape(ShapesNames.valueOf(shapeSelection));
             if (shapes != null) {
                 strokeWeight = getStrokeWeight(difficultySelection);
                 checkpoints = shapes.draw(strokeWeight, graphics, applet);
@@ -154,6 +149,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     
     boolean mouseRelease = false ;
     boolean drawLine = true;
+    
     public void mousePressed() {
         applet.stroke(redColor, greenColor, blueColor);
         applet.strokeWeight(5);
@@ -175,9 +171,10 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
                     return;
                 }
             }
-            if(drawLine)
+            if(drawLine) {
                 applet.line(applet.mouseX, applet.mouseY, applet.pmouseX, applet.pmouseY);
-            gameManager.mouseEvent(graphics);
+                gameManager.mouseEvent(graphics);
+            }
             if (gameWon) {
                 playSound("win.wav");
                 System.out.println("Game successfully completed");

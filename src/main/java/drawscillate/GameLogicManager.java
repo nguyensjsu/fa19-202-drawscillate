@@ -125,11 +125,11 @@ public class GameLogicManager implements IGameLogicSubject {
             this.gamePlayStateMachine.setStateInPlay();
             
         }
+
         if (allCheckPointsReached() && startReached()) {
             this.gamePlayStateMachine.setStateWin();
             gameWon = true;
         }   
-
         notifyObserver();
 
     }

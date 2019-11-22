@@ -35,4 +35,9 @@ public class Heart extends Shapes implements IShapes {
         applet.image(graphics, 0, 0);
         return getCheckpoints();
     }
+
+    @Override
+    public String getName() {
+        return "Heart";
+    }
 }
