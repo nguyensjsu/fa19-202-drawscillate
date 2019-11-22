@@ -154,6 +154,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     
     boolean mouseRelease = false ;
     boolean drawLine = true;
+    
     public void mousePressed() {
         applet.stroke(redColor, greenColor, blueColor);
         applet.strokeWeight(5);
@@ -175,9 +176,10 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
                     return;
                 }
             }
-            if(drawLine)
+            if(drawLine) {
                 applet.line(applet.mouseX, applet.mouseY, applet.pmouseX, applet.pmouseY);
-            gameManager.mouseEvent(graphics);
+                gameManager.mouseEvent(graphics);
+            }
             if (gameWon) {
                 playSound("win.wav");
                 System.out.println("Game successfully completed");
