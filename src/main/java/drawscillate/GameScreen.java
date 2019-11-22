@@ -153,13 +153,14 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
                 System.out.println("Game successfully completed");
                 applet.saveFrame(shapeSelection+"_"+System.currentTimeMillis()+".png");
                 //replayOption("Congratulations! You Won!","Guess what? We've saved your winning moment to boast about!\n");
-
+                appController.update3(shapeSelection,difficultySelection,traceX.size(),true);
             }
         } else {
             playSound("lose.wav");
             //replayOption("Better luck next time!","Don't Lose Hope.\n");
-            appController.update3(shapeSelection,traceX.size());
+            appController.update3(shapeSelection,difficultySelection,traceX.size(),false);
         }
+
     }
 
     private void playSound(String s) {

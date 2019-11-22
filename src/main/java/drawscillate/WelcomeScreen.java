@@ -37,7 +37,6 @@ public class WelcomeScreen implements IScreen {
         applet.textAlign(CENTER);
         applet.fill(237, 97, 21);
         applet.textSize(70);
-        //applet.text("Drawscillate", applet.width / 2f, applet.height / 2f);
 
         final Optional<PImage> imageOptional = Optional.ofNullable("welcome.png").map("/"::concat)
                 .map(getClass()::getResource).map(URL::getFile).map(applet::loadImage);
