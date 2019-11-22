@@ -15,6 +15,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.IntUnaryOperator;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static javax.swing.JOptionPane.YES_NO_OPTION;
 import static javax.swing.JOptionPane.getRootFrame;
@@ -26,9 +29,9 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     private GameLogicManager gameManager;
     private String difficultySelection;
     private String shapeSelection;
-    private SinOsc[] sineWaves; // Array of sines
-    private float[] sineFreq; // Array of frequencies
-    private int numSines = 5; // Number of oscillators to use
+    private List<SinOsc> sineWaves;
+    private float[] sineFreq;
+    private int numSines = 5;
     private float yoffset;
     private float frequency;
     private float detune;
@@ -67,19 +70,19 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
         shapeFactory = new ShapeFactory();
         gameManager = new GameLogicManager(applet);
         gameManager.registerObserver((IGameLogicObserver) this);
-        sineWaves = new SinOsc[numSines]; // Initialize the oscillators
+        sineWaves = IntStream
+            .range(0, numSines)
+            .mapToObj(i -> {
+                // Calculate the amplitude for each oscillator
+                final double sineVolume = (1.0 / numSines) / (i + 1);
+                // Create the oscillators
+                final SinOsc sinOsc = new SinOsc(applet);
+                // Set the amplitudes for all oscillators
+                sinOsc.amp((float) sineVolume);
+                return sinOsc;
+            })
+            .collect(Collectors.toList());
         sineFreq = new float[numSines]; // Initialize array for Frequencies
-
-        for (int i = 0; i < numSines; i++) {
-            // Calculate the amplitude for each oscillator
-            double sineVolume = (1.0 / numSines) / (i + 1);
-            // Create the oscillators
-            sineWaves[i] = new SinOsc(applet);
-            // Start Oscillators
-            sineWaves[i].play();
-            // Set the amplitudes for all oscillators
-            sineWaves[i].amp((float) sineVolume);
-        }
 
         customizeLine = new CustomizeLine();
 
@@ -101,6 +104,16 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
         colorItem('o', showOrangeColor);
         
         completionCheck = new CompletionCheck();
+    }
+
+    @Override
+    public void willDisplay() {
+        sineWaves.forEach(SinOsc::play);
+    }
+
+    @Override
+    public void willStopDisplaying() {
+        sineWaves.forEach(SinOsc::stop);
     }
 
     @Override
@@ -126,7 +139,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
         for (int i = 0; i < numSines; i++) {
             sineFreq[i] = frequency * (i + 1 * detune);
             // Set the frequencies for all oscillators
-            sineWaves[i].freq(sineFreq[i]);
+            sineWaves.get(i).freq(sineFreq[i]);
         }
 
         if (applet.mousePressed) {
