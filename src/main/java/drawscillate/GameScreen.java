@@ -13,6 +13,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static javax.swing.JOptionPane.YES_NO_OPTION;
@@ -31,6 +32,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     private float yoffset;
     private float frequency;
     private float detune;
+    private PGraphics graphics;
     int redColor = 0;
     int greenColor = 0;
     int blueColor = 0;
@@ -42,9 +44,6 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     boolean gameWon = false;
     int strokeWeight;
     int[][] checkpoints;
-    private PGraphics graphics;
-    private ArrayList traceX = new ArrayList();
-    private ArrayList traceY = new ArrayList();
     private boolean firstTime = true;
     private ShapeFactory shapeFactory;
     private IShapes shapes;
@@ -57,6 +56,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     IColorCommand showOrangeColor;
     IColorCommand showPurpleColor;
     IColorCommand showBlackColor;
+    CompletionCheck completionCheck;
+    Memento memento = null;
 
     GameScreen(PApplet applet) {
         appController = AppController.getInstance();
@@ -97,12 +98,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
         colorItem('g', showGreenColor);
         colorItem(' ', showBlackColor);
         colorItem('o', showOrangeColor);
-    }
-
-    @Override
-    public void mouseDragged() {
-        traceX.add(applet.mouseX);
-        traceY.add(applet.mouseY);
+        
+        completionCheck = new CompletionCheck();
     }
 
     @Override
@@ -140,13 +137,32 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
             customizeLine.initialize();
         }
     }
-
+    
+    boolean mouseRelease = false ;
+    boolean drawLine = true;
     public void mousePressed() {
         applet.stroke(redColor, greenColor, blueColor);
         applet.strokeWeight(5);
 
         if (!gameOver) {
-            applet.line(applet.mouseX, applet.mouseY, applet.pmouseX, applet.pmouseY);
+            if(mouseRelease) {
+                List<Integer> points= completionCheck.restoreFromMemento(memento);
+                int checkX = -1;
+                int checkY = -1;
+                if(points.size() != 0) {
+                    checkX = points.get(0);
+                    checkY = points.get(1);
+                }
+                int distance = ((applet.mouseX - checkX) * (applet.mouseX - checkX)) - 
+                        ((applet.mouseY - checkY) * (applet.mouseY - checkY));
+                if(distance < 10) {
+                    mouseRelease = false;
+                    drawLine = true;
+                    return;
+                }
+            }
+            if(drawLine)
+                applet.line(applet.mouseX, applet.mouseY, applet.pmouseX, applet.pmouseY);
             gameManager.mouseEvent(graphics);
             if (gameWon) {
                 playSound("win.wav");
@@ -269,6 +285,17 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     public void gameState(boolean gameOver, boolean gameWon) {
         this.gameOver = gameOver;
         this.gameWon = gameWon;
-
+    }
+    
+    @Override
+    public void mouseReleased() {
+        if(drawLine) {
+            completionCheck.set(applet.mouseX, applet.mouseY);
+            memento = completionCheck.saveToMemento();
+            applet.stroke(255,0,0);
+            applet.point(applet.mouseX, applet.mouseY);
+            mouseRelease = true;
+            drawLine = false;
+        }
     }
 }
