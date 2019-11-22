@@ -14,6 +14,7 @@ class Button {
     }
 
     void draw() {
+        applet.strokeWeight(1);
         applet.fill(200);
         if (over()) {
             applet.fill(255);
