@@ -102,12 +102,12 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
                     .setFont(applet.createFont("Georgia",14))
                     .setLineHeight(18)
                     .setColor(applet.color(237, 97, 21))
-                    .setText("Key Controls:\n\n"
-                            +" y - Yellow\n r - Red\n"
-                            +" o - Green\n b - Blue\n"
-                            +" p - Purple \n g - Orange\n"
-                            );
-
+                    .setText("Key Controls:\n\n")
+                    .setColor(applet.color(237, 97, 21))
+                    .setText(" y - Yellow\n r - Red\n"
+                            +" g - Green\n b - Blue\n"
+                            +" p - Purple \n o - Orange\n"
+                    );
         button = new Button(applet, "Play!");
     }
     
