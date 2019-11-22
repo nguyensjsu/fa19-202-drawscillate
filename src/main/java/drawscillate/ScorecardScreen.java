@@ -8,7 +8,8 @@ public class ScorecardScreen implements IScreen {
     private int hits;
     private IScoringStrategy scoringStrategy;
 
-    public ScorecardScreen(String shape, int hits) {
+    public ScorecardScreen(PApplet applet,String shape, int hits) {
+        this.applet = applet;
         this.hits = hits;
 
         switch (shape) {
@@ -35,11 +36,12 @@ public class ScorecardScreen implements IScreen {
 
     @Override
     public void display() {
-        applet.text("Drawscillate", applet.width / 2f, applet.height / 2f);
+        applet.background(255);
+        applet.text(Integer.toString(getScore(scoringStrategy)), applet.width / 2f, applet.height / 2f);
     }
 
     private int getScore(IScoringStrategy scoringStrategy){
-        return scoringStrategy.CalculateScore(hits);
+        return scoringStrategy.calculateScore(hits);
     }
 
     @Override

@@ -2,7 +2,7 @@ package drawscillate;
 
 public class HeartScoringStrategy implements IScoringStrategy {
     @Override
-    public int CalculateScore(int hits) {
+    public int calculateScore(int hits) {
         return 0;
     }
 }
