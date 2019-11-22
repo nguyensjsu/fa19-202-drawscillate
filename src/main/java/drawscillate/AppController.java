@@ -92,4 +92,10 @@ public class AppController extends PApplet implements WelcomeScreenObserver, Opt
         current = gameScreen;
         current.willDisplay();
     }
+
+    public  void update3(String shapeSelection,String difficultySelection, int hits, boolean gameWon){
+        current.willStopDisplaying();
+        current = new ScorecardScreen(this,shapeSelection,difficultySelection,hits,gameWon);
+        current.willDisplay();
+    }
 }

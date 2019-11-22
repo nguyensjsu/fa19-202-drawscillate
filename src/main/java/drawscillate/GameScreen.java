@@ -48,6 +48,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     private boolean firstTime = true;
     private ShapeFactory shapeFactory;
     private IShapes shapes;
+    private AppController appController;
     CustomizeLine customizeLine;
     IColorCommand showRedColor;
     IColorCommand showYellowColor;
@@ -58,6 +59,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     IColorCommand showBlackColor;
 
     GameScreen(PApplet applet) {
+        appController = AppController.getInstance();
         this.applet = applet;
         graphics = applet.createGraphics(500, 500);
         shapeFactory = new ShapeFactory();
@@ -150,12 +152,15 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
                 playSound("win.wav");
                 System.out.println("Game successfully completed");
                 applet.saveFrame(shapeSelection+"_"+System.currentTimeMillis()+".png");
-                replayOption("Congratulations! You Won!","Guess what? We've saved your winning moment to boast about!\n");
+                //replayOption("Congratulations! You Won!","Guess what? We've saved your winning moment to boast about!\n");
+                appController.update3(shapeSelection,difficultySelection,traceX.size(),true);
             }
         } else {
             playSound("lose.wav");
-            replayOption("Better luck next time!","Don't Lose Hope.\n");
+            //replayOption("Better luck next time!","Don't Lose Hope.\n");
+            appController.update3(shapeSelection,difficultySelection,traceX.size(),false);
         }
+
     }
 
     private void playSound(String s) {
