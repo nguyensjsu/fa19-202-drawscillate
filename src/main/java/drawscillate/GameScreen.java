@@ -163,7 +163,9 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
                     checkX = points.get(0);
                     checkY = points.get(1);
                 }
-                if(applet.mouseX == checkX && applet.mouseY == checkY) {
+                int distance = ((applet.mouseX - checkX) * (applet.mouseX - checkX)) - 
+                        ((applet.mouseY - checkY) * (applet.mouseY - checkY));
+                if(distance < 10) {
                     mouseRelease = false;
                     drawLine = true;
                     return;
@@ -290,7 +292,6 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     public void gameState(boolean gameOver, boolean gameWon) {
         this.gameOver = gameOver;
         this.gameWon = gameWon;
-
     }
     
     @Override
