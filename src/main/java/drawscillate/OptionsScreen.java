@@ -27,7 +27,7 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
     private String difficultySelection;
     private String shapeSelection;
     private Collection<OptionsScreenObserver> optionsScreenObservers = new HashSet<>();
-    private ArrayList<IDisplayComponent> components = new ArrayList<IDisplayComponent>() ;
+    private ArrayList<IDisplayComponent> components = new ArrayList<IDisplayComponent>();
     private AppController app;
     private Textarea myTextArea;
     private TextComponent textComponent1;
@@ -35,13 +35,13 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
     private TextComponent textComponent3;
     private TextComponent textComponent4;
     private TextComponent textComponent5;
-  
-    private String header =null;
+
+    private String header = null;
     private String label1 = "How to play";
     private String label2 = "Move your cursor through the outline of the picture,\n "
             + "without crossing over the border to win!";
-    private String label3 ="CHOOSE SHAPE:";
-    private String label4 ="CHOOSE LEVEL:";
+    private String label3 = "CHOOSE SHAPE:";
+    private String label4 = "CHOOSE LEVEL:";
     
 
     OptionsScreen(PApplet applet) {
@@ -143,18 +143,17 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
     @Override
     public void display() {
         
-        header ="Hi "+app.getName()+"! Select your Preferences!";
+        header = "Hi " + app.getName() + "! Select your Preferences!";
         textComponent1.setLabel(header);
         applet.background(0);
         applet.noFill();
         applet.stroke(0, 153, 204);
         applet.rectMode(CENTER);
-        applet.rect(applet.height/2f, applet.width/2f, applet.width-100, applet.height-100);
-        //Text
-        for(IDisplayComponent c: components)
+        applet.rect(applet.height / 2f, applet.width / 2f, applet.width - 100, applet.height - 100);
+        // Text
+        for (IDisplayComponent c : components)
             c.display();
-        
-       
+
         applet.rectMode(CORNER);
         // draw the button
         applet.textAlign(LEFT);
