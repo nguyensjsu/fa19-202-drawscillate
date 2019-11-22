@@ -18,16 +18,19 @@ import java.util.Optional;
 import static javax.swing.JOptionPane.YES_NO_OPTION;
 import static javax.swing.JOptionPane.getRootFrame;
 import static javax.swing.JOptionPane.showConfirmDialog;
-import static processing.core.PConstants.CLOSE;
 import static processing.core.PConstants.HAND;
 
-public class GameScreen implements IScreen, OptionsScreenObserver {
+public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObserver {
     private PApplet applet;
+    private GameLogicManager gameManager;
     private String difficultySelection;
     private String shapeSelection;
     private SinOsc[] sineWaves; // Array of sines
     private float[] sineFreq; // Array of frequencies
     private int numSines = 5; // Number of oscillators to use
+    private float yoffset;
+    private float frequency;
+    private float detune;
     int redColor = 0;
     int greenColor = 0;
     int blueColor = 0;
@@ -36,17 +39,15 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     float green;
     float blue;
     boolean gameOver = false;
-    boolean startPointRecorded = false;
-    int startPointX;
-    int startPointY;
+    boolean gameWon = false;
     int strokeWeight;
-    int [][] checkpoints;
+    int[][] checkpoints;
     private PGraphics graphics;
-    private boolean selectionComplete = false;
     private ArrayList traceX = new ArrayList();
     private ArrayList traceY = new ArrayList();
     private boolean firstTime = true;
-    private boolean drawingBegun =false;
+    private ShapeFactory shapeFactory;
+    private IShapes shapes;
     CustomizeLine customizeLine;
     IColorCommand showRedColor;
     IColorCommand showYellowColor;
@@ -58,6 +59,10 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
 
     GameScreen(PApplet applet) {
         this.applet = applet;
+        graphics = applet.createGraphics(500, 500);
+        shapeFactory = new ShapeFactory();
+        gameManager = new GameLogicManager(applet);
+        gameManager.registerObserver((IGameLogicObserver) this);
         sineWaves = new SinOsc[numSines]; // Initialize the oscillators
         sineFreq = new float[numSines]; // Initialize array for Frequencies
 
@@ -71,7 +76,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
             // Set the amplitudes for all oscillators
             sineWaves[i].amp((float) sineVolume);
         }
-        
+
         customizeLine = new CustomizeLine();
 
         initializeCommands();
@@ -93,37 +98,30 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     }
 
     @Override
-    public void mousePressed() {
-        if (selectionComplete) {
-            if (whiteBackground()) {
-                traceX.add(applet.mouseX);
-                traceY.add(applet.mouseY);
-            }
-        }
+    public void mouseDragged() {
+        traceX.add(applet.mouseX);
+        traceY.add(applet.mouseY);
     }
 
     @Override
     public void display() {
         if (firstTime) {
-            graphics = applet.createGraphics(500, 500);
-            selectionComplete = true;
-            switch (shapeSelection) {
-                case "Star":
-                    drawStar(difficultySelection);
-                    break;
-                case "Heart":
-                    drawHeart(difficultySelection);
-                    break;
+            shapes = shapeFactory.getShape(shapeSelection);
+            if (shapes != null) {
+                strokeWeight = getStrokeWeight(difficultySelection);
+                checkpoints = shapes.draw(strokeWeight, graphics, applet);
+                gameManager.setCheckPoints(checkpoints);
+                gameManager.setStrokeWeight(strokeWeight);
             }
             firstTime = false;
         }
 
         // Map mouseY from 0 to 1
-        float yoffset = PApplet.map(applet.mouseY, 0, applet.height, 0, 1);
+        yoffset = PApplet.map(applet.mouseY, 0, applet.height, 0, 1);
         // Map mouseY logarithmically to 150 - 1150 to create a base frequency range
-        float frequency = PApplet.pow(1000, yoffset) + 150;
+        frequency = PApplet.pow(1000, yoffset) + 150;
         // Use mouseX mapped from -0.5 to 0.5 as a detune argument
-        float detune = PApplet.map(applet.mouseX, 0, applet.width, -0.5f, 0.5f);
+        detune = PApplet.map(applet.mouseX, 0, applet.width, -0.5f, 0.5f);
 
         for (int i = 0; i < numSines; i++) {
             sineFreq[i] = frequency * (i + 1 * detune);
@@ -132,48 +130,32 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         }
 
         if (applet.mousePressed) {
-            applet.stroke(redColor, greenColor, blueColor);
-            applet.strokeWeight(5);
-
-            if (!gameOver && selectionComplete) {
-                applet.line(applet.mouseX, applet.mouseY, applet.pmouseX, applet.pmouseY);
-                hasLineReachedCheckPoint();
-                if (!startPointRecorded) {
-                    startPointX = applet.mouseX;
-                    startPointY = applet.mouseY;
-                    startPointRecorded = true;
-                    drawingBegun = true;
-                    System.out.println("Start x :" + startPointX);
-                    System.out.println("Start y :" + startPointY);
-                }
-            }
-
-            if (!whiteBackground()) {
-                gameOver = true;
-                playSound("lose.wav");
-                replayOption("Better luck next time!");
-            }
-        }else {
-            if(drawingBegun) {
-                gameOver = true;
-                playSound("lose.wav");
-                replayOption("Better luck next time!");
-            }
-        }
-        if (selectionComplete) {
-            if (allCheckPointsReached() && startReached()) {
-                playSound("win.wav");
-                System.out.println("Game successfully completed");
-                replayOption("Congratulations! You Won!");
-            }
+            mousePressed();
         }
 
         if (applet.keyPressed) {
             customizeLine.setKey(applet.key);
             customizeLine.initialize();
         }
-        
-       
+    }
+
+    public void mousePressed() {
+        applet.stroke(redColor, greenColor, blueColor);
+        applet.strokeWeight(5);
+
+        if (!gameOver) {
+            applet.line(applet.mouseX, applet.mouseY, applet.pmouseX, applet.pmouseY);
+            gameManager.mouseEvent(graphics);
+            if (gameWon) {
+                playSound("win.wav");
+                System.out.println("Game successfully completed");
+                applet.saveFrame(shapeSelection+"_"+System.currentTimeMillis()+".png");
+                replayOption("Congratulations! You Won!","Guess what? We've saved your winning moment to boast about!\n");
+            }
+        } else {
+            playSound("lose.wav");
+            replayOption("Better luck next time!","Don't Lose Hope.\n");
+        }
     }
 
     private void playSound(String s) {
@@ -186,15 +168,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         }
     }
 
-    /**
-     * @return If the start point been visited again
-     */
-    private boolean startReached() {
-        return isPointInCircle(startPointX, startPointY, applet.mouseX, applet.mouseY,20) == 1;
-    }
-
-    private void replayOption(String string){
-        int replay = showConfirmDialog(null, "Wanna Replay?", string, YES_NO_OPTION);
+    private void replayOption(String boxHead, String message) {
+        int replay = showConfirmDialog(null, message+"Wanna Replay?", boxHead, YES_NO_OPTION);
         if (replay == 0) {
             System.out.println("REPLAY");
             AppController appController = AppController.getInstance();
@@ -216,118 +191,21 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         this.shapeSelection = shapeSelection;
     }
 
-    /**
-     * @return If all check points have been reached
-     */
-    private boolean allCheckPointsReached() {
-        
-        for(int i=0;i< checkpoints.length ; i++) {
-            if(checkpoints[i][2] != 1) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private void drawStar(String difficultySelection) {
-        graphics.beginDraw();
-        graphics.background(51);
-        graphics.fill(102);
-        graphics.stroke(255);
-        strokeWeight = getStrokeWeight(difficultySelection);
-        graphics.strokeWeight(strokeWeight);
-        graphics.beginShape();
-        checkpoints = new int[10][3];
-        int startX = 550 / 2 - 47 / 2;
-        int startY = 160 / 2 - 45 / 2;
-        graphics.vertex(startX, startY);
-        insertCheckPoint(startX, startY, 0);
-        graphics.vertex(startX + 60, startY + 140);
-        insertCheckPoint(startX + 60, startY + 140, 1);
-        graphics.vertex(startX + 230, startY + 150);
-        insertCheckPoint(startX + 230, startY + 150, 2);
-        graphics.vertex(startX + 100, startY + 240);
-        insertCheckPoint(startX + 100, startY + 240, 3);
-        graphics.vertex(startX + 180, startY + 380);
-        insertCheckPoint(startX + 180, startY + 380, 4);
-        graphics.vertex(startX, startY + 300);
-        insertCheckPoint(startX, startY + 300, 5);
-        graphics.vertex(startX - 180, startY + 380);
-        insertCheckPoint(startX- 180, startY + 380, 6);
-        graphics.vertex(startX - 100, startY + 240);
-        insertCheckPoint(startX -100, startY + 240, 7);
-        graphics.vertex(startX - 230, startY + 150);
-        insertCheckPoint(startX -230, startY + 150, 8);
-        graphics.vertex(startX - 60, startY + 140);
-        insertCheckPoint(startX - 60, startY + 140, 9);
-        graphics.endShape(CLOSE);
-        graphics.endDraw();
-        startPointRecorded = false;
-        applet.image(graphics, 0, 0);
-    }
-
-    private void drawHeart(String difficultySelection) {
-        graphics.beginDraw();
-        graphics.background(51);
-        graphics.fill(102);
-        graphics.stroke(255);
-        strokeWeight = getStrokeWeight(difficultySelection);
-        graphics.strokeWeight(strokeWeight);
-        graphics.beginShape();
-        checkpoints = new int [5][3];
-        final int x1 = applet.width / 2;
-        final int halfHeartWidth = 500;
-        final int y1 = 100;
-        final int y2 = -50;
-        final int y3 = 5;
-        final int y4 = 485;
-        graphics.vertex(x1, y1);
-        graphics.bezierVertex(x1, y2, x1 + halfHeartWidth, y3, x1, y4);
-        graphics.bezierVertex(x1 - halfHeartWidth, y3, x1, y2, x1, y1);
-        graphics.endShape();
-        graphics.endDraw();
-        insertCheckPoint(249, 93, 0);
-        insertCheckPoint(29, 157, 1 );
-        insertCheckPoint(474, 158, 2 );
-        insertCheckPoint(252, 481, 3 );
-        insertCheckPoint(47, 219, 4 );
-        startPointRecorded =false;
-        applet.image(graphics, 0, 0);
-    }
-
-    /**
-     * Create the checkpoint array for the given figure
-     * @param x The x coordinate
-     * @param y The y coordinate
-     * @param i The index of the coordinate
-     * @param checkpoints The data structure into which the checkpoints should be recorded
-     */
-    private void insertCheckPoint(int x, int y, int i) {
-        checkpoints[i][0] = x;
-        checkpoints[i][1] = y;
-        checkpoints[i][2] = 0;
-    }
-
     private int getStrokeWeight(String difficultySelection) {
         switch (difficultySelection) {
-            case "Hard":
-                return 10;
-            case "Normal":
-                return 25;
-            case "Easy":
-                return 50;
+        case "Hard":
+            return 10;
+        case "Normal":
+            return 25;
+        case "Easy":
+            return 50;
         }
         return 10;
     }
 
     private void changeCursorAndColor(String resourceName, int redColor, int greenColor, int blueColor) {
-        final Optional<PImage> imageOptional =
-            Optional
-                .ofNullable(resourceName)
-                .map("/"::concat)
-                .map(getClass()::getResource)
-                .map(URL::getFile)
-                .map(applet::loadImage);
+        final Optional<PImage> imageOptional = Optional.ofNullable(resourceName).map("/"::concat)
+                .map(getClass()::getResource).map(URL::getFile).map(applet::loadImage);
         if (imageOptional.isPresent()) {
             applet.cursor(imageOptional.get());
         } else {
@@ -339,55 +217,6 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     }
 
     /**
-     *
-     * Function name - hasLineReachedCheckPoint
-     * Description   - check if current point is in the vicinity of some checkpoint
-     * @param     - mouseX,mouseY
-     * @return        - void
-  
-    private boolean allCheckPointsReached() {
-        
-        for(int i=0;i<checkpoints.length;i++) {
-            if(checkpoints[i][2] != 1) {
-                return false;
-            }
-        }
-        return true;
-        
-    }
-
-    /**
-    * 
-    * Function name - hasLineReachedCheckPoint
-    * Description   - check if current point is in the vicinity of some checkpoint
-    * @param     - mouseX,mouseY
-    * @return        - void
-    */
-    private void hasLineReachedCheckPoint() {
-        
-        for(int i=0; i < checkpoints.length ;i++) {
-            if (checkpoints[i][2] != 1) { 
-                checkpoints[i][2] = isPointInCircle(checkpoints[i][0],checkpoints[i][1],applet.mouseX,applet.mouseY,strokeWeight*strokeWeight);
-               }
-         }
-    }
-
-    /**
-     *
-     * Function name - isPointInCircle
-     * Description   - check if point is within circle with centre i ,j
-     * @param     - i,j,mouseX,mouseY
-     * @return        - int
-     */
-    private int isPointInCircle(int i, int j, int mouseX, int mouseY, int radius) {
-        int distance = (i-mouseX)*(i-mouseX)+(j-mouseY)*(j-mouseY);
-        if (distance <= radius) {
-            return 1;
-        }
-        return 0;
-    }
-    
-    /**
      * @param key    Various keyboard keys to change color
      * 
      * @param icolor map keys to their corresponding menu
@@ -395,7 +224,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
     private void colorItem(char key, IColorCommand icolor) {
         customizeLine.setColorItem(key, icolor);
     }
-    
+
     /**
      * Set Receivers for ColorCommand
      * 
@@ -431,19 +260,10 @@ public class GameScreen implements IScreen, OptionsScreenObserver {
         showOrangeColor = new ColorCommand();
     }
 
-    /**
-     * Function name - whiteBackgroud
-     * Description   - check if bg colour is white or not
-     * @return        - boolean
-     */
-    private boolean whiteBackground(){
-        pixelsFrame = graphics.get().pixels;
-        red = applet.red(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-        green = applet.green(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-        blue = applet.blue(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
-        if(red == 255 && green == 255 && blue == 255)
-            return true;
-        else
-            return false;
+    @Override
+    public void gameState(boolean gameOver, boolean gameWon) {
+        this.gameOver = gameOver;
+        this.gameWon = gameWon;
+
     }
 }
