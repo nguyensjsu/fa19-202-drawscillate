@@ -168,13 +168,11 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
             if (gameWon) {
                 playSound("win.wav");
                 System.out.println("Game successfully completed");
-                applet.saveFrame(shapeSelection+"_"+System.currentTimeMillis()+".png");
-                //replayOption("Congratulations! You Won!","Guess what? We've saved your winning moment to boast about!\n");
+                applet.save("outputimage/"+shapeSelection+"_"+System.currentTimeMillis()+".png");
                 appController.update3(shapeSelection,difficultySelection,traceCursor,true);
             }
         } else {
             playSound("lose.wav");
-            //replayOption("Better luck next time!","Don't Lose Hope.\n");
             appController.update3(shapeSelection,difficultySelection,traceCursor,false);
         }
 
@@ -188,23 +186,6 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
-    }
-
-    private void replayOption(String boxHead, String message) {
-        int replay = showConfirmDialog(null, message+"Wanna Replay?", boxHead, YES_NO_OPTION);
-        if (replay == 0) {
-            System.out.println("REPLAY");
-            AppController appController = AppController.getInstance();
-            appController.update();
-            return;
-        }
-        if (replay == 1) {
-            System.out.println("EXIT");
-            applet.exit();
-            return;
-        }
-        getRootFrame().dispose();
-        System.out.println(replay);
     }
 
     @Override
