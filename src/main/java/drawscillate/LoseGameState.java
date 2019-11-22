@@ -20,9 +20,9 @@ public class LoseGameState implements IGameState {
     /**
     * 
     * Function name - handleMouseEvent
-    * Description   - 
-    * @param     - 
-    * @return        - 
+    * Description   - change to initial when lost
+    * @param     - none 
+    * @return        - none
     */
     @Override
     public void handleMouseEvent() {

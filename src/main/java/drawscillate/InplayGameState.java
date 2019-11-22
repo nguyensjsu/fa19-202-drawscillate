@@ -20,14 +20,13 @@ public class InplayGameState implements IGameState{
     /**
     * 
     * Function name - handleMouseEvent
-    * Description   - 
-    * @param     - 
-    * @return        - 
+    * Description   - keep in the current state
+    * @param     - none 
+    * @return        - none
     */
     @Override
     public void handleMouseEvent() {
-        
-        
+        this.machine.setStateInPlay();
     }
 
 }

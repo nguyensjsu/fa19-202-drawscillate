@@ -20,9 +20,9 @@ IGamePlayStateMachine machine;
     /**
     * 
     * Function name - handleMouseEvent
-    * Description   - 
-    * @param     - 
-    * @return        - 
+    * Description   -  handle the mouse event
+    * @param     - none
+    * @return        - none
     */
     @Override
     public void handleMouseEvent() {

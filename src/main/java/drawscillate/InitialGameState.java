@@ -20,9 +20,9 @@ public class InitialGameState implements IGameState {
     /**
     * 
     * Function name - handleMouseEvent
-    * Description   - 
-    * @param     - 
-    * @return        - 
+    * Description   -  change to inplay state
+    * @param     -      none
+    * @return        - none
     */
     @Override
     public void handleMouseEvent() {
