@@ -148,3 +148,4 @@ gradle-app.setting
 ### Custom ###
 
 !libs/*.jar
+outputimage
