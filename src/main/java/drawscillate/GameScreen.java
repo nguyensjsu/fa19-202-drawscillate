@@ -154,7 +154,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
                     checkX = points.get(0);
                     checkY = points.get(1);
                 }
-                int distance = ((applet.mouseX - checkX) * (applet.mouseX - checkX)) - 
+                int distance = ((applet.mouseX - checkX) * (applet.mouseX - checkX)) +
                         ((applet.mouseY - checkY) * (applet.mouseY - checkY));
                 if(distance < 10) {
                     mouseRelease = false;
