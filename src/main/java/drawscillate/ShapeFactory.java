@@ -2,13 +2,13 @@ package drawscillate;
 
 public class ShapeFactory {
 
-    public IShapes getShape(String type) {
+    public IShapes getShape(ShapesNames names) {
         
-        switch(type) {
-        case "Heart": return new Heart();
-        case "Star": return new Star();
-        case "Rectangle": return new Rectangle();
-        case "Circle": return new Circle();
+        switch(names) {
+        case Heart: return new Heart();
+        case Star: return new Star();
+        case Rectangle: return new Rectangle();
+        case Circle: return new Circle();
         }
         return null;
         
