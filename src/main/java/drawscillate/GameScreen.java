@@ -32,6 +32,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     private float yoffset;
     private float frequency;
     private float detune;
+    private int traceCursor;
     private PGraphics graphics;
     int redColor = 0;
     int greenColor = 0;
@@ -169,12 +170,12 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
                 System.out.println("Game successfully completed");
                 applet.saveFrame(shapeSelection+"_"+System.currentTimeMillis()+".png");
                 //replayOption("Congratulations! You Won!","Guess what? We've saved your winning moment to boast about!\n");
-                appController.update3(shapeSelection,difficultySelection,traceX.size(),true);
+                appController.update3(shapeSelection,difficultySelection,traceCursor,true);
             }
         } else {
             playSound("lose.wav");
             //replayOption("Better luck next time!","Don't Lose Hope.\n");
-            appController.update3(shapeSelection,difficultySelection,traceX.size(),false);
+            appController.update3(shapeSelection,difficultySelection,traceCursor,false);
         }
 
     }
@@ -285,6 +286,11 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     public void gameState(boolean gameOver, boolean gameWon) {
         this.gameOver = gameOver;
         this.gameWon = gameWon;
+    }
+
+    @Override
+    public void mouseDragged(){
+        traceCursor++;
     }
     
     @Override
