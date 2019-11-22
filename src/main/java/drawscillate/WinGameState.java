@@ -3,13 +3,16 @@
  */
 package drawscillate;
 
+import processing.core.PApplet;
+import processing.core.PGraphics;
+
 /**
  * @author rajee
  *
  */
 public class WinGameState implements IGameState {
 
-IGamePlayStateMachine machine;
+    private IGamePlayStateMachine machine;
     
     
     public WinGameState(IGamePlayStateMachine machine) {
@@ -25,7 +28,7 @@ IGamePlayStateMachine machine;
     * @return        - none
     */
     @Override
-    public void handleMouseEvent() {
+    public void handleMouseEvent(PApplet applet, PGraphics graphics) {
         this.machine.setStateInitial();
         
     }
