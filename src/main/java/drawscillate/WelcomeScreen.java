@@ -1,15 +1,13 @@
 package drawscillate;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.net.URL;
+import java.util.*;
 
 import static javax.swing.JOptionPane.showInputDialog;
-import static processing.core.PConstants.CENTER;
-import static processing.core.PConstants.LEFT;
+import static processing.core.PConstants.*;
 
 public class WelcomeScreen implements IScreen {
     private PApplet applet;
@@ -34,18 +32,26 @@ public class WelcomeScreen implements IScreen {
 
     @Override
     public void display() {
-        applet.background(74, 73, 70);
+        applet.background(230, 222, 204);
         // draw the label
         applet.textAlign(CENTER);
         applet.fill(237, 97, 21);
         applet.textSize(70);
-        applet.text("Drawscillate", applet.width / 2f, applet.height / 2f);
+        //applet.text("Drawscillate", applet.width / 2f, applet.height / 2f);
+
+        final Optional<PImage> imageOptional = Optional.ofNullable("welcome.png").map("/"::concat)
+                .map(getClass()::getResource).map(URL::getFile).map(applet::loadImage);
+        if (imageOptional.isPresent()) {
+            applet.image(imageOptional.get(), 0, 0, applet.width, applet.height);
+        } else {
+            applet.text("Drawscillate", applet.width / 2f, applet.height / 2f);
+        }
 
         // draw the button
         applet.textAlign(LEFT);
         applet.textSize(25);
         button.x = (int) Math.ceil(applet.width / 2f - button.width() / 2);
-        button.y = 400;
+        button.y = 270;
         button.draw();
     }
 
