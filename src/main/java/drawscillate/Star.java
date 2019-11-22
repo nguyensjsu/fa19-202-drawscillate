@@ -45,4 +45,9 @@ public class Star extends Shapes implements IShapes {
         return getCheckpoints();
     }
 
+    @Override
+    public String getName() {
+        return "Star";
+    }
+
 }
