@@ -32,6 +32,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     private float yoffset;
     private float frequency;
     private float detune;
+    private PGraphics graphics;
     int redColor = 0;
     int greenColor = 0;
     int blueColor = 0;
@@ -43,14 +44,9 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     boolean gameWon = false;
     int strokeWeight;
     int[][] checkpoints;
-    private PGraphics graphics;
-    private List<Integer> traceX = new ArrayList();
-    private List<Integer> traceY = new ArrayList();
     private boolean firstTime = true;
     private ShapeFactory shapeFactory;
     private IShapes shapes;
-    float trackX;
-    float trackY;
     CustomizeLine customizeLine;
     IColorCommand showRedColor;
     IColorCommand showYellowColor;
@@ -105,12 +101,6 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     }
 
     @Override
-    public void mouseDragged() {
-        traceX.add(applet.mouseX);
-        traceY.add(applet.mouseY);
-    }
-
-    @Override
     public void display() {
         if (firstTime) {
             shapes = shapeFactory.getShape(shapeSelection);
@@ -153,8 +143,6 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
         applet.strokeWeight(5);
 
         if (!gameOver) {
-            System.out.println("MouseX: "+applet.mouseX);
-            System.out.println("MouseY: "+applet.mouseY);
             if(mouseRelease) {
                 List<Integer> points= completionCheck.restoreFromMemento(memento);
                 int checkX = -1;
