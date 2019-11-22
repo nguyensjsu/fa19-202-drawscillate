@@ -24,6 +24,15 @@ People who tend to lose focus, Children who want to have fun, artists who want t
 
 ![Sprint 1 Burndown Chart](Sprint1BurndownChart.png)
 
+### Sprint Retrospectives
+
+* [Sprint 1 Retrospective](https://youtu.be/xQuffx0hzCM)
+
+### Daily Standup Recordings
+
+* [11/18](https://youtu.be/TQFxYSvY6BM)
+* [11/21](https://youtu.be/F1KQlH5aFno)
+
 ## Building & Running
 
 We suggest building & running the app through through a general-purpose IDE (like IntelliJ IDEA). If you're using macOS, make sure to build & run with JDK 8; newer versions may fail according to [this source](https://discourse.processing.org/t/keep-getting-noclassdeffounderror-errors-on-mac/11727).
