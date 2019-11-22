@@ -57,7 +57,7 @@ public class ScorecardScreen implements IScreen {
         applet.textSize(33);
         applet.textAlign(CENTER);
         if (gameWon){
-            applet.text("Congratulations"+appController.getName()+"! You Won!", applet.width / 2f, 100);
+            applet.text("Congratulations "+appController.getName()+"! You Won!", applet.width / 2f, 100);
             applet.textSize(20);
             applet.text("Guess what? We've saved your \nwinning moment to boast about!", applet.width / 2f, 135);
         }
