@@ -106,6 +106,7 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
                             +" y - Yellow\n r - Red\n"
                             +" g - Green\n b - Blue\n"
                             +" p - Purple \n o - Orange\n"
+                            +" space - Black\n"
                             );
 
         button = new Button(applet, "Play!");
