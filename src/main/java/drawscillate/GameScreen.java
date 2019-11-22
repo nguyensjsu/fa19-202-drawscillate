@@ -172,7 +172,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
         int replay = showConfirmDialog(null, message+"Wanna Replay?", boxHead, YES_NO_OPTION);
         if (replay == 0) {
             System.out.println("REPLAY");
-            applet.setup();
+            AppController appController = AppController.getInstance();
+            appController.update();
             return;
         }
         if (replay == 1) {

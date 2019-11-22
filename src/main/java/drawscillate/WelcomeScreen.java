@@ -23,6 +23,7 @@ public class WelcomeScreen implements IScreen {
         app = AppController.getInstance();
     }
 
+
     @Override
     public void mouseReleased() {
         if (button.over()) {
