@@ -3,6 +3,7 @@ package drawscillate;
 import processing.core.PApplet;
 
 import static processing.core.PConstants.CENTER;
+import static processing.core.PConstants.LEFT;
 
 public class ScorecardScreen implements IScreen {
 
@@ -51,8 +52,10 @@ public class ScorecardScreen implements IScreen {
 
     @Override
     public void display() {
-        applet.background(175,175,175);
+        applet.background(0);
+        applet.fill(0, 153, 204);
         applet.textSize(33);
+        applet.textAlign(CENTER);
         if (gameWon){
             applet.text("Congratulations"+appController.getName()+"! You Won!", applet.width / 2f, 100);
             applet.textSize(20);
@@ -64,13 +67,15 @@ public class ScorecardScreen implements IScreen {
             applet.text("Don't lose hope", applet.width / 2f, 135);
         }
 
-        applet.textAlign(CENTER);
-        applet.fill(237, 97, 21);
+
+        applet.fill(237f, 97f, 21f);
         applet.textSize(30);
         applet.text("You have completed", applet.width / 2f, 230);
         applet.textSize(70);
         applet.text(Integer.toString(getScore(scoringStrategy))+"%", applet.width / 2f, 310);
-        applet.textSize(20);
+
+        applet.textAlign(LEFT);
+        applet.textSize(25);
 
         buttonReplay.x = (int) (applet.width/4f - buttonReplay.width()/2);
         buttonReplay.y = 380;
