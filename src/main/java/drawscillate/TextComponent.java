@@ -52,7 +52,7 @@ public class TextComponent implements IDisplayComponent {
         applet.textAlign(alignX,alignY);
         applet.fill(r,g,b);
         applet.textSize(size);
-        applet.text(label, x, y-10, width,height);
+        applet.text(label, x, y, width-10,height);
         
     }
     

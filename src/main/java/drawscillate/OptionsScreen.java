@@ -36,7 +36,7 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
   
     private String header =null;
     private String label1 = "How to play";
-    private String label2 = "\"Move your cursor through the outline of the picture,\n "
+    private String label2 = "Move your cursor through the outline of the picture,\n "
             + "without crossing over the border to win!";
     
 
@@ -48,10 +48,10 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
         textComponent1 = new TextComponent(applet,applet.width/2, 30, applet.width-100,30,header,CENTER,CENTER);
         textComponent1.setFill(237f, 97f, 21f);
         textComponent1.setTextSize(20f);
-        textComponent2 = new TextComponent(applet,applet.width/2, 60, applet.width-100,30,label1);
+        textComponent2 = new TextComponent(applet,applet.width/2, 65, applet.width-100,25,label1);
         textComponent2.setTextSize(20f);
         textComponent2.setFill(48, 145, 50);
-        textComponent3 = new TextComponent(applet,applet.width/2, 90, applet.width-100,60,label2);
+        textComponent3 = new TextComponent(applet,applet.width/2, 100, applet.width-100,60,label2);
         textComponent3.setTextSize(13f);
         addSubComponent(textComponent1);
         addSubComponent(textComponent2);
