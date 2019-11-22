@@ -8,4 +8,6 @@ public interface IShapes {
     
     public int[][] draw(int weight, PGraphics graphics, PApplet applet);
 
+    public String getName();
+
 }
