@@ -33,11 +33,15 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
     private TextComponent textComponent1;
     private TextComponent textComponent2;
     private TextComponent textComponent3;
+    private TextComponent textComponent4;
+    private TextComponent textComponent5;
   
     private String header =null;
     private String label1 = "How to play";
     private String label2 = "Move your cursor through the outline of the picture,\n "
             + "without crossing over the border to win!";
+    private String label3 ="CHOOSE SHAPE:";
+    private String label4 ="CHOOSE LEVEL:";
     
 
     OptionsScreen(PApplet applet) {
@@ -53,9 +57,17 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
         textComponent2.setFill(48, 145, 50);
         textComponent3 = new TextComponent(applet,applet.width/2, 100, applet.width-100,60,label2);
         textComponent3.setTextSize(13f);
+        textComponent4 = new TextComponent(applet,applet.width/4, 170, applet.width/4,40,label3,RIGHT,CENTER);
+        textComponent4.setTextSize(13f);
+        textComponent4.setFill(255, 255, 255);
+        textComponent5 = new TextComponent(applet,applet.width/4, 220, applet.width/4,40,label4,RIGHT,CENTER);
+        textComponent5.setTextSize(13f);
+        textComponent5.setFill(255, 255, 255);
         addSubComponent(textComponent1);
         addSubComponent(textComponent2);
         addSubComponent(textComponent3);
+        addSubComponent(textComponent4);
+        addSubComponent(textComponent5);
         // create a DropdownList
         d1 = controlP5
             .addDropdownList("Difficulty")
@@ -142,22 +154,7 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
         for(IDisplayComponent c: components)
             c.display();
         
-        applet.noFill();
-        applet.noStroke();
-        applet.rectMode(CENTER); 
-        applet.rect(applet.width/4, 170, applet.width/4,40);
-        applet.textAlign(RIGHT,CENTER);
-        applet.fill(255);
-        applet.textSize(13);
-        applet.text("CHOOSE SHAPE :", applet.width/4, 170, applet.width/4-10,40);
-        applet.noFill();
-        applet.noStroke();
-        applet.rectMode(CENTER); 
-        applet.rect(applet.width/4, 220, applet.width/4,40);
-        applet.textAlign(RIGHT,CENTER);
-        applet.fill(255);
-        applet.textSize(13);
-        applet.text("CHOOSE LEVEL :", applet.width/4, 220, applet.width/4-10,40);
+       
         applet.rectMode(CORNER);
         // draw the button
         applet.textAlign(LEFT);
