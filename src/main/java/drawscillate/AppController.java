@@ -25,8 +25,6 @@ public class AppController extends PApplet implements WelcomeScreenObserver, Opt
         PApplet.runSketch(processingArgs, mySketch);
     }
 
-
-    
     /**
      * Get Singleton Instance
      * @return Reference to Current App  (Create if none exists)
@@ -47,7 +45,10 @@ public class AppController extends PApplet implements WelcomeScreenObserver, Opt
         final WelcomeScreen welcomeScreen = new WelcomeScreen(this);
         welcomeScreen.attach(this);
         this.welcomeScreen = welcomeScreen;
+        current = welcomeScreen;
+    }
 
+    private void setupOptionsScreen() {
         final GameScreen gameScreen = new GameScreen(this);
         this.gameScreen = gameScreen;
 
@@ -55,10 +56,8 @@ public class AppController extends PApplet implements WelcomeScreenObserver, Opt
         optionsScreen.attach(this);
         optionsScreen.attach(gameScreen);
         this.optionsScreen = optionsScreen;
-
-        current = welcomeScreen;
     }
-    
+
     public void draw() {
         current.display();
     }
@@ -81,6 +80,7 @@ public class AppController extends PApplet implements WelcomeScreenObserver, Opt
     @Override
     public void update() {
         current.willStopDisplaying();
+        setupOptionsScreen();
         current = optionsScreen;
         current.willDisplay();
     }
