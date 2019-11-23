@@ -40,7 +40,7 @@ Drawscillate is built on the JDK 8 & Java 8 platform. It is built using Gradle 4
 
 ### [Aditya Agrawal](https://github.com/agrawaladit)
 
-* 
+
 
 ### [Andrew Selvia](https://github.com/AndrewSelvia)
 
@@ -59,16 +59,16 @@ One of the primary responsibilities of a scrum master is to remove impediments. 
 In addition, I coordinated daily stand up meetings, retrospectives, and contributed significantly to our [User Story Video](https://youtu.be/8FFxvjQ4u8Q).
 
 ### [Hetal Shah](https://github.com/ihetal)
-As a member of this agile team, I worked rigorously on refactoring so that the code continues to be maintainable. In this process I tried to remove redundancies, eliminate unused functionalities and rejuvenate obsolete designs. The following contributions exemplifies this:</br>
-* [Refactoring App Controller]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/48)</br>
-* [Refactoring Options Screen]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/88)</br>
-* [Refactoring Game Screen]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/80)</br>
-* [Refactoring Game Logic]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/110)</br></br>
 
-I also added and formatted the UI on the [options screen]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/76) to make the game feel more complete.</br>
+As a member of this agile team, I worked rigorously on refactoring so that the code continues to be maintainable. In this process I tried to remove redundancies, eliminate unused functionalities and rejuvenate obsolete designs. The following contributions exemplifies this:</br>
+* [Refactoring App Controller]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/48)
+* [Refactoring Options Screen]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/88)
+* [Refactoring Game Screen]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/80)
+* [Refactoring Game Logic]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/110)
+
+I also added and formatted the UI on the [options screen]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/76) to make the game feel more complete.
 
 Along with refactoring, I also implemented the following design patterns: Singleton, Observer, Composite.
-
 
 ### [Rajeev Sebastian](https://github.com/RajeevSebastian)
 
@@ -76,7 +76,25 @@ Along with refactoring, I also implemented the following design patterns: Single
 
 ### [Shraddha Nayak](https://github.com/shraddhanayak07)
 
+## Diagrams
 
+### Choosing Shapes
+
+Drawscillate enables you to choose between four different shapes to trace. Since `ShapeFactory` "can't anticipate the class of [shape] it must create", we chose to use the Factory Method design pattern for this feature. Each of `Heart`, `Star`, `Circle`, and `Rectangle` implement the `IShapes` interface. `GameScreen` has a `shapeFactory` that knows how to get the desired shape.
+
+![Factory Method](images/FactoryMethod.png)
+
+### Changing Drawing Color
+
+We wanted to build in the ability to change the color of your line while you are in the act of drawing; it seemed fun. A solution presented itself to us: select the key for the first letter of the primary color you want. Additional brainstorming led us to imagine the user being able to remap the colors to different keys based on their preferences. Additionally, we would like to eventually support replaying a drawing; in which case, we would need to have a log of when each color was pressed. This immediately began to sound like the *Command* pattern.
+
+> Command decouples the object that invokes the operation from the one that knows how to perform it.
+
+> Support logging changes so that they can be reapplied in case of a system crash
+
+In the diagram below, we highlight how the `IColorCommand` interface abstracts away the implementation from the `IColorInvoker`. We think this architecture would allow us to support such advanced features in future sprints. 
+
+![Command](images/CommandPattern-ChangeColor.png)  
 
 ## Scrum
 
