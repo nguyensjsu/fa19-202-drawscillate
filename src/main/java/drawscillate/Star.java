@@ -16,8 +16,8 @@ public class Star extends Shapes implements IShapes {
         graphics.strokeWeight(weight);
         graphics.beginShape();
         setCheckpointCount(10);
-        int startX = 650 / 2 - 47 / 2;
-        int startY = 200 / 2 - 45 / 2;
+        int startX = 550 / 2 - 47 / 2;
+        int startY = 160 / 2 - 45 / 2;
         graphics.vertex(startX, startY);
         insertCheckPoint(startX, startY, 0);
         graphics.vertex(startX + 60, startY + 140);
