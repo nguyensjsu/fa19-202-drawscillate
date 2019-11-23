@@ -3,18 +3,21 @@
  */
 package drawscillate;
 
+import processing.core.PApplet;
+import processing.core.PGraphics;
+
 /**
  * @author rajee
  *
  */
 public class LoseGameState implements IGameState {
 
-    private GamePlayStateMachine machine;
+    private IGamePlayStateMachine  machine;
     /**
      * @param gamePlayStateMachine
      */
-    public LoseGameState(GamePlayStateMachine gamePlayStateMachine) {
-        this.machine = gamePlayStateMachine;
+    public LoseGameState(IGamePlayStateMachine machine) {
+        this.machine = machine;
     }
 
     /**
@@ -25,7 +28,7 @@ public class LoseGameState implements IGameState {
     * @return        - none
     */
     @Override
-    public void handleMouseEvent() {
+    public void handleMouseEvent(PApplet applet, PGraphics graphics) {
         this.machine.setStateInitial();
         
     }
