@@ -7,7 +7,7 @@ import processing.core.PConstants;
 /**
  * Text component
  */
-public class TextComponent implements IDisplayComponent {
+public class TextComponent extends LeafComponent {
 
     private PApplet applet;
     private int width;
@@ -134,6 +134,7 @@ public class TextComponent implements IDisplayComponent {
     }
 
 
+
     /**
      * Function name -
      * Description   -
@@ -142,5 +143,4 @@ public class TextComponent implements IDisplayComponent {
      */
     public void addSubComponent(IDisplayComponent c) {
     }
-
 }

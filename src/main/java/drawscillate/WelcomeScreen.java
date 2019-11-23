@@ -51,8 +51,13 @@ public class WelcomeScreen implements IScreen {
         applet.fill(237, 97, 21);
         applet.textSize(70);
 
-        final Optional<PImage> imageOptional = Optional.ofNullable("welcome.png").map("/"::concat)
-                .map(getClass()::getResource).map(URL::getFile).map(applet::loadImage);
+        final Optional<PImage> imageOptional =
+            Optional
+                .of("welcome.png")
+                .map("/"::concat)
+                .map(getClass()::getResource)
+                .map(URL::getFile)
+                .map(applet::loadImage);
         if (imageOptional.isPresent()) {
             applet.image(imageOptional.get(), 0, 0, applet.width, applet.height);
         } else {
@@ -64,7 +69,7 @@ public class WelcomeScreen implements IScreen {
         applet.textSize(25);
         button.x = (int) Math.ceil(applet.width / 2f - button.width() / 2);
         button.y = 270;
-        button.draw();
+        button.display();
     }
     /**
     * Function name - attach
