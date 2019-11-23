@@ -5,7 +5,9 @@ package drawscillate;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
-
+/**
+ *  State machine of the  
+ */
 public class GamePlayStateMachine implements IGamePlayStateMachine,IGameLogicSubject {
     
     private InitialGameState initialGameState;
@@ -27,6 +29,7 @@ public class GamePlayStateMachine implements IGamePlayStateMachine,IGameLogicSub
     
     /**
      * 
+     * @param applet
      */
     public GamePlayStateMachine(PApplet applet) {
       initialGameState = new InitialGameState(this);
@@ -37,31 +40,64 @@ public class GamePlayStateMachine implements IGamePlayStateMachine,IGameLogicSub
       this.applet = applet;
     }
     
-
+    /**
+    * Function name - setCheckPoints
+    * Description    set the checkpoints 
+    * @param  points 
+    * @return        - void
+     */
     public void setCheckPoints(int[][] points) {
         checkpoints = points;
     }
-
+    /**
+    * Function name - setStrokeWeight
+    * Description   - weight ofthe line
+    * @param   strokeWeight 
+    * @return        - void
+     */
     public void setStrokeWeight(int strokeWeight) {
         this.strokeWeight = strokeWeight;
     }
-    
+    /**
+    * Function name - setStartPoints
+    * Description   - capture the start point
+    * @param x    
+    * @param y 
+    * @return        - void
+     */
     public void setStartPoints(int x, int y) {
         startPointX = applet.mouseX;
         startPointY = applet.mouseY;
     }
-
+    /**
+    * Function name - registerObserver
+    * Description  register observer 
+    * @param obj     - 
+    * @return        - None
+     */
     @Override
     public void registerObserver(IGameLogicObserver obj) {
         this.observer = obj;
 
     }
-
+    /**
+    * Function name - removeObserver
+    * Description  remove observer 
+    * @param     none
+    * @return    None
+     */
     @Override
     public void removeObserver() {
         this.observer = null;
 
     }
+    
+    /**
+    * Function name - notifyObserver
+    * Description   - notify observer
+    * @param     - None
+    * @return        -None
+     */
     
     @Override
     public void notifyObserver() {
@@ -73,7 +109,8 @@ public class GamePlayStateMachine implements IGamePlayStateMachine,IGameLogicSub
      * Function name - hasLineReachedCheckPoint Description - check if current point
      * is in the vicinity of some checkpoint
      * 
-     * @param - mouseX,mouseY
+     * @param - mouseX
+     * @param  -mouseY
      * @return - void
      */
     public void hasLineReachedCheckPoint() {
@@ -91,7 +128,11 @@ public class GamePlayStateMachine implements IGamePlayStateMachine,IGameLogicSub
      * Function name - isPointInCircle Description - check if point is within circle
      * with centre i ,j
      * 
-     * @param - i,j,mouseX,mouseY
+     * @param i the x coordinate of the circle's center
+     * @param j the y coordiante of the circles center
+     * @param  mouseX   current pointer coordiante
+     * @param mouseY    
+     * @param radius    radius of the circle
      * @return - int
      */
     public int isPointInCircle(int i, int j, int mouseX, int mouseY, int radius) {
@@ -125,9 +166,9 @@ public class GamePlayStateMachine implements IGamePlayStateMachine,IGameLogicSub
     /**
     * 
     * Function name - setStateInitial
-    * Description   - 
-    * @param     - 
-    * @return        - 
+    * Description   - set to initial state
+    * @param     - None
+    * @return       NOne
     */
     @Override
     public void setStateInitial() {
@@ -138,9 +179,9 @@ public class GamePlayStateMachine implements IGamePlayStateMachine,IGameLogicSub
     /**
     * 
     * Function name - setStateInPlay
-    * Description   - 
-    * @param     - 
-    * @return        - 
+    * Description   - when the player is playing the game
+    * @param     - None
+    * @return        - None
     */
     @Override
     public void setStateInPlay() {
@@ -150,9 +191,9 @@ public class GamePlayStateMachine implements IGamePlayStateMachine,IGameLogicSub
     /**
     * 
     * Function name - setStateWin
-    * Description   - 
-    * @param     - 
-    * @return        - 
+    * Description   - when the player wins
+    * @param     - None
+    * @return        - None
     */
     @Override
     public void setStateWin() {
@@ -164,9 +205,9 @@ public class GamePlayStateMachine implements IGamePlayStateMachine,IGameLogicSub
     /**
     * 
     * Function name - setStateLose
-    * Description   - 
-    * @param     - 
-    * @return        - 
+    * Description   - when he loses
+    * @param     - None
+    * @return        - None
     */
     @Override
     public void setStateLose() {
@@ -175,6 +216,12 @@ public class GamePlayStateMachine implements IGamePlayStateMachine,IGameLogicSub
             notifyObserver();
     }
     
+    /**
+    * Function name - mouseEvent
+    * Description   - handle mouse event
+    * @param  graphics
+    * @return        - void
+     */
     public void mouseEvent(PGraphics graphics) {
         this.currentState.handleMouseEvent(applet,graphics);
     }

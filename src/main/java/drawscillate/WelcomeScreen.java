@@ -8,7 +8,9 @@ import java.util.*;
 
 import static javax.swing.JOptionPane.showInputDialog;
 import static processing.core.PConstants.*;
-
+/**
+ * welcome screen
+ */
 public class WelcomeScreen implements IScreen {
     private PApplet applet;
     private final Button button;
@@ -21,7 +23,12 @@ public class WelcomeScreen implements IScreen {
         app = AppController.getInstance();
     }
 
-
+    /**
+    * Function name - mouseReleased
+    * Description   - 
+    * @param     - 
+    * @return        -
+     */
     @Override
     public void mouseReleased() {
         if (button.over()) {
@@ -53,11 +60,21 @@ public class WelcomeScreen implements IScreen {
         button.y = 270;
         button.draw();
     }
-
+    /**
+    * Function name - attach
+    * Description   - 
+    * @param  welcomeScreenObserver
+    * @return        - void
+     */
     void attach(WelcomeScreenObserver welcomeScreenObserver) {
         welcomeScreenObservers.add(welcomeScreenObserver);
     }
-
+    /**
+    * Function name - notifyAllWelcomeScreenObservers
+    * Description   - 
+    * @param    None
+    * @return        - void
+     */
     private void notifyAllWelcomeScreenObservers() {
         welcomeScreenObservers.forEach(WelcomeScreenObserver::update);
     }

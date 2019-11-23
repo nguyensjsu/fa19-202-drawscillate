@@ -18,7 +18,9 @@ import static processing.core.PConstants.CENTER;
 import static processing.core.PConstants.LEFT;
 import static processing.core.PConstants.RIGHT;
 import static processing.core.PConstants.CORNER;
-
+/**
+ * Option screens
+ */
 public class OptionsScreen implements IScreen, CallbackListener, IDisplayComponent {
     private PApplet applet;
     private ControlP5 controlP5;
@@ -43,7 +45,10 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
     private String label3 = "CHOOSE SHAPE:";
     private String label4 = "CHOOSE LEVEL:";
     
-
+    /**
+     * 
+     * @param applet
+     */
     OptionsScreen(PApplet applet) {
         this.applet = applet;
         controlP5 = new ControlP5(applet);
@@ -115,13 +120,23 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
 
         button = new Button(applet, "Play!");
     }
-    
+    /**
+    * Function name - addSubComponent
+    * Description   - add sub component
+    * @param  component
+    * @return       None
+     */
     @Override
     public void addSubComponent(IDisplayComponent component) {
         components.add(component);
         
     }
-
+    /**
+    * Function name - mouseReleased
+    * Description   - mouse released
+    * @param     - None
+    * @return        - None
+     */
     @Override
     public void mouseReleased() {
         if (difficultySelection != null
@@ -130,21 +145,36 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
             notifyAllOptionsScreenObservers();
         }
     }
-
+    /**
+    * Function name - willDisplay
+    * Description   - display the the top and bottom bar
+    * @param     - None
+    * @return        -None
+     */
     @Override
     public void willDisplay() {
         d1.setBarVisible(true);
         d2.setBarVisible(true);
         myTextArea.setVisible(true);
     }
-
+    /**
+    * Function name - willStopDisplaying
+    * Description   - stop displaying
+    * @param     - None
+    * @return        -None
+     */
     @Override
     public void willStopDisplaying() {
         d1.setBarVisible(false);
         d2.setBarVisible(false);
         myTextArea.setVisible(false);
     }
-
+    /**
+    * Function name - display
+    * Description   - display options screen
+    * @param     - None
+    * @return        - None
+     */
     @Override
     public void display() {
         
@@ -167,15 +197,31 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
         button.y = 400;
         button.draw();
     }
-
+    /**
+    * Function name - attach
+    * Description   - attach the observer
+    * @param   optionsScreenObserver 
+    * @return      - void
+     */
     void attach(OptionsScreenObserver optionsScreenObserver) {
         optionsScreenObservers.add(optionsScreenObserver);
     }
-
+    /**
+    * Function name - notifyAllOptionsScreenObservers
+    * Description   - notify observer
+    * @param     - None
+    * @return        - void
+     */
     private void notifyAllOptionsScreenObservers() {
         optionsScreenObservers.forEach(optionsScreenObserver -> optionsScreenObserver.update2(difficultySelection, shapeSelection));
     }
 
+    /**
+    * Function name - controlEvent
+    * Description   - display the shape options or the difficulty options
+    * @param   callbackEvent
+    * @return       void
+     */
     @Override
     public void controlEvent(CallbackEvent callbackEvent) {
         final Controller controller = callbackEvent.getController();

@@ -18,7 +18,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static processing.core.PConstants.HAND;
-
+/**
+ * The actual game playing screen
+ */
 public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObserver,IBackButtonSubject {
     private PApplet applet;
     private GamePlayStateMachine gameManager;
@@ -58,7 +60,9 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     CompletionCheck completionCheck;
     Memento memento = null;
     private Button button;
-
+    /**
+     * @param applet
+     */
     GameScreen(PApplet applet) {
         appController = AppController.getInstance();
         this.attachObserver(appController);
@@ -102,17 +106,32 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
         
         completionCheck = new CompletionCheck();
     }
-
+    /**
+    * Function name - willDisplay
+    * Description   - play the sound
+    * @param     - None
+    * @return        -None
+     */
     @Override
     public void willDisplay() {
         sineWaves.forEach(SinOsc::play);
     }
-
+    /**
+    * Function name - willStopDisplaying
+    * Description   - stop playing sound
+    * @param     None
+    * @return    None
+     */
     @Override
     public void willStopDisplaying() {
         sineWaves.forEach(SinOsc::stop);
     }
-
+    /**
+    * Function name - display
+    * Description   - display the updated screen 
+    * @param     - None
+    * @return      -None
+     */
     @Override
     public void display() {
         if (firstTime) {
@@ -160,7 +179,12 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     boolean mouseRelease = false ;
     boolean drawLine = true;
     private IBackButtonObserver backButtonObserver;
-    
+    /**
+    * Function name - mousePressed
+    * Description   - draw the lines
+    * @param     - None
+    * @return        -None
+     */
     public void mousePressed() {
         applet.stroke(redColor, greenColor, blueColor);
         applet.strokeWeight(5);
@@ -200,7 +224,12 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
         }
 
     }
-
+    /**
+    * Function name - playSound
+    * Description   - play the captured sound
+    * @param s the file location of the sound
+    * @return        - void
+     */
     private void playSound(String s) {
         try {
             Clip clip = AudioSystem.getClip();
@@ -210,13 +239,25 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
             e.printStackTrace();
         }
     }
-
+    /**
+    * Function name - update2
+    * Description   - update the shape and difficulty
+    * @param  difficultySelection   
+    * @param   shapeSelection   - 
+    * @return        -None
+     */
     @Override
     public void update2(String difficultySelection, String shapeSelection) {
         this.difficultySelection = difficultySelection;
         this.shapeSelection = shapeSelection;
     }
 
+    /**
+    * Function name - getStrokeWeight
+    * Description   - set the width of the line
+    * @param difficultySelection    - 
+    * @return        - the size of the line
+     */
     private int getStrokeWeight(String difficultySelection) {
         switch (difficultySelection) {
         case "Hard":
@@ -228,7 +269,12 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
         }
         return 10;
     }
-
+    /**
+    * Function name - changeCursorAndColor
+    * Description   - change the color of the line
+    * @param    res
+    * @return        - void
+     */
     private void changeCursorAndColor(String resourceName, int redColor, int greenColor, int blueColor) {
         final Optional<PImage> imageOptional = Optional.ofNullable(resourceName).map("/"::concat)
                 .map(getClass()::getResource).map(URL::getFile).map(applet::loadImage);
@@ -285,7 +331,13 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
         showBlackColor = new ColorCommand();
         showOrangeColor = new ColorCommand();
     }
-
+    /**
+    * Function name - gameState
+    * Description   - store win or loss of game
+    * @param   gameOver
+    * @param gameWon
+    * @return     void
+     */
     @Override
     public void gameState(boolean gameOver, boolean gameWon) {
         this.gameOver = gameOver;
@@ -307,9 +359,9 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     /**
     * 
     * Function name - attachObserver
-    * Description   - 
-    * @param     - 
-    * @return        - 
+    * Description   - save the back button observer
+    * @param  backButtonObserver
+    * @return       None
     */
     @Override
     public void attachObserver(IBackButtonObserver backButtonObserver) {
@@ -320,9 +372,9 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     /**
     * 
     * Function name - notifyObserver
-    * Description   - 
-    * @param     - 
-    * @return        - 
+    * Description   - notify 
+    * @param     None
+    * @return      None 
     */
     @Override
     public void notifyObserver() {

@@ -2,7 +2,11 @@ package drawscillate;
 
 import processing.core.PApplet;
 
-
+/**
+ * Main class which is the starting point of the drawscillate application
+ * 
+ *
+ */
 public class AppController extends PApplet implements WelcomeScreenObserver, OptionsScreenObserver,IBackButtonObserver {
     private static AppController appController;
     private IScreen welcomeScreen;
@@ -35,7 +39,12 @@ public class AppController extends PApplet implements WelcomeScreenObserver, Opt
         }
         return appController;
     }
-    
+    /**
+    * Function name - settings
+    * Description   - setup the app
+    * @param     - none
+    * @return        - none
+     */
     public void settings() {
         size(500, 500);
         smooth();
@@ -61,22 +70,44 @@ public class AppController extends PApplet implements WelcomeScreenObserver, Opt
     public void draw() {
         current.display();
     }
-
+    /**
+    * Function name - mousePressed
+    * Description   - pass on the mouses event
+    * @param     - none
+    * @return        - none
+     */
     @Override
     public void mousePressed() {
         current.mousePressed();
     }
-
+    /**
+    * Function name - mouseReleased
+    * Description   - when mouse is released
+    * @param     - None
+    * @return        - None
+     */
     @Override
     public void mouseReleased() {
         current.mouseReleased();
     }
+    
+    /**
+    * Function name - mouseDragged
+    * Description   - mouse drag event
+    * @param     - none
+    * @return        - none
+     */
 
     @Override
     public void mouseDragged() {
         current.mouseDragged();
     }
-
+    /**
+    * Function name - update
+    * Description   - Update the screen to options screen
+    * @param     - None
+    * @return        -None
+     */
     @Override
     public void update() {
         current.willStopDisplaying();
@@ -84,14 +115,28 @@ public class AppController extends PApplet implements WelcomeScreenObserver, Opt
         current = optionsScreen;
         current.willDisplay();
     }
-
+    /**
+    * Function name - update2
+    * Description   - display game screen
+    * @param  difficultySelection 
+    * @param shapeSelection
+    * @return      None
+     */
     @Override
     public void update2(String difficultySelection, String shapeSelection) {
         current.willStopDisplaying();
         current = gameScreen;
         current.willDisplay();
     }
-
+    /**
+    * Function name - update3
+    * Description   - Display Score Card
+    * @param   shapeSelection
+    * @param  difficultySelection
+    * @param hits
+    * @param gameWon
+    * @return        - void
+     */
     public  void update3(String shapeSelection,String difficultySelection, int hits, boolean gameWon){
         current.willStopDisplaying();
         current = new ScorecardScreen(this,shapeSelection,difficultySelection,hits,gameWon);
@@ -101,9 +146,9 @@ public class AppController extends PApplet implements WelcomeScreenObserver, Opt
     /**
     * 
     * Function name - backButtonEvent
-    * Description   - 
-    * @param     - 
-    * @return        - 
+    * Description   - event of pressing back button
+    * @param     - None 
+    * @return        - None
     */
     @Override
     public void backButtonEvent() {

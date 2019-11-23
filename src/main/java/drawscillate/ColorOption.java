@@ -1,5 +1,7 @@
 package drawscillate;
-
+/**
+ * Color Option for the command pattern
+ */
 public class ColorOption implements IColorInvoker {
 
     private IColorCommand cmd ;

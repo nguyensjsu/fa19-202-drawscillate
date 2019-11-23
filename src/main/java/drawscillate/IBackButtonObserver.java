@@ -8,7 +8,12 @@ package drawscillate;
  *
  */
 public interface IBackButtonObserver {
-    
+    /**
+    * Function name - backButtonEvent
+    * Description   - back button event
+    * @param     - None
+    * @return        - void
+     */
     public void backButtonEvent();
 
 }

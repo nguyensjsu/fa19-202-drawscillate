@@ -7,8 +7,7 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 
 /**
- * @author rajee
- *
+ * win game
  */
 public class WinGameState implements IGameState {
 
@@ -24,7 +23,8 @@ public class WinGameState implements IGameState {
     * 
     * Function name - handleMouseEvent
     * Description   -  handle the mouse event
-    * @param     - none
+    * @param applet
+    * @param graphics
     * @return        - none
     */
     @Override

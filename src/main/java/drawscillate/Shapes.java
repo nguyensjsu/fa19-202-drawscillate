@@ -20,7 +20,12 @@ public class Shapes {
         checkpoints[i][1] = y;
         checkpoints[i][2] = 0;
     }
-
+    /**
+    * Function name - setCheckpointCount
+    * Description   - create checkpoint object
+    * @param  x 
+    * @return        - void
+     */
     void setCheckpointCount(int x){
         checkpoints = new int[x][3];
     }

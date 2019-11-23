@@ -2,9 +2,19 @@ package drawscillate;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
-
+/**
+ * Circle class part of the factory pattern
+ */
 public class Circle extends Shapes implements IShapes {
 
+    /**
+    * Function name - draw
+    * Description   - 
+    * @param     weight of the stroke
+    * @param    graphics object of processing
+    * @param    Applet
+    * @return     the list of checkpoints
+     */
     @Override
     public int[][] draw(int weight, PGraphics graphics, PApplet applet) {
         graphics.beginDraw();
@@ -27,7 +37,13 @@ public class Circle extends Shapes implements IShapes {
         applet.image(graphics, 0, 0);
         return getCheckpoints();
     }
-
+    /**
+     * 
+    * Function name - getName
+    * Description   - returns the class name for the dropdown
+    * @param     - None 
+    * @return        -None
+     */
     @Override
     public String getName() {
         return "Circle";

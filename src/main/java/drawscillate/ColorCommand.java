@@ -1,5 +1,7 @@
 package drawscillate;
-
+/**
+ * Color Command class for changing color
+ */
 public class ColorCommand implements IColorCommand {
 
     IColorReceiver target;

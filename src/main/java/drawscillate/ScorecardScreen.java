@@ -4,7 +4,9 @@ import processing.core.PApplet;
 
 import static processing.core.PConstants.CENTER;
 import static processing.core.PConstants.LEFT;
-
+/**
+ * Score card screen
+ */
 public class ScorecardScreen implements IScreen {
 
     private PApplet applet;
@@ -49,7 +51,12 @@ public class ScorecardScreen implements IScreen {
     public void mousePressed() {
 
     }
-
+    /**
+    * Function name - display
+    * Description   - display the  score card screen
+    * @param     None
+    * @return        None-
+     */
     @Override
     public void display() {
         applet.background(0);
@@ -85,13 +92,23 @@ public class ScorecardScreen implements IScreen {
         buttonExit.y = 380;
         buttonExit.draw();
     }
-
+    /**
+    * Function name - getScore
+    * Description   - display completions percentage
+    * @param     scoringStrategy
+    * @return        - int
+     */
     private int getScore(IScoringStrategy scoringStrategy){
         if(gameWon)
             return 100;
         return Math.min(scoringStrategy.calculateScore(hits*100,difficulty),98);
     }
-
+    /**
+    * Function name - willDisplay
+    * Description   - 
+    * @param     - 
+    * @return        -
+     */
     @Override
     public void willDisplay() {
 
