@@ -132,15 +132,4 @@ public class TextComponent extends LeafComponent {
     public void setTextSize(float size) {
         this.size = size;
     }
-
-
-
-    /**
-     * Function name -
-     * Description   -
-     * @param     c
-     * @return        - none
-     */
-    public void addSubComponent(IDisplayComponent c) {
-    }
 }
