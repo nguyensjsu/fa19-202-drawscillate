@@ -40,55 +40,55 @@ Drawscillate is built on the JDK 8 & Java 8 platform. It is built using Gradle 4
 
 ### [Aditya Agrawal](https://github.com/agrawaladit)
 
-
-
 ### [Andrew Selvia](https://github.com/AndrewSelvia)
 
 #### Idea Generation
 
-I experimented with various game ideas (Pac-Man, Sudoku, etc.) and tools (Greenfoot, Processing, etc.) until I found something original and achievable within a two-week timeframe. Then, I created our *Product Backlog* on GitHub with dozens of issues which allowed us to plan our sprints and stay focused on the most important tasks.
+I experimented with various game ideas (Pac-Man, Sudoku, etc.) and tools (Greenfoot, Processing, etc.) until I found something original and achievable within a two-week time frame. Then, I created our *Product Backlog* on GitHub with dozens of issues which allowed us to plan our sprints, target key features, and plan for design patterns such as *State*, *Observer*, and *Command*.
 
 #### Scrum Master
 
 One of the primary responsibilities of a scrum master is to remove impediments. The following contributions exemplify how I scouted ahead for our team to enable us to move with as much velocity as possible:
 * Demonstrated the core [drawing](https://github.com/nguyensjsu/fa19-202-drawscillate/commit/3eeb721596dcbf29653d4d1ae4e11bc2eccf41fc) & [sound](https://github.com/nguyensjsu/fa19-202-drawscillate/commit/bed4f86bafa857d8a4e6261b7c5beb36b1bdceb9) APIs we would use to assemble our game
 * Enabled us to [develop in IDEs other than Processing](https://github.com/nguyensjsu/fa19-202-drawscillate/commit/6b66e65cec595e057bc1e2d2cd49e947969db246) (i.e. Eclipse, IntelliJ IDEA), thereby leveraging skills we have built up in those environments and avoid the awkward ramifications of using Processing (i.e. .pde files rather than plain Java)
-* Observed during our daily stand up meetings during Sprint 2 that we were all approaching a bottleneck of bad design (Drawscillate.java was a god class), so I bit the bullet to [deliver a well-designed refactoring into multiple screens](https://github.com/nguyensjsu/fa19-202-drawscillate/pull/62) so the team could keep making progress over the remaining few days of the sprint
+* Observed during our daily stand up meetings during Sprint 2 that we were all approaching a bottleneck of bad design (Drawscillate.java was a god class), so I bit the bullet to [deliver a well-designed refactoring into multiple screens](https://github.com/nguyensjsu/fa19-202-drawscillate/pull/62) so the team could keep making progress over the remaining few days of the sprint. This work required implementing the *Observer* pattern.
 * Added a [CI/CD pipeline with *spotbugs* & *smartsmells*](https://github.com/nguyensjsu/fa19-202-drawscillate/pull/97) to provide us insights into our code's quality during development
 
 In addition, I coordinated daily stand up meetings, retrospectives, and contributed significantly to our [User Story Video](https://youtu.be/8FFxvjQ4u8Q).
 
 ### [Hetal Shah](https://github.com/ihetal)
 
-As a member of this agile team, I worked rigorously on refactoring so that the code continues to be maintainable. In this process I tried to remove redundancies, eliminate unused functionalities and rejuvenate obsolete designs. The following contributions exemplifies this:</br>
+As a member of Drawscillate, I worked rigorously on refactoring so that the code continues to be maintainable. In this process I tried to remove redundancies, eliminate unused features, and rejuvenate obsolete designs. The following contributions exemplifies this:
 * [Refactoring App Controller]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/48)
 * [Refactoring Options Screen]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/88)
 * [Refactoring Game Screen]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/80)
 * [Refactoring Game Logic]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/110)
 
-I also added and formatted the UI on the [options screen]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/76) to make the game feel more complete.
+I also added and formatted the UI on the [options screen](https://github.com/nguyensjsu/fa19-202-drawscillate/pull/76) to make the game feel more complete.
 
 Along with refactoring, I also implemented the following design patterns: Singleton, Observer, Composite.
 
 ### [Rajeev Sebastian](https://github.com/RajeevSebastian)
 
-
-
 ### [Shraddha Nayak](https://github.com/shraddhanayak07)
 
-As a member of the team Drawscillate, I focused on staying productive and completing all functionalities of this game as planned. I came up with few creative details that we added into the game to make it look more interesting. 
+As a member of Drawscillate, I focused on staying productive and completing all features of this game as planned. I came up with a few creative details that we added into the game to make it more interesting.
 
-### Idea and Implementation of new design patterns
+### Design Patterns
 
-I spent a lot of time in reading about design patterns that we could not implement before in our labs and picked up two patterns * [Factory Method](https://github.com/nguyensjsu/fa19-202-drawscillate/issues/64) and * [Memento](https://github.com/nguyensjsu/fa19-202-drawscillate/issues/75) for the implementation. These design patterns fit elegantly into our game scenario. The implementation of these patterns and drawing class diagrams for them helped me and my teammates to learn and study about more design patterns.
+I spent a lot of time in reading about design patterns that we could not implement before in our labs and picked up two patterns
+* [Factory Method](https://github.com/nguyensjsu/fa19-202-drawscillate/issues/64)
+* [Memento](https://github.com/nguyensjsu/fa19-202-drawscillate/issues/75)
+
+These design patterns fit elegantly into our game scenario. The implementation of these patterns and drawing class diagrams for them helped me and my teammates to learn and study about more design patterns.
 
 ### Add custom cursor
 
-I took initiative in adding * [custom cursor](https://github.com/nguyensjsu/fa19-202-drawscillate/issues/30) on pressing keyboard key. This way the game will look more exciting for kids. This was implementes using command pattern.
+I took initiative in adding [custom cursors](https://github.com/nguyensjsu/fa19-202-drawscillate/issues/30) when the user changes color. This imbues the game with a sense of playfulness that players of all ages will appreciate. This was implemented using the *Command* pattern.
 
 ### Added Shapes
 
-This project helped me to learn processing in depth. Using its functions and tools helped me in creating * [Star, Circle and Rectangle] shapes(https://github.com/nguyensjsu/fa19-202-drawscillate/issues/1)
+This project helped me to learn processing in depth. Using its functions and tools helped me in creating [Star, Circle and Rectangle shapes](https://github.com/nguyensjsu/fa19-202-drawscillate/issues/1).
 
 ### Created Activity Diagram
 
@@ -150,13 +150,15 @@ The state pattern was employed to represent in which state the game currently re
 
 ### Memento Class Diagram
 
+One of our goals was to track the user's mouse movements so we could potentially reproduce their game. For instance, this might enable us to restore the state if the game crashed or if the user wanted to share their playthrough with friends. Shraddha imagined this would be a good use case for the *Memento* pattern. As stated in *Design Patterns*:
 
+> Use the Memento pattern when a snapshot of (some portion of) an object's state must be saved so that it can be restored to that state later
 
 ![Memento Class Diagram](images/Memento.png)
 
 ### Score Strategy Class Diagram
 
-
+Aditya set out to build us a scoring feature. During this work, he encountered a need for the strategy pattern to account for the variability in shape & difficulty. Each shape has its own scoring strategy to ensure that we fairly evaluate each use case.
 
 ![Score Strategy Class Diagram](images/ClassDiagramScoreStrategy.jpg)
 
