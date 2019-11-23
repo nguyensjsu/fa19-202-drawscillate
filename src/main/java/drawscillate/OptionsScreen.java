@@ -195,7 +195,7 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
         applet.textSize(25);
         button.x = (int) Math.ceil(applet.width / 2f - button.width() / 2);
         button.y = 400;
-        button.draw();
+        button.display();
     }
     /**
     * Function name - attach

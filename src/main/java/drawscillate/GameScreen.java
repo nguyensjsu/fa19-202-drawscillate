@@ -145,13 +145,13 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
             firstTime = false;
         }
         button = new Button(applet, "Return");
-        if(shapeSelection == "Heart") {
+        if(shapeSelection.equals("Heart")) {
             button.y =450 ;  
         }else {
             button.y =10 ;
         }
         button.x = 10;
-        button.draw();
+        button.display();
 
         // Map mouseY from 0 to 1
         yoffset = PApplet.map(applet.mouseY, 0, applet.height, 0, 1);

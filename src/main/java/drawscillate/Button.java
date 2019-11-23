@@ -4,7 +4,7 @@ import processing.core.PApplet;
 /*
  * Button class for creating custom buttons
  */
-class Button {
+class Button extends LeafComponent {
     int x;
     int y;
     private PApplet applet;
@@ -13,23 +13,6 @@ class Button {
     Button(PApplet applet, String label) {
         this.applet = applet;
         this.label = label;
-    }
-    /**
-    * Function name - draw
-    * Description   - construct the button on the screen
-    * @param     - None
-    * @return        - void
-     */
-    void draw() {
-        applet.stroke(0);
-        applet.strokeWeight(1f);
-        applet.fill(200);
-        if (over()) {
-            applet.fill(255);
-        }
-        applet.rect(x, y, width(), height());
-        applet.fill(0);
-        applet.text(label, x + 8, y + 8 + 20);
     }
     /**
      * 
@@ -62,4 +45,16 @@ class Button {
     private float height() {
         return 22 + 8 * 2;
     }
+    public void display() {
+        applet.stroke(0);
+        applet.strokeWeight(1f);
+        applet.fill(200);
+        if (over()) {
+            applet.fill(255);
+        }
+        applet.rect(x, y, width(), height());
+        applet.fill(0);
+        applet.text(label, x + 8, y + 8 + 20);
+    }
+
 }
