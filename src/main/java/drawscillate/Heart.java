@@ -19,7 +19,7 @@ public class Heart extends Shapes implements IShapes {
         final int y1 = 100;
         final int y2 = -50;
         final int y3 = 5;
-        final int y4 = 550;
+        final int y4 = 485;
         graphics.vertex(x1, y1);
         graphics.bezierVertex(x1, y2, x1 + halfHeartWidth, y3, x1, y4);
         graphics.bezierVertex(x1 - halfHeartWidth, y3, x1, y2, x1, y1);

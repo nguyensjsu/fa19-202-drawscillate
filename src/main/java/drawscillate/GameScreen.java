@@ -61,7 +61,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     GameScreen(PApplet applet) {
         appController = AppController.getInstance();
         this.applet = applet;
-        graphics = applet.createGraphics(600, 600);
+        graphics = applet.createGraphics(500, 500);
         shapeFactory = new ShapeFactory();
         gameManager = new GameLogicManager(applet);
         gameManager.registerObserver((IGameLogicObserver) this);
@@ -211,7 +211,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
         case "Normal":
             return 25;
         case "Easy":
-            return 40;
+            return 50;
         }
         return 10;
     }

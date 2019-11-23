@@ -13,7 +13,7 @@ public class Rectangle extends Shapes implements IShapes {
         graphics.stroke(255);
         graphics.strokeWeight(weight);
         graphics.beginShape();
-        graphics.rect(50, 150, 500, 280);
+        graphics.rect(50, 100, 400, 280);
         graphics.endShape();
         graphics.endDraw();
 

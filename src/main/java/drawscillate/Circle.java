@@ -13,7 +13,7 @@ public class Circle extends Shapes implements IShapes {
         graphics.stroke(255);
         graphics.strokeWeight(weight);
         graphics.beginShape();
-        graphics.ellipse(applet.width/2, applet.height/2, 500, 500);
+        graphics.ellipse(250, 250, 400, 400);
         graphics.endShape();
         graphics.endDraw();
 
