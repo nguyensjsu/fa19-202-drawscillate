@@ -140,10 +140,7 @@ public class TextComponent implements IDisplayComponent {
      * @param     c
      * @return        - none
      */
-    @Override
     public void addSubComponent(IDisplayComponent c) {
-        // TODO Auto-generated method stub
-
     }
 
 }
