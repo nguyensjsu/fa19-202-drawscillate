@@ -21,7 +21,7 @@ import static processing.core.PConstants.HAND;
 
 public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObserver {
     private PApplet applet;
-    private GameLogicManager gameManager;
+    private GamePlayStateMachine gameManager;
     private String difficultySelection;
     private String shapeSelection;
     private List<SinOsc> sineWaves;
@@ -61,9 +61,9 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     GameScreen(PApplet applet) {
         appController = AppController.getInstance();
         this.applet = applet;
-        graphics = applet.createGraphics(500, 500);
+        graphics = applet.createGraphics(600, 600);
         shapeFactory = new ShapeFactory();
-        gameManager = new GameLogicManager(applet);
+        gameManager = new GamePlayStateMachine(applet);
         gameManager.registerObserver((IGameLogicObserver) this);
         sineWaves = IntStream
             .range(0, numSines)
@@ -211,7 +211,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
         case "Normal":
             return 25;
         case "Easy":
-            return 50;
+            return 40;
         }
         return 10;
     }

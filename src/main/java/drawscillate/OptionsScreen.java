@@ -36,10 +36,11 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
     private TextComponent textComponent4;
     private TextComponent textComponent5;
 
-    private String header = null;
+    private String header = "";
     private String label1 = "How to play";
-    private String label2 = "Move your cursor through the outline of the picture,\n "
-            + "without crossing over the border to win!";
+    private String label2 = "Move your cursor through the outline of the picture,"
+            + " without crossing over"
+            +" the border to win!";
     private String label3 = "CHOOSE SHAPE:";
     private String label4 = "CHOOSE LEVEL:";
     
@@ -52,15 +53,15 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
         textComponent1 = new TextComponent(applet,applet.width/2, 30, applet.width-100,30,header,CENTER,CENTER);
         textComponent1.setFill(237f, 97f, 21f);
         textComponent1.setTextSize(20f);
-        textComponent2 = new TextComponent(applet,applet.width/2, 65, applet.width-100,25,label1);
+        textComponent2 = new TextComponent(applet,applet.width/2, 85, applet.width-100,25,label1);
         textComponent2.setTextSize(20f);
         textComponent2.setFill(48, 145, 50);
-        textComponent3 = new TextComponent(applet,applet.width/2, 100, applet.width-100,60,label2);
+        textComponent3 = new TextComponent(applet,applet.width/2, 120, applet.width-100,60,label2);
         textComponent3.setTextSize(13f);
-        textComponent4 = new TextComponent(applet,applet.width/4, 170, applet.width/4,40,label3,RIGHT,CENTER);
+        textComponent4 = new TextComponent(applet,applet.width/4, 190, applet.width/4,40,label3,RIGHT,CENTER);
         textComponent4.setTextSize(13f);
         textComponent4.setFill(255, 255, 255);
-        textComponent5 = new TextComponent(applet,applet.width/4, 220, applet.width/4,40,label4,RIGHT,CENTER);
+        textComponent5 = new TextComponent(applet,applet.width/4, 250, applet.width/4,40,label4,RIGHT,CENTER);
         textComponent5.setTextSize(13f);
         textComponent5.setFill(255, 255, 255);
         addSubComponent(textComponent1);
@@ -74,7 +75,7 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
             .onChange(this)
             .setOpen(false)
             .setBarVisible(false)
-            .setPosition(applet.width-300, applet.height-300)
+            .setPosition(applet.width-300, applet.height-370)
             .setSize(200, 100)
             .setHeight(300)
             .setBarHeight(40)
@@ -88,7 +89,7 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
             .onChange(this)
             .setOpen(false)
             .setBarVisible(false)
-            .setPosition(applet.width-300, applet.height-350)
+            .setPosition(applet.width-300, applet.height-430)
             .setSize(200, 100)
             .setHeight(300)
             .setBarHeight(40)
@@ -101,7 +102,7 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
         myTextArea = controlP5
                     .addTextarea("txt")
                     .setPosition(applet.width/10f+10, applet.height/2f)
-                    .setSize(applet.width-350 ,applet.height-300)
+                    .setSize(applet.width-350 ,applet.height-400)
                     .setVisible(false)
                     .setFont(applet.createFont("Georgia",14))
                     .setLineHeight(18)

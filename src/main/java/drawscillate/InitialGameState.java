@@ -3,14 +3,20 @@
  */
 package drawscillate;
 
+import processing.core.PApplet;
+import processing.core.PGraphics;
+
 /**
  * @author rajee
  *
  */
 public class InitialGameState implements IGameState {
 
-    IGamePlayStateMachine machine;
-    
+    private IGamePlayStateMachine machine;
+    private int[] pixelsFrame;
+    private float red;
+    private float green;
+    private float blue;
     
     public InitialGameState(IGamePlayStateMachine machine) {
         this.machine =machine;
@@ -25,8 +31,18 @@ public class InitialGameState implements IGameState {
     * @return        - none
     */
     @Override
-    public void handleMouseEvent() {
-        this.machine.setStateInPlay();
+    public void handleMouseEvent(PApplet applet, PGraphics graphics) {
+        pixelsFrame = graphics.get().pixels;
+        red = applet.red(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+        green = applet.green(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+        blue = applet.blue(pixelsFrame[applet.mouseX + applet.mouseY * applet.width]);
+        if (red != 255 && green != 255 && blue != 255) {
+            this.machine.setStateLose();
+        }
+        else {
+            ((GamePlayStateMachine)machine).setStartPoints(applet.mouseX,applet.mouseY); 
+            this.machine.setStateInPlay();
+        }
         
     }
 
