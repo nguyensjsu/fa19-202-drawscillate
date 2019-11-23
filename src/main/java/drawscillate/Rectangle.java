@@ -2,9 +2,19 @@ package drawscillate;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
-
+/**
+ *  Rectangel shape
+ */
 public class Rectangle extends Shapes implements IShapes {
 
+    /**
+     * Function name - draw
+     * Description   - 
+     * @param     weight of the stroke
+     * @param    graphics object of processing
+     * @param    Applet
+     * @return     the list of checkpoints
+      */
     @Override
     public int[][] draw(int weight, PGraphics graphics, PApplet applet) {
         graphics.beginDraw();
@@ -26,7 +36,12 @@ public class Rectangle extends Shapes implements IShapes {
         applet.image(graphics, 0, 0);
         return getCheckpoints();
     }
-
+    /**
+    * Function name - getName
+    * Description   - name
+    * @param     - None
+    * @return        - name
+     */
     @Override
     public String getName() {
         return "Rectangle";

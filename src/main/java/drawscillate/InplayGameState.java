@@ -7,8 +7,7 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 
 /**
- * @author rajee
- *
+ * State pattern
  */
 public class InplayGameState implements IGameState{
 

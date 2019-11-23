@@ -1,7 +1,9 @@
 package drawscillate;
 
 import processing.core.PApplet;
-
+/*
+ * Button class for creating custom buttons
+ */
 class Button {
     int x;
     int y;
@@ -12,7 +14,12 @@ class Button {
         this.applet = applet;
         this.label = label;
     }
-
+    /**
+    * Function name - draw
+    * Description   - construct the button on the screen
+    * @param     - None
+    * @return        - void
+     */
     void draw() {
         applet.stroke(0);
         applet.strokeWeight(1f);
@@ -24,18 +31,34 @@ class Button {
         applet.fill(0);
         applet.text(label, x + 8, y + 8 + 20);
     }
-
+    /**
+     * 
+    * Function name - over
+    * Description   - if mouse is over the button 
+    * @param     - None
+    * @return        - boolean
+     */
     boolean over() {
         return applet.mouseX >= x
             && applet.mouseY >= y
             && applet.mouseX <= x + width()
             && applet.mouseY <= y + height();
     }
-
+    /**
+    * Function name - width
+    * Description   - width according to the label
+    * @param     - None
+    * @return        - float
+     */
     float width() {
         return applet.textWidth(label) + 8 * 2;
     }
-
+    /**
+    * Function name - height
+    * Description   - Height of the button
+    * @param     - None
+    * @return        - float
+     */
     private float height() {
         return 22 + 8 * 2;
     }

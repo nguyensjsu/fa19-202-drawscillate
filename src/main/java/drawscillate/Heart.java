@@ -2,7 +2,9 @@ package drawscillate;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
-
+/**
+ * Heart Shape
+ */
 public class Heart extends Shapes implements IShapes {
     
     @Override
@@ -35,7 +37,12 @@ public class Heart extends Shapes implements IShapes {
         applet.image(graphics, 0, 0);
         return getCheckpoints();
     }
-
+    /**
+    * Function name - getName
+    * Description   - Heart
+    * @param     - None
+    * @return        -None
+     */
     @Override
     public String getName() {
         return "Heart";

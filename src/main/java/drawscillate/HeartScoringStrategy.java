@@ -1,7 +1,16 @@
 package drawscillate;
-
+/**
+ * Heart Scoring strategy
+ */
 public class HeartScoringStrategy implements IScoringStrategy {
 
+    /**
+    * Function name - calculateScore
+    * Description   - calculate scores
+    * @param  hits
+    * @param difficulty 
+    * @return      the score  -
+     */
     @Override
     public int calculateScore(int hits, String difficulty) {
         switch (difficulty){

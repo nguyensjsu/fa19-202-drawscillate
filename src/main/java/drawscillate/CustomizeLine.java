@@ -1,5 +1,7 @@
 package drawscillate;
-
+/**
+ * Command pattern for changing color of the lines
+ */
 public class CustomizeLine {
 
     private char key;
@@ -24,7 +26,7 @@ public class CustomizeLine {
 
     }
 
-    /*
+    /**
      * set the value of key pressed
      * @param key the keyboard key pressed
      */
@@ -32,7 +34,7 @@ public class CustomizeLine {
         this.key = key;
     }
 
-    /*
+    /**
      * set the value of key pressed
      * @param key the keyboard key pressed
      */
@@ -40,7 +42,7 @@ public class CustomizeLine {
         return key;
     }
 
-    /*
+    /**
      * invoke a function based on keyboard character
      */
     public void initialize() {
@@ -69,7 +71,7 @@ public class CustomizeLine {
         }
     }
 
-    /*
+    /**
      * map options to command
      * @param key pressed on keyboard
      * @param color set color command to key

@@ -4,7 +4,9 @@ import static processing.core.PConstants.CENTER;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
-
+/**
+ * Text component
+ */
 public class TextComponent implements IDisplayComponent {
 
     private PApplet applet;
@@ -44,7 +46,12 @@ public class TextComponent implements IDisplayComponent {
         this.alignY = alignY;
 
     }
-
+    /**
+    * Function name - display
+    * Description   - display component
+    * @param     - None
+    * @return        -None
+     */
     @Override
     public void display() {
         applet.noFill();
@@ -57,17 +64,34 @@ public class TextComponent implements IDisplayComponent {
         applet.text(label, x, y, width - 10, height);
 
     }
-
+    /**
+    * Function name - setLabel
+    * Description   - 
+    * @param    label
+    * @return        - void
+     */
     public void setLabel(String label) {
         this.label = label;
     }
-
+    /**
+    * Function name - setFill
+    * Description   - font color
+    * @param  r  - Red
+    * @param g Green
+    * @param b Blue
+    * @return        - void
+     */
     public void setFill(float r, float g, float b) {
         this.r = r;
         this.g = g;
         this.b = b;
     }
-
+    /**
+    * Function name - setTextSize
+    * Description   - set text size;
+    * @param  size
+    * @return        - void
+     */
     public void setTextSize(float size) {
         this.size = size;
     }
