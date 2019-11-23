@@ -10,6 +10,13 @@ class Button {
     private PApplet applet;
     private String label;
 
+    /**
+     * Function name -
+     * Description   -
+     * @param     applet
+     * @param label
+     * @return        -
+     */
     Button(PApplet applet, String label) {
         this.applet = applet;
         this.label = label;

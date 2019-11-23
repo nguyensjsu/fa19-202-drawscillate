@@ -14,10 +14,20 @@ public class ScorecardScreen implements IScreen {
     private IScoringStrategy scoringStrategy;
     private Button buttonReplay;
     private Button buttonExit;
-    private AppController appController;
     private String difficulty;
     private boolean gameWon;
 
+
+    /**
+     * Function name -
+     * Description   -
+     * @param     applet
+     * @param shape
+     * @param difficulty
+     * @param hits
+     * @param gameWon
+     * @return        - none
+     */
     public ScorecardScreen(PApplet applet, String shape, String difficulty, int hits, boolean gameWon) {
         this.applet = applet;
         this.hits = hits;
@@ -25,7 +35,6 @@ public class ScorecardScreen implements IScreen {
         this.gameWon = gameWon;
         System.out.println(hits);
 
-        appController = AppController.getInstance();
 
         switch (shape) {
             case "Heart":
@@ -46,7 +55,12 @@ public class ScorecardScreen implements IScreen {
         buttonExit = new Button(applet, "Exit");
     }
 
-
+    /**
+     * Function name -
+     * Description   -
+     * @param     -None
+     * @return        - none
+     */
     @Override
     public void mousePressed() {
 
@@ -54,7 +68,7 @@ public class ScorecardScreen implements IScreen {
     /**
     * Function name - display
     * Description   - display the  score card screen
-    * @param     None
+    * @param     -None
     * @return        None-
      */
     @Override
@@ -64,7 +78,7 @@ public class ScorecardScreen implements IScreen {
         applet.textSize(33);
         applet.textAlign(CENTER);
         if (gameWon){
-            applet.text("Congratulations "+appController.getName()+"! You Won!", applet.width / 2f, 100);
+            applet.text("Congratulations! You Won!", applet.width / 2f, 100);
             applet.textSize(20);
             applet.text("Guess what? We've saved your \nwinning moment to boast about!", applet.width / 2f, 135);
         }
@@ -114,11 +128,23 @@ public class ScorecardScreen implements IScreen {
 
     }
 
+    /**
+     * Function name -
+     * Description   -
+     * @param     - none
+     * @return        - none
+     */
     @Override
     public void willStopDisplaying() {
 
     }
 
+    /**
+     * Function name -
+     * Description   -
+     * @param     - none
+     * @return        - none
+     */
     @Override
     public void mouseReleased() {
         if (buttonReplay.over()) {
@@ -134,6 +160,12 @@ public class ScorecardScreen implements IScreen {
         }
     }
 
+    /**
+     * Function name -
+     * Description   -
+     * @param     - none
+     * @return        - none
+     */
     @Override
     public void mouseDragged() {
 

@@ -37,6 +37,12 @@ public class WelcomeScreen implements IScreen {
         }
     }
 
+    /**
+     * Function name -
+     * Description   -
+     * @param     -none
+     * @return        - none
+     */
     @Override
     public void display() {
         applet.background(230, 222, 204);
@@ -72,7 +78,7 @@ public class WelcomeScreen implements IScreen {
     /**
     * Function name - notifyAllWelcomeScreenObservers
     * Description   - 
-    * @param    None
+    * @param    -None
     * @return        - void
      */
     private void notifyAllWelcomeScreenObservers() {

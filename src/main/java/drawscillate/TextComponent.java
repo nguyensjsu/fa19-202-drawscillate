@@ -22,6 +22,18 @@ public class TextComponent implements IDisplayComponent {
     private float b = 255f;
     private float size = 12f;
 
+
+    /**
+     * Function name -
+     * Description   -
+     * @param     applet
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param label
+     * @return        - none
+     */
     TextComponent(PApplet applet, int x, int y, int width, int height, String label) {
 
         this.x = x;
@@ -33,6 +45,18 @@ public class TextComponent implements IDisplayComponent {
 
     }
 
+    /**
+     * Function name -
+     * Description   -
+     * @param     applet
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param label
+     * @param alignX
+     * @return        - none
+     */
     TextComponent(PApplet applet, int x, int y, int width, int height, String label, int alignX) {
 
         this(applet, x, y, width, height, label);
@@ -40,6 +64,19 @@ public class TextComponent implements IDisplayComponent {
 
     }
 
+    /**
+     * Function name -
+     * Description   -
+     * @param     applet
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param label
+     * @param  alignX
+     * @param alignY
+     * @return        - none
+     */
     TextComponent(PApplet applet, int x, int y, int width, int height, String label, int alignX, int alignY) {
 
         this(applet, x, y, width, height, label, alignX);
@@ -96,6 +133,13 @@ public class TextComponent implements IDisplayComponent {
         this.size = size;
     }
 
+
+    /**
+     * Function name -
+     * Description   -
+     * @param     c
+     * @return        - none
+     */
     @Override
     public void addSubComponent(IDisplayComponent c) {
         // TODO Auto-generated method stub

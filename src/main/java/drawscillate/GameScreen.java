@@ -119,7 +119,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     /**
     * Function name - willStopDisplaying
     * Description   - stop playing sound
-    * @param     None
+    * @param     -None
     * @return    None
      */
     @Override
@@ -272,7 +272,10 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     /**
     * Function name - changeCursorAndColor
     * Description   - change the color of the line
-    * @param    res
+    * @param    resourceName
+     * @param redColor
+     * @param greenColor
+     * @param blueColor
     * @return        - void
      */
     private void changeCursorAndColor(String resourceName, int redColor, int greenColor, int blueColor) {
@@ -344,11 +347,23 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
         this.gameWon = gameWon;
     }
 
+    /**
+     * Function name -
+     * Description   -
+     * @param     - none
+     * @return        - none
+     */
     @Override
     public void mouseDragged(){
         traceCursor++;
     }
-    
+
+    /**
+     * Function name -
+     * Description   -
+     * @param     - none
+     * @return        - none
+     */
     @Override
     public void mouseReleased() {
         completionCheck.set(applet.mouseX, applet.mouseY);
@@ -373,7 +388,7 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     * 
     * Function name - notifyObserver
     * Description   - notify 
-    * @param     None
+    * @param     -None
     * @return      None 
     */
     @Override

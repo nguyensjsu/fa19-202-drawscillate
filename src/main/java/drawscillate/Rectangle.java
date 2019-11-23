@@ -12,7 +12,7 @@ public class Rectangle extends Shapes implements IShapes {
      * Description   - 
      * @param     weight of the stroke
      * @param    graphics object of processing
-     * @param    Applet
+     * @param    applet
      * @return     the list of checkpoints
       */
     @Override

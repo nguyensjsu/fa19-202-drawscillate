@@ -6,7 +6,12 @@ public class ColorCommand implements IColorCommand {
 
     IColorReceiver target;
 
-    /** Execute Command */
+    /**
+     * Function name -
+     * Description   -
+     * @param     - none
+     * @return    - none
+     */
     public void execute() {
         target.doAction();
     }

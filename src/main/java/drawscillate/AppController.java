@@ -49,7 +49,12 @@ public class AppController extends PApplet implements WelcomeScreenObserver, Opt
         size(500, 500);
         smooth();
     }
-    
+    /**
+     * Function name -
+     * Description   -
+     * @param     - none
+     * @return        - none
+     */
     public void setup() {
         surface.setTitle("Drawscillate");
         final WelcomeScreen welcomeScreen = new WelcomeScreen(this);
@@ -58,6 +63,12 @@ public class AppController extends PApplet implements WelcomeScreenObserver, Opt
         current = welcomeScreen;
     }
 
+    /**
+     * Function name -
+     * Description   -
+     * @param     - none
+     * @return        - none
+     */
     private void setupOptionsScreen() {
          GameScreen gameScreen = new GameScreen(this);
         this.gameScreen = gameScreen;
@@ -67,6 +78,12 @@ public class AppController extends PApplet implements WelcomeScreenObserver, Opt
         this.optionsScreen = optionsScreen;
     }
 
+    /**
+     * Function name -
+     * Description   -
+     * @param     - none
+     * @return        - none
+     */
     public void draw() {
         current.display();
     }

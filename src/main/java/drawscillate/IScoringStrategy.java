@@ -6,7 +6,7 @@ public interface IScoringStrategy {
     * Description   - calculate hits 
     * @param  hits    
     * @param  difficulty
-    * @return        - int
+    * @return  int
      */
     public int calculateScore(int hits, String difficulty);
 }

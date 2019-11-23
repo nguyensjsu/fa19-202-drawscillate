@@ -16,8 +16,13 @@ public class InplayGameState implements IGameState{
     private float red;
     private float green;
     private float blue;
-    
-    
+
+    /**
+     * Function name -
+     * Description   -
+     * @param     machine
+     * @return        - none
+     */
     public InplayGameState(IGamePlayStateMachine machine) {
         this.machine =machine;  
     }

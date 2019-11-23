@@ -14,6 +14,12 @@ public class CustomizeLine {
     private IColorInvoker greenCol;
     private IColorInvoker blackCol;
 
+    /**
+     * Function name -
+     * Description   -
+     * @param     - none
+     * @return        - none
+     */
     public CustomizeLine() {
 
         redCol = new ColorOption();
@@ -36,7 +42,7 @@ public class CustomizeLine {
 
     /**
      * set the value of key pressed
-     * @param key the keyboard key pressed
+     * @return  char the keyboard key pressed
      */
     public char getKey() {
         return key;

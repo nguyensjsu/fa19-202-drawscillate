@@ -9,7 +9,7 @@ public class CircleScoringStrategy implements IScoringStrategy {
     * Description   - calculate score based on number of checkpoints passed
     * @param  hits  on the shape
     * @param  difficulty of the game
-    * @return        -
+    * @return  int
      */
     @Override
     public int calculateScore(int hits, String difficulty) {

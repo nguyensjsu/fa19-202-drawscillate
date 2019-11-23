@@ -6,7 +6,15 @@ import processing.core.PGraphics;
  * Heart Shape
  */
 public class Heart extends Shapes implements IShapes {
-    
+
+    /**
+     * Function name -
+     * Description   -
+     * @param     strokeWeight
+     * @param graphics
+     * @param applet
+     * @return        - none
+     */
     @Override
     public int[][] draw(int strokeWeight, PGraphics graphics, PApplet applet) {
         graphics.beginDraw();

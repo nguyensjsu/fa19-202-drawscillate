@@ -7,6 +7,14 @@ import processing.core.PGraphics;
 
 public class Star extends Shapes implements IShapes {
 
+    /**
+     * Function name -
+     * Description   -
+     * @param    weight
+     * @param graphics
+     * @param applet
+     * @return        - none
+     */
     @Override
     public int[][] draw(int weight, PGraphics graphics, PApplet applet) {
         graphics.beginDraw();
@@ -45,6 +53,12 @@ public class Star extends Shapes implements IShapes {
         return getCheckpoints();
     }
 
+    /**
+     * Function name -
+     * Description   -
+     * @param     - none
+     * @return        - none
+     */
     @Override
     public String getName() {
         return "Star";

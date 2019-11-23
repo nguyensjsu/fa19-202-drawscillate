@@ -17,7 +17,14 @@ public class InitialGameState implements IGameState {
     private float red;
     private float green;
     private float blue;
-    
+
+
+    /**
+     * Function name -
+     * Description   -
+     * @param     machine
+     * @return        - none
+     */
     public InitialGameState(IGamePlayStateMachine machine) {
         this.machine =machine;
        

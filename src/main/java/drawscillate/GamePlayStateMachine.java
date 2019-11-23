@@ -83,7 +83,7 @@ public class GamePlayStateMachine implements IGamePlayStateMachine,IGameLogicSub
     /**
     * Function name - removeObserver
     * Description  remove observer 
-    * @param     none
+    * @param     -none
     * @return    None
      */
     @Override
@@ -98,7 +98,13 @@ public class GamePlayStateMachine implements IGamePlayStateMachine,IGameLogicSub
     * @param     - None
     * @return        -None
      */
-    
+
+    /**
+     * Function name -
+     * Description   -
+     * @param     - none
+     * @return        - none
+     */
     @Override
     public void notifyObserver() {
         observer.gameState(gameOver, gameWon);

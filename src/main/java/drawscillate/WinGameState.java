@@ -12,8 +12,13 @@ import processing.core.PGraphics;
 public class WinGameState implements IGameState {
 
     private IGamePlayStateMachine machine;
-    
-    
+
+    /**
+     * Function name -
+     * Description   -
+     * @param     machine
+     * @return        - none
+     */
     public WinGameState(IGamePlayStateMachine machine) {
         this.machine =machine;
        

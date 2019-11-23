@@ -14,7 +14,12 @@ public class ColorOption implements IColorInvoker {
         cmd = c ;
     }
 
-    /** Invoke Menu Option */
+    /**
+     * Function name -
+     * Description   -
+     * @param     - none
+     * @return        - none
+     */
     public void invoke() 
     {
         cmd.execute() ;

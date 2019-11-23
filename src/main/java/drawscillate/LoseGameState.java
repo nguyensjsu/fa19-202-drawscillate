@@ -14,7 +14,7 @@ public class LoseGameState implements IGameState {
 
     private IGamePlayStateMachine  machine;
     /**
-     * @param gamePlayStateMachine
+     * @param machine
      */
     public LoseGameState(IGamePlayStateMachine machine) {
         this.machine = machine;
