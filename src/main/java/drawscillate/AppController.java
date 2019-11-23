@@ -3,7 +3,7 @@ package drawscillate;
 import processing.core.PApplet;
 
 
-public class AppController extends PApplet implements WelcomeScreenObserver, OptionsScreenObserver {
+public class AppController extends PApplet implements WelcomeScreenObserver, OptionsScreenObserver,IBackButtonObserver {
     private static AppController appController;
     private IScreen welcomeScreen;
     private IScreen optionsScreen;
@@ -50,9 +50,8 @@ public class AppController extends PApplet implements WelcomeScreenObserver, Opt
     }
 
     private void setupOptionsScreen() {
-        final GameScreen gameScreen = new GameScreen(this);
+         GameScreen gameScreen = new GameScreen(this);
         this.gameScreen = gameScreen;
-
         final OptionsScreen optionsScreen = new OptionsScreen(this);
         optionsScreen.attach(this);
         optionsScreen.attach(gameScreen);
@@ -97,5 +96,18 @@ public class AppController extends PApplet implements WelcomeScreenObserver, Opt
         current.willStopDisplaying();
         current = new ScorecardScreen(this,shapeSelection,difficultySelection,hits,gameWon);
         current.willDisplay();
+    }
+
+    /**
+    * 
+    * Function name - backButtonEvent
+    * Description   - 
+    * @param     - 
+    * @return        - 
+    */
+    @Override
+    public void backButtonEvent() {
+        
+        update();
     }
 }
