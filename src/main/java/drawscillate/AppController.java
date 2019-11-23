@@ -37,7 +37,7 @@ public class AppController extends PApplet implements WelcomeScreenObserver, Opt
     }
     
     public void settings() {
-        size(500, 500);
+        size(600, 600);
         smooth();
     }
     
