@@ -148,13 +148,14 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     }
     
     boolean mouseRelease = false ;
-    boolean drawLine = true;
     
     public void mousePressed() {
         applet.stroke(redColor, greenColor, blueColor);
         applet.strokeWeight(5);
 
         if (!gameOver) {
+            applet.line(applet.mouseX, applet.mouseY, applet.pmouseX, applet.pmouseY);
+            gameManager.mouseEvent(graphics);
             if(mouseRelease) {
                 List<Integer> points= completionCheck.restoreFromMemento(memento);
                 int checkX = -1;
@@ -167,13 +168,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
                         ((applet.mouseY - checkY) * (applet.mouseY - checkY));
                 if(distance < 10) {
                     mouseRelease = false;
-                    drawLine = true;
                     return;
                 }
-            }
-            if(drawLine) {
-                applet.line(applet.mouseX, applet.mouseY, applet.pmouseX, applet.pmouseY);
-                gameManager.mouseEvent(graphics);
             }
             if (gameWon) {
                 playSound("win.wav");
@@ -286,13 +282,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     
     @Override
     public void mouseReleased() {
-        if(drawLine) {
-            completionCheck.set(applet.mouseX, applet.mouseY);
-            memento = completionCheck.saveToMemento();
-            applet.stroke(255,0,0);
-            applet.point(applet.mouseX, applet.mouseY);
-            mouseRelease = true;
-            drawLine = false;
-        }
+        completionCheck.set(applet.mouseX, applet.mouseY);
+        memento = completionCheck.saveToMemento();
+        mouseRelease = true;
     }
 }
