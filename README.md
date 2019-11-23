@@ -71,11 +71,13 @@ In addition, I coordinated daily stand up meetings, retrospectives, and contribu
 ### Sprint Retrospectives
 
 * [Sprint 1 Retrospective](https://youtu.be/xQuffx0hzCM)
+* [Sprint 2 Retrospective](https://youtu.be/8kk5uiaEioI)
 
 ### Daily Standup Recordings
 
-* [11/18](https://youtu.be/TQFxYSvY6BM)
+* [11/18](https://youtu.be/0-hVeGmCFGY)
 * [11/21](https://youtu.be/F1KQlH5aFno)
+* [11/22](https://youtu.be/G1VljefEL5I)
 
 ## Building & Running
 
