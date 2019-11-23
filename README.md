@@ -76,7 +76,7 @@ Along with refactoring, I also implemented the following design patterns: Single
 
 ### [Shraddha Nayak](https://github.com/shraddhanayak07)
 
-## Diagrams
+## Design & Documentation
 
 ### Choosing Shapes
 
@@ -94,7 +94,35 @@ We wanted to build in the ability to change the color of your line while you are
 
 In the diagram below, we highlight how the `IColorCommand` interface abstracts away the implementation from the `IColorInvoker`. We think this architecture would allow us to support such advanced features in future sprints. 
 
-![Command](images/CommandPattern-ChangeColor.png)  
+![Command](images/CommandPattern-ChangeColor.png)
+
+### Activity Diagram
+
+The activity diagram below depicts the basic flow a user follows in order to play the game. Complete with screenshots from each screen, it connects actions such as *entering a username*, *selecting a shape*, and *drawing completion* to their respective behaviors within the game.
+
+![Activity Diagram](images/ActivityDiagram.png)
+
+### Use Case Diagram
+
+The player's potential actions, including variability, are depicted in the use case diagram below.
+
+![Use Case Diagram](images/UseCaseDiagram.jpg)
+
+### Sequence Diagram
+
+Here, we show the methods called during a normal play session. Take note of the following details:
+* 1: `AppController` is a *Singleton*
+* 2: `AppController` utilizes the *Observer* pattern to react when the user proceeds from the `WelcomeScreen`
+* 5: This demonstrates how a `Button` only triggers notifications to its observers when you release the mouse; we had to fix a bug earlier where `Button`s were errantly activated during the `mousePressed` event
+* 16: The game logic which determines if the user has entered the win or lose state is summarized
+
+![Sequence Diagram](images/SequenceDiagramDrawscillate.jpg)
+
+### State Diagram
+
+Starting from the start state, you immediately proceed to the Initial Game State. If the mouse is outside the shape border, immediately enter the Lose Game state. Otherwise, cycle within the In Play state. At each iteration, record if a check point has been reached. If at any point, the mouse exits the shape, enter the Lose Game state. Otherwise, upon completing the shape, if all checkpoints have been crossed, enter the Win Game state.
+
+![State Diagram](images/GameLogicStateDiagram.JPG)
 
 ## Scrum
 
