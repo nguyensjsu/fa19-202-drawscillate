@@ -76,6 +76,24 @@ Along with refactoring, I also implemented the following design patterns: Single
 
 ### [Shraddha Nayak](https://github.com/shraddhanayak07)
 
+As a member of the team Drawscillate, I focused on staying productive and completing all functionalities of this game as planned. I came up with few creative details that we added into the game to make it look more interesting. 
+
+### Idea and Implementation of new design patterns
+
+I spent a lot of time in reading about design patterns that we could not implement before in our labs and picked up two patterns * [Factory Method](https://github.com/nguyensjsu/fa19-202-drawscillate/issues/64) and * [Memento](https://github.com/nguyensjsu/fa19-202-drawscillate/issues/75) for the implementation. These design patterns fit elegantly into our game scenario. The implementation of these patterns and drawing class diagrams for them helped me and my teammates to learn and study about more design patterns.
+
+### Add custom cursor
+
+I took initiative in adding * [custom cursor](https://github.com/nguyensjsu/fa19-202-drawscillate/issues/30) on pressing keyboard key. This way the game will look more exciting for kids. This was implementes using command pattern.
+
+### Added Shapes
+
+This project helped me to learn processing in depth. Using its functions and tools helped me in creating * [Star, Circle and Rectangle] shapes(https://github.com/nguyensjsu/fa19-202-drawscillate/issues/1)
+
+### Added Shapes
+
+I also worked on implementing activity diagram that could summarize the overall flow of our game.
+
 ## Design & Documentation
 
 ### Choosing Shapes
