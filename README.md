@@ -97,10 +97,10 @@ As a member of the drawscillate team I worked on the logic for game completion a
 
 I implemented the logic by which we could identify when the player has successfully completed the game.It was done by creatinf checkpoints on the screen which the user had to traverse.
 
-### Design Patterns
+#### Design Patterns
 
 I implemented the state pattern to keep a record of where the user is currently while playing the game
-### Quality
+#### Quality
 
 I worked extensively on reducing the code smells in the project and improving the overall code quality
 
@@ -108,7 +108,7 @@ I worked extensively on reducing the code smells in the project and improving th
 
 As a member of Drawscillate, I focused on staying productive and completing all features of this game as planned. I came up with a few creative details that we added into the game to make it more interesting.
 
-### Design Patterns
+#### Design Patterns
 
 I spent a lot of time in reading about design patterns that we could not implement before in our labs and picked up two patterns
 * [Factory Method](https://github.com/nguyensjsu/fa19-202-drawscillate/issues/64)
@@ -116,15 +116,15 @@ I spent a lot of time in reading about design patterns that we could not impleme
 
 These design patterns fit elegantly into our game scenario. The implementation of these patterns and drawing class diagrams for them helped me and my teammates to learn and study about more design patterns.
 
-### Add custom cursor
+#### Add custom cursor
 
 I took initiative in adding [custom cursors](https://github.com/nguyensjsu/fa19-202-drawscillate/issues/30) when the user changes color. This imbues the game with a sense of playfulness that players of all ages will appreciate. This was implemented using the *Command* pattern.
 
-### Added Shapes
+#### Added Shapes
 
 This project helped me to learn processing in depth. Using its functions and tools helped me in creating [Star, Circle and Rectangle shapes](https://github.com/nguyensjsu/fa19-202-drawscillate/issues/1).
 
-### Created Activity Diagram
+#### Created Activity Diagram
 
 I also worked on implementing activity diagram that could summarize the overall flow of our game.
 
