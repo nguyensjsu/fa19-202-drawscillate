@@ -86,11 +86,11 @@ public class ScorecardScreen implements IScreen {
 
         buttonReplay.x = (int) (applet.width/4f - buttonReplay.width()/2);
         buttonReplay.y = 380;
-        buttonReplay.draw();
+        buttonReplay.display();
 
         buttonExit.x = (int) (3*(applet.width/4f) - buttonExit.width()/2);
         buttonExit.y = 380;
-        buttonExit.draw();
+        buttonExit.display();
     }
     /**
     * Function name - getScore
