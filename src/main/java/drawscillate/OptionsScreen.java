@@ -36,7 +36,7 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
     private TextComponent textComponent4;
     private TextComponent textComponent5;
 
-    private String header = null;
+    private String header = "";
     private String label1 = "How to play";
     private String label2 = "Move your cursor through the outline of the picture,\n "
             + "without crossing over the border to win!";
@@ -108,8 +108,9 @@ public class OptionsScreen implements IScreen, CallbackListener, IDisplayCompone
                     .setColor(applet.color(237, 97, 21))
                     .setText("Key Controls:\n\n"
                             +" y - Yellow\n r - Red\n"
-                            +" o - Green\n b - Blue\n"
-                            +" p - Purple \n g - Orange\n"
+                            +" g - Green\n b - Blue\n"
+                            +" p - Purple \n o - Orange\n"
+                            +" space - Black\n"
                             );
 
         button = new Button(applet, "Play!");
