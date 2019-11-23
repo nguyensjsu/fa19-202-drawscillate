@@ -40,19 +40,24 @@ Drawscillate is built on the JDK 8 & Java 8 platform. It is built using Gradle 4
 
 ### [Aditya Agrawal](https://github.com/agrawaladit)
 
-#### Funtionalities to make game look alive
+#### Features to make game look alive
 
-I being a game enthusiast and more importantly a member of agile team, came up with little funtionalities which would make player connect with "Drawascillate" more. I integrated features like [Enter your name](https://github.com/nguyensjsu/fa19-202-drawscillate/pull/68), [Replay button](https://github.com/nguyensjsu/fa19-202-drawscillate/pull/82) and [Dropdown for shape and difficulty selection](https://github.com/nguyensjsu/fa19-202-drawscillate/pull/53), which would indulge player to stick with the game. I used Singleton pattern to display player name onto various screen, while Observer pattern for replay button.
+As a game enthusiast and more importantly a member of Drawscillate, came up with small features which would make the player connect with Drawscillate more. I integrated features like:
+* [Enter your name](https://github.com/nguyensjsu/fa19-202-drawscillate/pull/68)
+* [Replay button](https://github.com/nguyensjsu/fa19-202-drawscillate/pull/82)
+* [Dropdown for shape and difficulty selection](https://github.com/nguyensjsu/fa19-202-drawscillate/pull/53)
+
+I used the *Singleton* pattern to display player name onto various screens and the *Observer* pattern for the replay button.
 
 #### Score Evaluation
 
-[Score evaluation](https://github.com/nguyensjsu/fa19-202-drawscillate/pull/92) is the vital part of a game experience, without it user won't play a game repetitively. Strategy pattern was used for calculation of score. With change in shapes and difficulties, changes strategy!
+[Score evaluation](https://github.com/nguyensjsu/fa19-202-drawscillate/pull/92) is a vital part of the game. Without it, the user won't play a game repetitively. The *Strategy* pattern was used for calculation of score. With change in shapes and difficulties, changes strategy!
 
 #### Save Image if you win the game
 
-In the world of instagram and facebook, it's almost impossible people would not like to boast about their winnings. We [save images](https://github.com/nguyensjsu/fa19-202-drawscillate/pull/81) to player's local directory, which can be accessed anytime. Be it sharing with their friends or collecting it as a souvenir, we've everything sorted out.
+In the era of social media, it's almost impossible people would not like to boast about their victories. We [save images](https://github.com/nguyensjsu/fa19-202-drawscillate/pull/81) to players' local directories so they can share any time. Be it sharing with their friends or collecting it as a souvenir, we have everything sorted out.
 
-Lastly, none of it was done single-handedly, every members contribution made it happen.
+Lastly, Drawscillate was not done by any one individual; every member's contributions made it happen.
 
 ### [Andrew Selvia](https://github.com/AndrewSelvia)
 
