@@ -83,6 +83,17 @@ I also added and formatted the UI on the [options screen](https://github.com/ngu
 Along with refactoring, I also implemented the following design patterns: Singleton, Observer, Composite.
 
 ### [Rajeev Sebastian](https://github.com/RajeevSebastian)
+As a member of the drawscillate team I worked on the logic for game completion and the ability for the user to go back to the main screen
+#### Game completion logic
+
+I implemented the logic by which we could identify when the player has successfully completed the game.It was done by creatinf checkpoints on the screen which the user had to traverse.
+
+### Design Patterns
+
+I implemented the state pattern to keep a record of where the user is currently while playing the game
+### Quality
+
+I worked extensively on reducing the code smells in the project and improving the overall code quality
 
 ### [Shraddha Nayak](https://github.com/shraddhanayak07)
 
