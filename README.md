@@ -138,9 +138,27 @@ Here, we show the methods called during a normal play session. Take note of the 
 
 ### State Diagram
 
-Starting from the start state, you immediately proceed to the Initial Game State. If the mouse is outside the shape border, immediately enter the Lose Game state. Otherwise, cycle within the In Play state. At each iteration, record if a check point has been reached. If at any point, the mouse exits the shape, enter the Lose Game state. Otherwise, upon completing the shape, if all checkpoints have been crossed, enter the Win Game state.
+Starting from the start state, this state diagram depicts how your mouse movements (staying within vs. exiting the shape boundary) impact which of the two end states you enter. If you've stayed within the boundaries *and* crossed all check points, then you win! Early on, we realized that we would have to design a solution for determining if the user actually completed the shape. In our first prototype, you could simply draw forward then go back to the starting point to "win". Our solution is to accumulate check points as you draw to determine if you should win.
 
 ![State Diagram](images/GameLogicStateDiagram.JPG)
+
+### Game Logic Class Diagram
+
+The state pattern was employed to represent in which state the game currently resided. The sequence diagram above depicts the transitions more clearly, but this diagram shows how the states fit in to the `GamePlayStateMachine` which manages those transitions and notifies its *Observer*s about state transitions.
+
+![Game Logic Class Diagram](images/GameLogicClassDiagram.JPG)
+
+### Memento Class Diagram
+
+
+
+![Memento Class Diagram](images/Memento.png)
+
+### Score Strategy Class Diagram
+
+
+
+![Score Strategy Class Diagram](images/ClassDiagramScoreStrategy.jpg)
 
 ## Scrum
 
