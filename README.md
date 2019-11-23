@@ -90,7 +90,7 @@ I took initiative in adding * [custom cursor](https://github.com/nguyensjsu/fa19
 
 This project helped me to learn processing in depth. Using its functions and tools helped me in creating * [Star, Circle and Rectangle] shapes(https://github.com/nguyensjsu/fa19-202-drawscillate/issues/1)
 
-### Added Shapes
+### Created Activity Diagram
 
 I also worked on implementing activity diagram that could summarize the overall flow of our game.
 
