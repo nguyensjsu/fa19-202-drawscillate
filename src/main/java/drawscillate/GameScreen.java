@@ -19,7 +19,7 @@ import java.util.stream.IntStream;
 
 import static processing.core.PConstants.HAND;
 
-public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObserver {
+public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObserver,IBackButtonSubject {
     private PApplet applet;
     private GamePlayStateMachine gameManager;
     private String difficultySelection;
@@ -57,9 +57,11 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     IColorCommand showBlackColor;
     CompletionCheck completionCheck;
     Memento memento = null;
+    private Button button;
 
     GameScreen(PApplet applet) {
         appController = AppController.getInstance();
+        this.attachObserver(appController);
         this.applet = applet;
         graphics = applet.createGraphics(500, 500);
         shapeFactory = new ShapeFactory();
@@ -123,6 +125,14 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
             }
             firstTime = false;
         }
+        button = new Button(applet, "Return");
+        if(shapeSelection == "Heart") {
+            button.y =450 ;  
+        }else {
+            button.y =10 ;
+        }
+        button.x = 10;
+        button.draw();
 
         // Map mouseY from 0 to 1
         yoffset = PApplet.map(applet.mouseY, 0, applet.height, 0, 1);
@@ -148,11 +158,18 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     }
     
     boolean mouseRelease = false ;
+    boolean drawLine = true;
+    private IBackButtonObserver backButtonObserver;
     
     public void mousePressed() {
         applet.stroke(redColor, greenColor, blueColor);
         applet.strokeWeight(5);
-
+        
+        if (button.over()) {
+            this.notifyObserver();
+            return;
+        }
+        
         if (!gameOver) {
             applet.line(applet.mouseX, applet.mouseY, applet.pmouseX, applet.pmouseY);
             gameManager.mouseEvent(graphics);
@@ -285,5 +302,31 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
         completionCheck.set(applet.mouseX, applet.mouseY);
         memento = completionCheck.saveToMemento();
         mouseRelease = true;
+    }
+
+    /**
+    * 
+    * Function name - attachObserver
+    * Description   - 
+    * @param     - 
+    * @return        - 
+    */
+    @Override
+    public void attachObserver(IBackButtonObserver backButtonObserver) {
+       this.backButtonObserver = backButtonObserver;
+        
+    }
+
+    /**
+    * 
+    * Function name - notifyObserver
+    * Description   - 
+    * @param     - 
+    * @return        - 
+    */
+    @Override
+    public void notifyObserver() {
+        this.backButtonObserver.backButtonEvent();
+        
     }
 }
