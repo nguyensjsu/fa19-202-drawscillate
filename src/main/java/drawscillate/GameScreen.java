@@ -119,8 +119,8 @@ public class GameScreen implements IScreen, OptionsScreenObserver, IGameLogicObs
     /**
     * Function name - willStopDisplaying
     * Description   - stop playing sound
-    * @param     None
-    * @return    None
+    * @param     -None
+    * @return    -None
      */
     @Override
     public void willStopDisplaying() {
