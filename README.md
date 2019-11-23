@@ -51,7 +51,15 @@ One of the primary responsibilities of a scrum master is to remove impediments. 
 In addition, I coordinated daily stand up meetings, retrospectives, and contributed significantly to our [User Story Video](https://youtu.be/8FFxvjQ4u8Q).
 
 ### [Hetal Shah](https://github.com/ihetal)
+As a member of this agile team, I worked rigorously on refactoring so that the code continues to be maintainable. In this process I tried to remove redundancies, eliminate unused functionalities and rejuvenate obsolete designs. The following contributions exemplifies this:</br>
+* [Refactoring App Controller]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/48)</br>
+* [Refactoring Options Screen]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/88)</br>
+* [Refactoring Game Screen]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/80)</br>
+* [Refactoring Game Logic]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/110)</br></br>
 
+I also added and formatted the UI on the [options screen]( https://github.com/nguyensjsu/fa19-202-drawscillate/pull/76) to make the game feel more complete.</br>
+
+Along with refactoring, I also implemented the following design patterns: Singleton, Observer, Composite.
 
 
 ### [Rajeev Sebastian](https://github.com/RajeevSebastian)
