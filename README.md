@@ -175,7 +175,7 @@ The state pattern was employed to represent in which state the game currently re
 
 ### Memento Class Diagram
 
-One of our goals was to track the user's mouse movements so we could potentially reproduce their game. For instance, this might enable us to restore the state if the game crashed or if the user wanted to share their playthrough with friends. Shraddha imagined this would be a good use case for the *Memento* pattern. As stated in *Design Patterns*:
+One of our goals was to track the user's mouse movements so we could potentially restore the state. For instance, if the user wants to take a break in between the game, the memento pattern stores the state of diagram so that user can resume from where they had left. Shraddha imagined this would be a good use case for the *Memento* pattern. As stated in *Design Patterns*:
 
 > Use the Memento pattern when a snapshot of (some portion of) an object's state must be saved so that it can be restored to that state later
 
